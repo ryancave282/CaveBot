@@ -94,7 +94,11 @@ public class ElevatorTemplate extends SubsystemBase {
         targetWriter.set(target);
         controller.setSetpoint(target);
     }
-
+    
+    public double getTargetPosition(){
+        return controller.getSetpoint();
+    }
+    
     protected void setVoltage(double voltage) {
         voltageWriter.set(voltage);
         for (CANMotorEx motor: motors) {

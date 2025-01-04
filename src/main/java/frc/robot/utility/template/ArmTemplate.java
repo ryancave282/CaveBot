@@ -94,6 +94,9 @@ public class ArmTemplate extends SubsystemBase {
         controller.setSetpoint(Math.toRadians(degree));
     }
 
+    public double getTargetPosition(){
+        return controller.getSetpoint();
+    }
     protected void setVoltage(double voltage) {
         for (CANMotorEx motor: motors) {
             motor.setVoltage(voltage);

@@ -83,6 +83,10 @@ public class IntakeTemplate extends SubsystemBase{
         targetWriter.set(target);
     }
 
+    public double getTargetPosition(){
+        return controller.getSetpoint();
+    }
+
     protected void setVoltage(double voltage) {
         voltageWriter.set(voltage);
         for (CANMotorEx motor: motors) {

@@ -10,14 +10,9 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.autos.AutoChooser;
 import frc.robot.subsystems.drive.SwerveDrive;
-import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.newSub.TestSubsystem;
 import frc.robot.subsystems.vision.Vision;
-import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
-import frc.robot.utility.template.Arm;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

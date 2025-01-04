@@ -9,7 +9,7 @@ import frc.robot.DroidRageConstants.Control;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
-public class Arm extends SubsystemBase {
+public class ArmTemplate extends SubsystemBase {
     protected final CANMotorEx[] motors;
     protected final PIDController controller;
     protected final ArmFeedforward feedforward;
@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase {
     protected final ShuffleboardValue<Double> targetDegreeWriter;
     protected final int mainNum;
 
-    public Arm(
+    public ArmTemplate(
         CANMotorEx[] motors,
         PIDController controller,
         ArmFeedforward feedforward,

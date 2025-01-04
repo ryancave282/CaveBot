@@ -6,9 +6,9 @@ import frc.robot.DroidRageConstants.Control;
 import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
 import frc.robot.utility.motor.CANMotorEx;
 
-public class ArmAbsolute extends Arm {
+public class ArmAbsoluteTemplate extends ArmTemplate {
     protected AbsoluteDutyEncoderRIO encoder;
-    public ArmAbsolute(
+    public ArmAbsoluteTemplate(
         CANMotorEx[] motors,
         PIDController controller,
         ArmFeedforward feedforward,

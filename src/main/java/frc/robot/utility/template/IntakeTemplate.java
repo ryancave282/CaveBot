@@ -1,7 +1,7 @@
 package frc.robot.utility.template;
 
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,35 +9,24 @@ import frc.robot.DroidRageConstants.Control;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
-//Works
-public class Elevator extends SubsystemBase {
+public class IntakeTemplate extends SubsystemBase{
     private final CANMotorEx[] motors;
     private final PIDController controller;
-    private final ElevatorFeedforward feedforward;
+    private final SimpleMotorFeedforward feedforward;
     private final Control control;
-    private final double maxPosition;
-    private final double minPosition;
-    private final ShuffleboardValue<Double> positionWriter;
+    private final double maxSpeed;
+    private final double minSpeed;
+    private final ShuffleboardValue<Double> speedWriter;
     private final ShuffleboardValue<Double> targetWriter;
     private final ShuffleboardValue<Double> voltageWriter;
     private final int mainNum;
 
-    /**
-     * @param motors - The Motors to Control
-     * @param controller - PID Controller
-     * @param feedforward - Feedforward
-     * @param maxPosition 
-     * @param minPosition
-     * @param control - PID or FEEDFORWARD
-     * @param name - Name of Subsystem
-     * @param mainNum - Motor to use for Encoder
-     */
-    public Elevator(
+    public IntakeTemplate(
         CANMotorEx[] motors,
         PIDController controller,
-        ElevatorFeedforward feedforward,
-        double maxPosition,
-        double minPosition,
+        SimpleMotorFeedforward feedforward,
+        double maxSpeed,
+        double minSpeed,
         Control control,
         String name,
         int mainNum
@@ -46,15 +35,15 @@ public class Elevator extends SubsystemBase {
         this.controller=controller;
         this.feedforward=feedforward;
         this.control=control;
-        this.maxPosition=maxPosition;
-        this.minPosition=minPosition;
+        this.maxSpeed=minSpeed;
+        this.minSpeed=minSpeed;
         this.mainNum=mainNum;
 
-        positionWriter = ShuffleboardValue
-            .create(0.0, name+"/Position", name)
+        speedWriter = ShuffleboardValue
+            .create(0.0, name+"/Speed", name)
             .build();
         targetWriter = ShuffleboardValue
-            .create(0.0, name+"/Target", name)
+            .create(0.0, name+"/TargetSpeed", name)
             .build();
         voltageWriter = ShuffleboardValue
             .create(0.0, name+"/Voltage", name)
@@ -90,9 +79,8 @@ public class Elevator extends SubsystemBase {
      * Use this for initialization
      */
     public void setTargetPosition(double target) {
-        if(target>maxPosition||target<minPosition) return;
+        if(target>maxSpeed||target<minSpeed) return;
         targetWriter.set(target);
-        controller.setSetpoint(target);
     }
 
     protected void setVoltage(double voltage) {
@@ -104,14 +92,13 @@ public class Elevator extends SubsystemBase {
     
     public void resetEncoder() {
         for (CANMotorEx motor: motors) {
-            // motor.getEncoder().setPosition(0);
             motor.resetEncoder(0);
         }
     }
 
     public double getEncoderPosition() {
         double position = motors[mainNum].getPosition();
-        positionWriter.write(position);
+        speedWriter.write(position);
         return position;
     }
 

@@ -1,9 +1,13 @@
 package frc.robot.commands.autos;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -51,7 +55,7 @@ public class PathPlannerPathFollow {
         eventMap.put(name, toRun);
         return new PathPlannerPathFollow(drive, pathName, maxVelocity, acceleration, eventMap);
     }
-    public Command build(){
+    public Command build() throws FileVersionException, IOException, ParseException{
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
         // drive.resetOdometry(PathPlannerPath.fromPathFile(pathName).getPreviewStartingHolonomicPose());
         //AutoBuilder.buildAuto

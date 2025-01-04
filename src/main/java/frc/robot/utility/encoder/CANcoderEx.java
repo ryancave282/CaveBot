@@ -3,6 +3,7 @@ package frc.robot.utility.encoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import frc.robot.utility.encoder.EncoderConstants.EncoderDirection;
 
 public class CANcoderEx {
     protected EncoderDirection direction;
@@ -13,10 +14,7 @@ public class CANcoderEx {
         PLUS_MINUS_HALF
     }
     
-    public enum EncoderDirection {
-        Forward,
-        Reversed,
-    }
+    
     
     private final CANcoder encoder;
     private CANcoderConfiguration config;

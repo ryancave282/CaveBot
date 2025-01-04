@@ -7,7 +7,6 @@ import frc.robot.commands.general.DisabledCommand;
 import frc.robot.utility.motor.CANMotorEx.Direction;
 import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.motor.SparkMaxEx;
-import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 // @Deprecated

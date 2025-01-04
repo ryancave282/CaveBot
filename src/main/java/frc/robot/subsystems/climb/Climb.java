@@ -1,13 +1,13 @@
 package frc.robot.subsystems.climb;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.general.DisabledCommand;
-import frc.robot.utility.motor.old.SafeCanSparkMax;
-import frc.robot.utility.motor.old.SafeMotor.IdleMode;
+import frc.robot.utility.motor.CANMotorEx.Direction;
+import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
+import frc.robot.utility.motor.SparkMaxEx;
+import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 // @Deprecated
@@ -48,7 +48,7 @@ public class Climb extends SubsystemBase{
         (0.0, "Climb/Voltage", Climb.class.getSimpleName())
         .build();
 
-    protected final SafeCanSparkMax motorL, motorR;
+    protected final SparkMaxEx motorL, motorR;
     protected final ShuffleboardValue<Double> encoderPositionWriter = ShuffleboardValue
         .create(0.0, "Climb/Encoder Position", Climb.class.getSimpleName())
         .withSize(1, 3)
@@ -59,35 +59,51 @@ public class Climb extends SubsystemBase{
 
 
     public Climb(Boolean isEnabledLeft, Boolean isEnabledRight) {
-        motorL = new SafeCanSparkMax(
-            21, 
-            MotorType.kBrushless,
-            true,
-            IdleMode.Coast,
-            Constants.ROT_TO_INCHES,
-            1.0,
-            ShuffleboardValue.create(isEnabledLeft, "Climb/Is Enabled Left", 
-                Climb.class.getSimpleName())
-                .withWidget(BuiltInWidgets.kToggleSwitch)
-                .build(),
-            voltageWriter,
-            60
-        );
+        // motorL = new SafeCanSparkMax(
+        //     21, 
+        //     MotorType.kBrushless,
+        //     true,
+        //     IdleMode.Coast,
+        //     Constants.ROT_TO_INCHES,
+        //     1.0,
+            // ShuffleboardValue.create(isEnabledLeft, "Climb/Is Enabled Left", 
+            //     Climb.class.getSimpleName())
+            //     .withWidget(BuiltInWidgets.kToggleSwitch)
+            //     .build(),
+        //     voltageWriter,
+        //     60
+        // );
+        
+        motorL = SparkMaxEx.create(21)
+            .withDirection(Direction.Reversed)
+            .withIdleMode(ZeroPowerMode.Coast)
+            .withPositionConversionFactor(Constants.ROT_TO_INCHES)
+            .withSubsystemName("Climb")
+            .withIsEnabled(true)
+            .withSupplyCurrentLimit(60);
 
-        motorR = new SafeCanSparkMax(
-            20, 
-            MotorType.kBrushless,
-            false,
-            IdleMode.Coast,
-            Constants.ROT_TO_INCHES,
-            1.0,
-            ShuffleboardValue.create(isEnabledRight, "Climb/Is Enabled Right", 
-                Climb.class.getSimpleName())
-                .withWidget(BuiltInWidgets.kToggleSwitch)
-                .build(),
-            voltageWriter,
-            60
-        );
+        // motorR = new SafeCanSparkMax(
+        //     20, 
+        //     MotorType.kBrushless,
+        //     false,
+        //     IdleMode.Coast,
+        //     Constants.ROT_TO_INCHES,
+        //     1.0,
+        //     ShuffleboardValue.create(isEnabledRight, "Climb/Is Enabled Right", 
+        //         Climb.class.getSimpleName())
+        //         .withWidget(BuiltInWidgets.kToggleSwitch)
+        //         .build(),
+        //     voltageWriter,
+        //     60
+        // );
+
+        motorR = SparkMaxEx.create(20)
+            .withDirection(Direction.Forward)
+            .withIdleMode(ZeroPowerMode.Coast)
+            .withPositionConversionFactor(Constants.ROT_TO_INCHES)
+            .withSubsystemName("Climb")
+            .withIsEnabled(true)
+            .withSupplyCurrentLimit(60);
 
         controller.setTolerance(.15);
 
@@ -191,10 +207,10 @@ public class Climb extends SubsystemBase{
         return controller.calculate(getEncoderPosition(), targetVelocity);
     }
 
-    public SafeCanSparkMax getMotorL(){
+    public SparkMaxEx getMotorL(){
         return motorL;
     }
-    public SafeCanSparkMax getMotorR(){
+    public SparkMaxEx getMotorR(){
         return motorR;
     }
     public double getError(){

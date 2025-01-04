@@ -2,7 +2,7 @@ package frc.robot.utility.template;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.utility.motor.better.CANMotorEx;
+import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 //Works

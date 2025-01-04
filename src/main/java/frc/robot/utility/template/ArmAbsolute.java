@@ -4,7 +4,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.DroidRageConstants.Control;
 import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
-import frc.robot.utility.motor.better.CANMotorEx;
+import frc.robot.utility.motor.CANMotorEx;
 
 public class ArmAbsolute extends Arm {
     protected AbsoluteDutyEncoderRIO encoder;

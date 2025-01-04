@@ -4,17 +4,18 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DroidRageConstants;
-import frc.robot.subsystems.ampMech.AmpMech;
+import frc.robot.subsystems.Elevator;
 
 public class ManualElevator extends Command {
-    private final AmpMech ampMech;
-    private final Supplier<Double> moveElev;
+    private final Elevator elevator;
+    private final Supplier<Double> elevatorMove;
     
-    public ManualElevator(Supplier<Double> moveElev, AmpMech ampMech) {
-        this.ampMech = ampMech;
-        this.moveElev = moveElev;
+    //driver::getLeftX
+    public ManualElevator(Elevator elevator, Supplier<Double> elevatorMove) {
+        this.elevator = elevator;
+        this.elevatorMove = elevatorMove;
         
-        addRequirements(ampMech.getElevator());
+        addRequirements(elevator);
     }
 
     @Override
@@ -22,11 +23,22 @@ public class ManualElevator extends Command {
 
     @Override
     public void execute() {
-        double move = -moveElev.get();
+        // if(!isClimbing){
+        //     if(climb.getEncoderPosition() > 15){
+        //         isClimbing = true;
+        //     }
+        // }
+        // if(isClimbing){
+        //     intake.setPositionCommand(Intake.Value.CLIMB);
+        // }
+        double move = -elevatorMove.get();
         move = DroidRageConstants.squareInput(move);
         move = DroidRageConstants.applyDeadBand(move);
-        ampMech.getElevator().setTargetPosition(ampMech.getElevator().getTargetPosition() + move * 0.2);
-        ampMech.getElevator().setMovingManually(!(move == 0));
+        // climb.setPower(move*1);
+        // climb.setTargetPosition(climb.getTargetPosition() + move * 0.4);//For Motor
+        elevator.setTargetPosition(elevator.getTargetPosition() + move * 0.05);//For Encoder
+
+        // elevator.setMovingManually(!(move == 0));
     }
 
     @Override

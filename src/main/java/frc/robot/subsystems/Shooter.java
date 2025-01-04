@@ -2,11 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utility.motor.old.SafeTalonFX;
-import frc.robot.utility.motor.old.SafeMotor.IdleMode;
+import frc.robot.utility.motor.CANMotorEx.Direction;
+import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
+import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public class Shooter extends SubsystemBase {
@@ -42,7 +41,7 @@ public class Constants {
             return velocityRPM.get();
         }
     }
-    protected final SafeTalonFX motorL, motorR;
+    protected final TalonEx motorL, motorR;
     protected final ShuffleboardValue<Double> targetVelocityWriter = ShuffleboardValue.create
         (0.0, "Shooter/Target Velocity", 
         Shooter.class.getSimpleName()).build();
@@ -64,39 +63,56 @@ public class Constants {
     private final SimpleMotorFeedforward feedforward;
     private ShooterSpeeds targetShooterSpeed = ShooterSpeeds.HOLD;
     
-    private final ShuffleboardValue<Boolean> isEnabled;
+    // private final ShuffleboardValue<Boolean> isEnabled;
 
     public Shooter(Boolean isEnabled) {
-        this.isEnabled = ShuffleboardValue.create(isEnabled, "Is Enabled", 
-            Shooter.class.getSimpleName())
-            .withWidget(BuiltInWidgets.kToggleSwitch)
-            .build();
-        motorL = new SafeTalonFX(
-            19,
-            false,
-            IdleMode.Coast,
-            Constants.ROTATIONS_TO_RADIANS,
-            Constants.ROTATIONS_TO_RADIANS,
-            this.isEnabled,
-                ShuffleboardValue.create(0.0, "Shooter/VoltageL", 
-                Shooter.class.getSimpleName())
-                    .build(), 
-                    30,
-                    30
-        );
-        motorR = new SafeTalonFX(
-            18,
-            false,
-            IdleMode.Coast,
-            Constants.ROTATIONS_TO_RADIANS,
-            Constants.ROTATIONS_TO_RADIANS,
-            this.isEnabled,
-                ShuffleboardValue.create(0.0, "Shooter/VoltageR", 
-                Shooter.class.getSimpleName())
-                    .build(),
-                    30,
-                    30
-        );
+        // this.isEnabled = ShuffleboardValue.create(isEnabled, "Is Enabled", 
+        //     Shooter.class.getSimpleName())
+        //     .withWidget(BuiltInWidgets.kToggleSwitch)
+        //     .build();
+        // motorL = new SafeTalonFX(
+        //     19,
+        //     false,
+        //     IdleMode.Coast,
+        //     Constants.ROTATIONS_TO_RADIANS,
+        //     Constants.ROTATIONS_TO_RADIANS,
+        //     this.isEnabled,
+        //         ShuffleboardValue.create(0.0, "Shooter/VoltageL", 
+        //         Shooter.class.getSimpleName())
+        //             .build(), 
+        //             30,
+        //             30
+        // );
+
+        motorL = TalonEx.create(19)
+            .withDirection(Direction.Forward)
+            .withIdleMode(ZeroPowerMode.Coast)
+            .withPositionConversionFactor(Constants.ROTATIONS_TO_RADIANS)
+            .withSubsystemName("Shooter")
+            .withIsEnabled(isEnabled)
+            .withSupplyCurrentLimit(30);
+
+        // motorR = new SafeTalonFX(
+        //     18,
+        //     false,
+        //     IdleMode.Coast,
+        //     Constants.ROTATIONS_TO_RADIANS,
+        //     Constants.ROTATIONS_TO_RADIANS,
+        //     this.isEnabled,
+        //         ShuffleboardValue.create(0.0, "Shooter/VoltageR", 
+        //         Shooter.class.getSimpleName())
+        //             .build(),
+        //             30,
+        //             30
+        // );
+
+        motorR = TalonEx.create(19)
+            .withDirection(Direction.Forward)
+            .withIdleMode(ZeroPowerMode.Coast)
+            .withPositionConversionFactor(Constants.ROTATIONS_TO_RADIANS)
+            .withSubsystemName("Shooter")
+            .withIsEnabled(isEnabled)
+            .withSupplyCurrentLimit(30);
        
         shooterController = new PIDController(
             0.00005,//0.000173611    //.00005
@@ -152,10 +168,10 @@ public class Constants {
         motorR.setPower(power);
     }
 
-    public SafeTalonFX getMotorL(){
+    public TalonEx getMotorL(){
         return motorL;
     }
-    public SafeTalonFX getMotorR(){
+    public TalonEx getMotorR(){
         return motorR;
     }
     // public void setMotorLVoltage(double voltage) {

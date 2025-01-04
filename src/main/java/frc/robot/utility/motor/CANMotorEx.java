@@ -1,4 +1,4 @@
-package frc.robot.utility.motor.better;
+package frc.robot.utility.motor;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
@@ -49,7 +49,6 @@ public abstract class CANMotorEx {
             return new IsEnabledBuilder();
         }
     }
-
     public class IsEnabledBuilder {
         public SupplyCurrentBuilder withIsEnabled(boolean isEnabled) {
             isEnabledWriter = ShuffleboardValue
@@ -80,11 +79,18 @@ public abstract class CANMotorEx {
         }
     }
 
-    public TalonEx withStatorCurrentLimit(double statorCurrent){
-        setStatorCurrentLimit(statorCurrent);
-        return (TalonEx) this;
+    public class StatorCurrentBuilder {
+        @SuppressWarnings("unchecked")
+        public <T extends CANMotorEx> T withStatorCurrent(double statorCurrent) {
+            setStatorCurrentLimit(statorCurrent);
+            return (T) CANMotorEx.this;
+        }
     }
 
+    
+    
+
+    
     protected abstract void setDirection(Direction direction);
     protected abstract void setIdleMode(ZeroPowerMode mode);
     protected void setPositionConversionFactor(double positionConversionFactor){
@@ -109,5 +115,4 @@ public abstract class CANMotorEx {
     public void stop() {
         setPower(0);
     }
-    
 }

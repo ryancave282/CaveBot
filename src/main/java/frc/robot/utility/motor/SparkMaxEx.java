@@ -1,22 +1,27 @@
-package frc.robot.utility.motor.better;
+package frc.robot.utility.motor;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import frc.robot.DroidRageConstants;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
-public class SparkMax extends CANMotorEx{
+public class SparkMaxEx extends CANMotorEx{
 
-    private final CANSparkMax motor;
-    private SparkMax(CANSparkMax motor) {
+    private final SparkMax motor;
+    private final SparkMaxConfig config = new SparkMaxConfig();
+    
+    private SparkMaxEx(SparkMax motor) {
         this.motor = motor;
     }
 
     public static DirectionBuilder create(int deviceID) {
-        CANMotorEx motor = new SparkMax(new CANSparkMax(deviceID, MotorType.kBrushless));
+        CANMotorEx motor = new SparkMaxEx(new SparkMax(deviceID, MotorType.kBrushless));
         motor.motorID = deviceID;
         return motor.new DirectionBuilder();
     }
@@ -43,7 +48,7 @@ public class SparkMax extends CANMotorEx{
 
     @Override
     public void setDirection(Direction direction) {
-        motor.setInverted(switch (direction) {
+        config.inverted(switch (direction) {
                 case Forward -> false;
                 case Reversed -> true;
             });
@@ -51,13 +56,13 @@ public class SparkMax extends CANMotorEx{
 
     @Override
     public void setIdleMode(ZeroPowerMode mode) {
-        motor.setIdleMode(switch (mode) {
+        config.idleMode(switch (mode) {
             case Brake -> IdleMode.kBrake;
             case Coast -> IdleMode.kCoast;
         });
     }
 
-    public CANSparkMax getSparkMax() {
+    public SparkMax getSparkMax() {
         return motor;
     }
 
@@ -65,8 +70,12 @@ public class SparkMax extends CANMotorEx{
         return motor.getEncoder();
     }
 
-    public RelativeEncoder getAlternateEncoder(int countsPerRev) {
-        return motor.getAlternateEncoder(countsPerRev);
+    // public RelativeEncoder getAlternateEncoder(int countsPerRev) {
+    //     return motor.getAlternateEncoder(countsPerRev);
+    // }
+
+    public RelativeEncoder getAlternateEncoder() {
+        return motor.getAlternateEncoder();
     }
 
     @Override
@@ -79,16 +88,20 @@ public class SparkMax extends CANMotorEx{
         return motor.getEncoder().getPosition();
     }
 
-    public SparkAbsoluteEncoder getAbsoluteEncoder(SparkAbsoluteEncoder.Type encoderType) {
-        return motor.getAbsoluteEncoder(encoderType);
+    // public SparkAbsoluteEncoder getAbsoluteEncoder(SparkAbsoluteEncoder.Type encoderType) {
+    //     return motor.getAbsoluteEncoder(encoderType);
+    // }
+
+    public SparkAbsoluteEncoder getAbsoluteEncoder() {
+        return motor.getAbsoluteEncoder();
     }
 
-    public void follow(SparkMax leader, boolean invert) {
-        motor.follow(leader.getSparkMax(), invert);
+    public void follow(SparkMaxEx leader, boolean invert) {
+        config.follow(leader.getSparkMax(), invert);
     }
 
     public void burnFlash() {
-        motor.burnFlash();
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
@@ -103,10 +116,11 @@ public class SparkMax extends CANMotorEx{
     //Casting the double to an int
     @Override
     public void setSupplyCurrentLimit(double currentLimit) {
-        motor.setSmartCurrentLimit((int) currentLimit);
+        config.smartCurrentLimit((int) currentLimit);
     }
 
-    public void setStatorCurrentLimit(double currentLimit){}
+    public void setStatorCurrentLimit(double currentLimit) {
+    }
         
     public double getVoltage(){
         // return motor.getAppliedOutput();//motor controller's applied output duty cycle.

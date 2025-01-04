@@ -2,6 +2,7 @@ package frc.robot.subsystems.drive;
 
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,10 +14,10 @@ import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.utility.encoder.CANcoderEx;
 import frc.robot.utility.encoder.CANcoderEx.EncoderDirection;
 import frc.robot.utility.encoder.CANcoderEx.EncoderRange;
-import frc.robot.utility.motor.better.CANMotorEx.Direction;
-import frc.robot.utility.motor.better.CANMotorEx.ZeroPowerMode;
-import frc.robot.utility.motor.better.SparkMax;
-import frc.robot.utility.motor.better.TalonEx;
+import frc.robot.utility.motor.SparkMaxEx;
+import frc.robot.utility.motor.TalonEx;
+import frc.robot.utility.motor.CANMotorEx.Direction;
+import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public class SwerveModule {
@@ -50,7 +51,7 @@ public class SwerveModule {
     private final TalonEx driveMotor;
     
     // Turn motor and encoder
-    private final SparkMax turnMotor;
+    private final SparkMaxEx turnMotor;
     private final CANcoderEx turnEncoder;
 
     private final PIDController turningPidController;
@@ -58,6 +59,10 @@ public class SwerveModule {
 
     private ShuffleboardValue<Double> turnPositionWriter;
     private ShuffleboardValue<Double> drivePositionWriter;
+
+
+    MagnetSensorConfigs magnetSensorConfigs = new MagnetSensorConfigs();
+    // SwerveModuleState desiredState = new SwerveModuleState();
 
     public SwerveModule(int driveMotorId, 
         int turnMotorId, Direction driveMotorReversed, 
@@ -73,10 +78,13 @@ public class SwerveModule {
         //     config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
         // }
         // config.MagnetSensor.MagnetOffset = absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD;
-        // config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+        // // config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+
+        // //magnetSensorConfigs.AbsoluteSensorDiscontinuityPoint; Explains what 1 will do to the sensor
+        // config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
         // turnEncoder.getConfigurator().apply(config);
 
-        turnEncoder = CANcoderEx.create(absoluteEncoderId) // TODO: Test
+        turnEncoder = CANcoderEx.create(absoluteEncoderId)
             .withDirection(absoluteEncoderReversed)
             .withRange(EncoderRange.ZERO_TO_ONE)
             .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD)
@@ -88,10 +96,10 @@ public class SwerveModule {
             .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)
             .withSubsystemName("Swerve")
             .withIsEnabled(isEnabled)
-            .withSupplyCurrentLimit(50)
-            .withStatorCurrentLimit(90);
+            .withSupplyCurrentLimit(50);
+        driveMotor.setStatorCurrentLimit(90);
 
-        turnMotor = SparkMax.create(turnMotorId)
+        turnMotor = SparkMaxEx.create(turnMotorId)
             .withDirection(turningMotorReversed)
             .withIdleMode(ZeroPowerMode.Coast)
             .withPositionConversionFactor(Constants.TURN_ENCODER_ROT_2_RAD)
@@ -143,27 +151,31 @@ public class SwerveModule {
         }
     
         public void setState(SwerveModuleState state) {
+            SwerveModuleState desiredState = state;
             if (Math.abs(state.speedMetersPerSecond) < 0.001) {
                 stop();
                 return;
             }
-            state = SwerveModuleState.optimize(state, getState().angle);
+            desiredState.optimize(getState().angle);
+            desiredState.optimize(getState().angle);
             driveMotor.setPower(state.speedMetersPerSecond / Constants.PHYSICAL_MAX_SPEED_METERS_PER_SECOND);
-            turnMotor.setPower((turningPidController.calculate(getTurningPosition(), state.angle.getRadians()))*1);
-            SmartDashboard.putString("Swerve[" + turnEncoder.getDeviceID() + "] state", state.   toString());
-            SmartDashboard.putString("Swerve[" + turnMotor.getDeviceID() + "] state", state.toString());
+            turnMotor.setPower((turningPidController.calculate(getTurningPosition(), desiredState.angle.getRadians()))*1);
+            SmartDashboard.putString("Swerve[" + turnEncoder.getDeviceID() + "] state", desiredState.toString());
+            SmartDashboard.putString("Swerve[" + turnMotor.getDeviceID() + "] state", desiredState.toString());
         }
     
         public void setFeedforwardState(SwerveModuleState state) {
+            SwerveModuleState desiredState = state;
             if (Math.abs(state.speedMetersPerSecond) < 0.001) {
                 stop();
                 return;
             }
-            state = SwerveModuleState.optimize(state, getState().angle);
+            desiredState.optimize(getState().angle);
+            desiredState.optimize(getState().angle);
             driveMotor.setVoltage(feedforward.calculate(state.speedMetersPerSecond));
-            turnMotor.setPower(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-            SmartDashboard.putString("Swerve[" + turnEncoder.getDeviceID() + "] state", state.toString());
-            SmartDashboard.putString("Swerve[" + turnMotor.getDeviceID() + "] state", state.toString());
+            turnMotor.setPower(turningPidController.calculate(getTurningPosition(), desiredState.angle.getRadians()));
+            SmartDashboard.putString("Swerve[" + turnEncoder.getDeviceID() + "] state", desiredState.toString());
+            SmartDashboard.putString("Swerve[" + turnMotor.getDeviceID() + "] state", desiredState.toString());
         }
     
         public void stop(){
@@ -186,7 +198,7 @@ public class SwerveModule {
             turnMotor.setIdleMode(ZeroPowerMode.Coast);
         }
 
-        public SparkMax getTurnMotor(){
+        public SparkMaxEx getTurnMotor(){
             return turnMotor;
         }
     

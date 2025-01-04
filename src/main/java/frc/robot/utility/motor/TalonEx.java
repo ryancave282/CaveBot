@@ -1,7 +1,9 @@
-package frc.robot.utility.motor.better;
+package frc.robot.utility.motor;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.DroidRageConstants;
@@ -9,6 +11,7 @@ import frc.robot.DroidRageConstants;
 public class TalonEx extends CANMotorEx {
     private final TalonFX motor;
     private TalonFXConfiguration configuration = new TalonFXConfiguration();
+    private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
     
     private TalonEx(TalonFX motor) {
         this.motor = motor;
@@ -43,11 +46,11 @@ public class TalonEx extends CANMotorEx {
 
     @Override
     public void setDirection(Direction direction) {
-        motor.setInverted(
-            switch (direction) {
-                case Forward -> false;
-                case Reversed -> true;
-            });
+        motorOutputConfigs.Inverted = switch (direction) {
+            case Forward -> InvertedValue.Clockwise_Positive;
+            case Reversed -> InvertedValue.CounterClockwise_Positive;
+        };
+        motor.getConfigurator().apply(motorOutputConfigs);
     }
 
     @Override
@@ -103,8 +106,10 @@ public class TalonEx extends CANMotorEx {
         motor.setPosition(num);
     }
 
-    
-
+    public TalonEx withStatorCurrentLimit(double statorCurrent){
+        setStatorCurrentLimit(statorCurrent);
+        return this;
+    }
     public void setStatorCurrentLimit(double statorCurrent){
         // CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
         // configs.StatorCurrentLimit = 50;

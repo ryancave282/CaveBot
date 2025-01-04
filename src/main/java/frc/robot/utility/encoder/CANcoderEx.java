@@ -2,7 +2,6 @@ package frc.robot.utility.encoder;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class CANcoderEx {
@@ -85,11 +84,11 @@ public class CANcoderEx {
     public void setRange(EncoderRange range) {
         switch (range) {
             case PLUS_MINUS_HALF:
-            config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+            config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
             break;
             default:
             case ZERO_TO_ONE:
-            config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+            config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
             break;
         }
     }
@@ -106,3 +105,5 @@ public class CANcoderEx {
         return encoder.getDeviceID();
     }
 }
+
+

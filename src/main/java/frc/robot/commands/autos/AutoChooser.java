@@ -2,9 +2,11 @@ package frc.robot.commands.autos;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PathFollowingController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -66,6 +68,35 @@ public class AutoChooser {
 
     public static void createAutoBuilder(SwerveDrive drive){
         // AutoBuilder
+        AutoBuilder.configure(
+            drive::getPose,
+            drive::resetOdometry,
+            drive::getSpeeds,
+            drive::setFeedforwardModuleStates,
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KP.get(), 
+                        SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KI.get(), 
+                        SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KD.get()),  // Translation PID constants
+                    new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.THETA_KP.get(), 
+                        SwerveDriveConstants.SwerveDriveConfig.THETA_KI.get(), 
+                        SwerveDriveConstants.SwerveDriveConfig.THETA_KD.get())  // Rotation PID constants
+                ),
+            new RobotConfig(112.0, 1., 
+                new ModuleConfig(null, null, 0, null, null, 0), 
+                null),
+            () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+                    //Is this working?
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;//To Test-true
+                },
+                drive
+        );
         AutoBuilder.configureHolonomic(
             drive::getPose, // Robot pose supplier
             drive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)

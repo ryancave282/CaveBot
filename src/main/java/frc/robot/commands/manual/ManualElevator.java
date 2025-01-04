@@ -1,7 +1,8 @@
-package frc.robot.commands.manual;
+// package frc.robot.commands.manual;
 
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DroidRageConstants;
 import frc.robot.subsystems.Elevator;
@@ -17,10 +18,27 @@ public class ManualElevator extends Command {
         
         addRequirements(elevator);
     }
+=======
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.DroidRageConstants;
+// import frc.robot.subsystems.ampMech.AmpMech;
 
-    @Override
-    public void initialize() { }
+// public class ManualElevator extends Command {
+//     private final AmpMech ampMech;
+//     private final Supplier<Double> moveElev;
+    
+//     public ManualElevator(Supplier<Double> moveElev, AmpMech ampMech) {
+//         this.ampMech = ampMech;
+//         this.moveElev = moveElev;
+        
+//         addRequirements(ampMech.getElevator());
+//     }
+>>>>>>> b0bfdc38be23888372d9d64e5878eb709e4fcdd7
 
+//     @Override
+//     public void initialize() { }
+
+<<<<<<< HEAD
     @Override
     public void execute() {
         // if(!isClimbing){
@@ -40,12 +58,22 @@ public class ManualElevator extends Command {
 
         // elevator.setMovingManually(!(move == 0));
     }
+=======
+//     @Override
+//     public void execute() {
+//         double move = -moveElev.get();
+//         move = DroidRageConstants.squareInput(move);
+//         move = DroidRageConstants.applyDeadBand(move);
+//         ampMech.getElevator().setTargetPosition(ampMech.getElevator().getTargetPosition() + move * 0.2);
+//         ampMech.getElevator().setMovingManually(!(move == 0));
+//     }
+>>>>>>> b0bfdc38be23888372d9d64e5878eb709e4fcdd7
 
-    @Override
-    public void end(boolean interrupted) {}
+//     @Override
+//     public void end(boolean interrupted) {}
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-}
+//     @Override
+//     public boolean isFinished() {
+//         return false;
+//     }
+// }

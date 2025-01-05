@@ -1,6 +1,5 @@
 package frc.robot.subsystems.algae;
 
-import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.utility.motor.TalonEx;

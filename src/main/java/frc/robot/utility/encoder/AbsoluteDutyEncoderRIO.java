@@ -1,5 +1,7 @@
 package frc.robot.utility.encoder;
 
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 import frc.robot.utility.encoder.EncoderConstants.EncoderDirection;

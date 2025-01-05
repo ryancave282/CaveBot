@@ -15,7 +15,7 @@ public class AbsoluteDutyEncoderRIO {
     public String name;
                 
 
-    private AbsoluteDutyEncoderRIO(DutyCycleEncoder encoder){
+    private AbsoluteDutyEncoderRIO(){
         this.encoder=encoder;
         
     }

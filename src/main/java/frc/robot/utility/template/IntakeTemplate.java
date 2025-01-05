@@ -35,7 +35,7 @@ public class IntakeTemplate extends SubsystemBase{
         this.controller=controller;
         this.feedforward=feedforward;
         this.control=control;
-        this.maxSpeed=minSpeed;
+        this.maxSpeed=maxSpeed;
         this.minSpeed=minSpeed;
         this.mainNum=mainNum;
 

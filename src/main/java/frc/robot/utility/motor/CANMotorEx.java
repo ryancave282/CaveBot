@@ -7,6 +7,7 @@ public abstract class CANMotorEx {
     // protected int deviceID; // specific and should not be in the abstract class
     protected Direction direction;
     protected ZeroPowerMode idleMode;
+    protected Motor motor;
     protected double positionConversionFactor;
     protected double velocityConversionFactor;
     protected ShuffleboardValue<Boolean> isEnabledWriter;
@@ -22,6 +23,11 @@ public abstract class CANMotorEx {
     public enum ZeroPowerMode {
         Brake,
         Coast,
+    }
+
+    public enum Motor {
+        TalonFX,
+        SparkMax,
     }
 
     public class DirectionBuilder {
@@ -50,7 +56,7 @@ public abstract class CANMotorEx {
         }
     }
     public class IsEnabledBuilder {
-        public SupplyCurrentBuilder withIsEnabled(boolean isEnabled) {
+        public CurrentLimitBuilder withIsEnabled(boolean isEnabled) {
             isEnabledWriter = ShuffleboardValue
                 .create(isEnabled, motorID + "/Is Enabled", subSystemName)
                 .withWidget(BuiltInWidgets.kToggleSwitch)
@@ -58,7 +64,7 @@ public abstract class CANMotorEx {
             outputWriter = ShuffleboardValue
                 .create(0.0, motorID +"/Output", subSystemName)
                 .build();
-            return new SupplyCurrentBuilder();
+            return new CurrentLimitBuilder();
 
         }
     }
@@ -71,25 +77,21 @@ public abstract class CANMotorEx {
     //     }
     // }
     
-    public class SupplyCurrentBuilder {
+    
+    public class CurrentLimitBuilder {
         @SuppressWarnings("unchecked")
-        public <T extends CANMotorEx> T withSupplyCurrentLimit(double currentLimit) {
-            setSupplyCurrentLimit(currentLimit);
+        public <T extends CANMotorEx> T withCurrentLimit(double supply) {
+            setSupplyCurrentLimit(supply);
+            return (T) CANMotorEx.this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public <T extends CANMotorEx> T withCurrentLimit(double supply, double stator) {
+            setSupplyCurrentLimit(supply);
+            setStatorCurrentLimit(stator);
             return (T) CANMotorEx.this;
         }
     }
-
-    public class StatorCurrentBuilder {
-        @SuppressWarnings("unchecked")
-        public <T extends CANMotorEx> T withStatorCurrent(double statorCurrent) {
-            setStatorCurrentLimit(statorCurrent);
-            return (T) CANMotorEx.this;
-        }
-    }
-
-    
-    
-
     
     protected abstract void setDirection(Direction direction);
     protected abstract void setIdleMode(ZeroPowerMode mode);

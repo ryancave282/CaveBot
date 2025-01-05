@@ -87,8 +87,7 @@ public class SwerveModule {
         turnEncoder = CANcoderEx.create(absoluteEncoderId)
             .withDirection(absoluteEncoderReversed)
             .withRange(EncoderRange.ZERO_TO_ONE)
-            .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD)
-            .configure();
+            .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
 
         driveMotor = TalonEx.create(driveMotorId)
             .withDirection(driveMotorReversed)
@@ -96,8 +95,7 @@ public class SwerveModule {
             .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)
             .withSubsystemName("Swerve")
             .withIsEnabled(isEnabled)
-            .withSupplyCurrentLimit(50);
-        driveMotor.setStatorCurrentLimit(90);
+            .withCurrentLimit(50, 90);
 
         turnMotor = SparkMaxEx.create(turnMotorId)
             .withDirection(turningMotorReversed)
@@ -105,7 +103,7 @@ public class SwerveModule {
             .withPositionConversionFactor(Constants.TURN_ENCODER_ROT_2_RAD)
             .withSubsystemName("Swerve")
             .withIsEnabled(isEnabled)
-            .withSupplyCurrentLimit(80);
+            .withCurrentLimit(80);
         
         turningPidController = new PIDController(SwerveDriveConfig.TURN_KP.getValue(), 0.0, 0.0);
         turningPidController.enableContinuousInput(0, 2*Math.PI);//Was  -Math.PI, Math.PI but changed to 0 and 2PI

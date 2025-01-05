@@ -1,5 +1,6 @@
 package frc.robot.subsystems.coral;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -35,13 +36,14 @@ public class Coral {
     public CoralArm arm;
     public CoralPivot pivot;
     public CoralIntake intake;
-
+    private DigitalInput coralLimitSwitch;
     private Value position = Value.START;
 
     public Coral(CoralArm arm, CoralPivot pivot, CoralIntake intake){
         this.arm = arm;
         this.pivot = pivot;
         this.intake = intake;
+        this.coralLimitSwitch = new DigitalInput(2);
     }
 
     public Value getPosition() {
@@ -78,5 +80,9 @@ public class Coral {
 
     public CoralIntake getCoralIntake(){
         return intake;
+    }
+
+    public boolean isCoralIn() {
+        return coralLimitSwitch.get();
     }
 }

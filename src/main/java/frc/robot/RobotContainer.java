@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.IntakeElementInCommand;
 import frc.robot.commands.manual.SwerveDriveTeleop;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.vision.Vision;
@@ -32,6 +33,9 @@ public class RobotContainer {
 				false//No Work; Do no use this
 				)
 			);
+
+		driver.rightTrigger()
+			.onTrue(new IntakeElementInCommand(driver, null, null));
 	}
 
 	public void teleopPeriodic(){}

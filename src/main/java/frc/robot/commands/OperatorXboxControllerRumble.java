@@ -9,10 +9,12 @@ public class OperatorXboxControllerRumble extends Command {
   private Timer rumbleTimer = new Timer();
   private double rumbleTime;
   private CommandXboxController controller;
+  private RumbleType rumbleType;
 
-  public OperatorXboxControllerRumble(CommandXboxController controller,  double time) {
+  public OperatorXboxControllerRumble(CommandXboxController controller, RumbleType rumbleType, double time) {
     this.controller = controller;
-    rumbleTime = time;
+    this.rumbleTime = time;
+    this.rumbleType = rumbleType;
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +24,7 @@ public class OperatorXboxControllerRumble extends Command {
   @Override
   public void execute() {
     rumbleTimer.start();
-    controller.getHID().setRumble(RumbleType.kBothRumble, 1);
+    controller.getHID().setRumble(rumbleType, 1);
   }
 
   @Override

@@ -1,4 +1,5 @@
 package frc.robot.subsystems.algae;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -26,18 +27,20 @@ public class AlgaeSystems {
 
     private final ArmAlgae armAlgae;
     private final IntakeAlgae intakeAlgae;
+    private final DigitalInput algaeLimitSwitch;
 
 
     public AlgaeSystems(ArmAlgae armAlgae, IntakeAlgae intakeAlgae) {
         this.armAlgae = armAlgae;
         this.intakeAlgae = intakeAlgae;
+        this.algaeLimitSwitch = new DigitalInput(0);//Roborio Num
     }
 
-    public ArmAlgae getArmAlgae() {
+    public ArmAlgae getAlgaeArm() {
         return armAlgae;
     }
 
-    public IntakeAlgae getIntakeAlgae() {
+    public IntakeAlgae getAlgaeIntake() {
         return intakeAlgae;
     }
 
@@ -50,6 +53,11 @@ public class AlgaeSystems {
                 intakeAlgae.runOnce(() -> intakeAlgae.setTargetPosition
                 (targetPosition.getIntakeAlgaePos()))
                 );
-    };
-}
+        };
+    }
+
+    public boolean isAlgaeIn(){
+        return algaeLimitSwitch.get();
+    }
+    
 }

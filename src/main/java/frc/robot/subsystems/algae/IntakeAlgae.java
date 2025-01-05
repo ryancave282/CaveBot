@@ -25,11 +25,11 @@ public class IntakeAlgae extends IntakeTemplate{
     public IntakeAlgae () {
         super(
             new CANMotorEx[] {motor}, 
-        new PIDController(0, 0, 0), 
-        new SimpleMotorFeedforward(0, 0, 0, 0), 
-        Constants.MAX_POSITION, 
-        Constants.MIN_POSITION, 
-        Control.PID, "IntakeAlgae", 0
+            new PIDController(0, 0, 0), 
+            new SimpleMotorFeedforward(0, 0, 0, 0), 
+            Constants.MAX_POSITION, 
+            Constants.MIN_POSITION, 
+            Control.PID, "IntakeAlgae", 0
         );
     }
 }

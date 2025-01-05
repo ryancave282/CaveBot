@@ -24,7 +24,7 @@ public class ArmAlgae extends ArmAbsoluteTemplate{
     .withPositionConversionFactor(1)
     .withSubsystemName("ArmAlgae")
     .withIsEnabled(true)
-    .withSupplyCurrentLimit(0);
+    .withCurrentLimit(0);
 
     public static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0) 
     .withDirection(true)

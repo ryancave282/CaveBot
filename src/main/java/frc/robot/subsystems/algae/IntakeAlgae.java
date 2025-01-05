@@ -20,7 +20,7 @@ public class IntakeAlgae extends IntakeTemplate{
     .withPositionConversionFactor(1)
     .withSubsystemName("IntakeAlgae")
     .withIsEnabled(true)
-    .withSupplyCurrentLimit(0);
+    .withCurrentLimit(0);
 
     public IntakeAlgae () {
         super(

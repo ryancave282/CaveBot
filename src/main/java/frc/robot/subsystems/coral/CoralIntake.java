@@ -19,7 +19,7 @@ public class CoralIntake extends IntakeTemplate {
         .withDirection(Direction.Forward)
         .withIdleMode(ZeroPowerMode.Coast)
         .withPositionConversionFactor(1)
-        .withSubsystemName("Coral Intake")
+        .withSubsystemName("Coral")
         .withIsEnabled(true)
         .withSupplyCurrentLimit(50);
 
@@ -27,8 +27,7 @@ public class CoralIntake extends IntakeTemplate {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 
-        new SimpleMotorFeedforward(0, 0, 0, 0), 
-        Constants.MAX_SPEED, Constants.MIN_SPEED, 
-        Control.PID, "Coral Intake", 0);
+        new SimpleMotorFeedforward(0, 0, 0, 0), Constants.MAX_SPEED, Constants.MIN_SPEED, 
+        Control.PID, "Coral", 0);
     }
 }

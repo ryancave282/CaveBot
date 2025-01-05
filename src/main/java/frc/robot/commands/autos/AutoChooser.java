@@ -10,10 +10,12 @@ import com.pathplanner.lib.controllers.PathFollowingController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.DroidRageConstants;
 import frc.robot.commands.ResetPoseVision;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.drive.SwerveDriveConstants;
@@ -67,65 +69,79 @@ public class AutoChooser {
     }
 
     public static void createAutoBuilder(SwerveDrive drive){
+        // AutoBuilder.configureHolonomic(
+        //     () -> getPose2d(),
+        //     pose -> resetOdometry(pose),
+        //     () -> getchassisSpeeds(),
+        //     speeds -> driveRobotRelative(speeds),
+        //     new HolonomicPathFollowerConfig(
+        //     new PIDConstants(0.9, 0, 0),
+        //     new PIDConstants(0.8, 0, 0),
+        //     5.2,
+        //     1,
+        //     new ReplanningConfig()),
+        //     true,
+        //     this
+        // );
         // AutoBuilder
-        AutoBuilder.configure(
-            drive::getPose,
-            drive::resetOdometry,
-            drive::getSpeeds,
-            drive::setFeedforwardModuleStates,
-            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KP.get(), 
-                        SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KI.get(), 
-                        SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KD.get()),  // Translation PID constants
-                    new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.THETA_KP.get(), 
-                        SwerveDriveConstants.SwerveDriveConfig.THETA_KI.get(), 
-                        SwerveDriveConstants.SwerveDriveConfig.THETA_KD.get())  // Rotation PID constants
-                ),
-            new RobotConfig(112.0, 1., 
-                new ModuleConfig(null, null, 0, null, null, 0), 
-                null),
-            () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-                    //Is this working?
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;//To Test-true
-                },
-                drive
-        );
-        AutoBuilder.configureHolonomic(
-            drive::getPose, // Robot pose supplier
-            drive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-            drive::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            // drive::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-            drive::setFeedforwardModuleStates,//To Use Feedforward
-            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KP.get(), 
-                    SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KI.get(), 
-                    SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KD.get()),  // Translation PID constants
-                new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.THETA_KP.get(), 
-                    SwerveDriveConstants.SwerveDriveConfig.THETA_KI.get(), 
-                    SwerveDriveConstants.SwerveDriveConfig.THETA_KD.get()),  // Rotation PID constants
-                4.5, // Max module speed, in m/s 4.5
-                0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-                new ReplanningConfig() // Default path replanning config. See the API for the options here; Ba
-            ),
-            () -> {
-                // Boolean supplier that controls when the path will be mirrored for the red alliance
-                // This will flip the path being followed to the red side of the field.
-                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-                //Is this working?
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;//To Test-true
-            },
-            drive // Reference to this subsystem to set requirements
-        );
+        // AutoBuilder.configure(
+        //     drive::getPose,
+        //     drive::resetOdometry,
+        //     drive::getSpeeds,
+        //     drive::setFeedforwardModuleStates,
+        //     new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+        //             new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KP.get(), 
+        //                 SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KI.get(), 
+        //                 SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KD.get()),  // Translation PID constants
+        //             new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.THETA_KP.get(), 
+        //                 SwerveDriveConstants.SwerveDriveConfig.THETA_KI.get(), 
+        //                 SwerveDriveConstants.SwerveDriveConfig.THETA_KD.get())  // Rotation PID constants
+        //         ),
+        //     new RobotConfig(112.0, 1., 
+        //         new ModuleConfig(1., 1, 1, new DCMotor(0, 0, 0, 0, 0, 0), 15, 1), 
+        //         null),
+        //     () -> {
+        //             // Boolean supplier that controls when the path will be mirrored for the red alliance
+        //             // This will flip the path being followed to the red side of the field.
+        //             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        //             //Is this working?
+        //             var alliance = DriverStation.getAlliance();
+        //             if (alliance.isPresent()) {
+        //                 return alliance.get() == DriverStation.Alliance.Red;
+        //             }
+        //             return false;//To Test-true
+        //         },
+        //         drive
+        // );
+        // AutoBuilder.configureHolonomic(
+        //     drive::getPose, // Robot pose supplier
+        //     drive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+        //     drive::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        //     // drive::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        //     drive::setFeedforwardModuleStates,//To Use Feedforward
+        //     new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+        //         new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KP.get(), 
+        //             SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KI.get(), 
+        //             SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KD.get()),  // Translation PID constants
+        //         new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.THETA_KP.get(), 
+        //             SwerveDriveConstants.SwerveDriveConfig.THETA_KI.get(), 
+        //             SwerveDriveConstants.SwerveDriveConfig.THETA_KD.get()),  // Rotation PID constants
+        //         4.5, // Max module speed, in m/s 4.5
+        //         0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+        //         new ReplanningConfig() // Default path replanning config. See the API for the options here; Ba
+        //     ),
+        //     () -> {
+        //         // Boolean supplier that controls when the path will be mirrored for the red alliance
+        //         // This will flip the path being followed to the red side of the field.
+        //         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        //         //Is this working?
+        //         var alliance = DriverStation.getAlliance();
+        //         if (alliance.isPresent()) {
+        //             return alliance.get() == DriverStation.Alliance.Red;
+        //         }
+        //         return false;//To Test-true
+        //     },
+        //     drive // Reference to this subsystem to set requirements
+        // );
     }
 }

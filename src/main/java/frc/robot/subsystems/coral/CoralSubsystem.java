@@ -5,9 +5,15 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Coral {
+public class CoralSubsystem {
     public enum Value{
-        START(0, 0, 0);
+        START(0, 0, 0),
+        INTAKE_HPS(0, 0, 0),
+        INTAKE_GRND(0, 0, 0),
+        L1(0, 0, 0),
+        L2(0, 0, 0),
+        L3(0, 0, 0),
+        L4(0, 0, 0);
 
         private final double armAngle;
         private final double pivotAngle;
@@ -32,13 +38,13 @@ public class Coral {
         }
     }
 
-    public CoralArm arm;
-    public CoralPivot pivot;
-    public CoralIntake intake;
+    private final CoralArm arm;
+    private final CoralPivot pivot;
+    private final CoralIntake intake;
 
     private Value position = Value.START;
 
-    public Coral(CoralArm arm, CoralPivot pivot, CoralIntake intake){
+    public CoralSubsystem(CoralArm arm, CoralPivot pivot, CoralIntake intake){
         this.arm = arm;
         this.pivot = pivot;
         this.intake = intake;
@@ -58,6 +64,24 @@ public class Coral {
                         pivot.setTargetPositionCommand(targetPos.getPivotAngle()),
                         intake.setTargetPositionCommand(targetPos.getIntakeSpeed())
                     );
+                case INTAKE_HPS -> 
+                    new SequentialCommandGroup(
+                        arm.setTargetPositionCommand(targetPos.getArmAngle()),
+                        pivot.setTargetPositionCommand(targetPos.getPivotAngle()),
+                        intake.setTargetPositionCommand(targetPos.getIntakeSpeed())
+                    );
+                case INTAKE_GRND ->
+                    new SequentialCommandGroup(
+                        arm.setTargetPositionCommand(targetPos.getArmAngle()),
+                        pivot.setTargetPositionCommand(targetPos.getPivotAngle()),
+                        intake.setTargetPositionCommand(targetPos.getIntakeSpeed())
+                    );
+                case L1,L2,L3,L4 -> 
+                    new SequentialCommandGroup(
+                        arm.setTargetPositionCommand(targetPos.getArmAngle()),
+                        pivot.setTargetPositionCommand(targetPos.getPivotAngle()),
+                        intake.setTargetPositionCommand(targetPos.getIntakeSpeed())
+                );                   
                 default -> 
                     new ParallelCommandGroup(
                         arm.setTargetPositionCommand(targetPos.getArmAngle()),

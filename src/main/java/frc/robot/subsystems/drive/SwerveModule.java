@@ -87,8 +87,7 @@ public class SwerveModule {
         turnEncoder = CANcoderEx.create(absoluteEncoderId)
             .withDirection(absoluteEncoderReversed)
             .withRange(EncoderRange.ZERO_TO_ONE)
-            .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD)
-            .configure();
+            .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
 
         driveMotor = TalonEx.create(driveMotorId)
             .withDirection(driveMotorReversed)

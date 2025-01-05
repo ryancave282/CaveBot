@@ -69,20 +69,40 @@ public class AutoChooser {
     }
 
     public static void createAutoBuilder(SwerveDrive drive){
-        // AutoBuilder.configureHolonomic(
-        //     () -> getPose2d(),
-        //     pose -> resetOdometry(pose),
-        //     () -> getchassisSpeeds(),
-        //     speeds -> driveRobotRelative(speeds),
-        //     new HolonomicPathFollowerConfig(
-        //     new PIDConstants(0.9, 0, 0),
-        //     new PIDConstants(0.8, 0, 0),
-        //     5.2,
-        //     1,
-        //     new ReplanningConfig()),
-        //     true,
-        //     this
-        // );
+        try {
+            RobotConfig config = RobotConfig.fromGUISettings();
+
+            // Configure AutoBuilder
+            AutoBuilder.configure(
+                drive::getPose,
+                drive::resetOdometry,
+                drive::getSpeeds,
+                drive::setFeedforwardModuleStates,
+                new PPHolonomicDriveController(
+                        new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KP.get(), 
+                    SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KI.get(), 
+                    SwerveDriveConstants.SwerveDriveConfig.TRANSLATIONAL_KD.get()),  // Translation PID constants
+                new PIDConstants(SwerveDriveConstants.SwerveDriveConfig.THETA_KP.get(), 
+                    SwerveDriveConstants.SwerveDriveConfig.THETA_KI.get(), 
+                    SwerveDriveConstants.SwerveDriveConfig.THETA_KD.get())),  // Rotation PID constants
+                config,
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red
+                    // alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                drive // Reference to this subsystem to set requirements
+            );
+        } catch (Exception e) {
+            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
+        }
         // AutoBuilder
         // AutoBuilder.configure(
         //     drive::getPose,

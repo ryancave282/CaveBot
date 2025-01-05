@@ -86,12 +86,9 @@ public class SparkAbsoluteEncoderEx {
     public void setDirection(EncoderDirection direction) {
         switch (direction) {
             case Reversed:
-            config.inverted(true);
-            break;
-            default:
+                config.inverted(true);
             case Forward:
-            config.inverted(false);
-            break;
+                config.inverted(false);
         }
     }
 

@@ -36,6 +36,14 @@ public class RobotContainer {
 				)
 		);
 		
+		configureTeleOpBindings(coral);
+	}
+
+	//Add Reset encoder buttons
+	//Add Manual Control
+	public void configureTeleOpBindings(CoralSubsystem coral) {
+		
+		
 		// Coral keybinds
 		operator.a()
 			.onTrue(coral.setPositionCommand(CoralValue.L1));

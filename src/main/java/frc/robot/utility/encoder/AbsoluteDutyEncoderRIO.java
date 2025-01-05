@@ -29,14 +29,12 @@ public class AbsoluteDutyEncoderRIO {
     public class DirectionBuilder {
         public OffsetWriter withDirection(EncoderDirection direction) {
             switch (direction) {
-            case Reversed:
-            isInverted = true;
-            break;
-            default:
-            case Forward:
-            isInverted = false;
-            break;
-        }
+                case Reversed:
+                    isInverted = true;
+                case Forward:
+                    isInverted = false;
+
+            }
             return new OffsetWriter();
         }
     }

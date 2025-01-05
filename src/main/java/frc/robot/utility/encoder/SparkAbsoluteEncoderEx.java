@@ -2,7 +2,8 @@ package frc.robot.utility.encoder;
 
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.config.EncoderConfig;
-import frc.robot.utility.encoder.EncoderConstants.EncoderDirection;
+
+import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.utility.motor.SparkMaxEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 

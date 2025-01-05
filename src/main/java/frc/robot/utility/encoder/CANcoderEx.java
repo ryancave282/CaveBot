@@ -3,7 +3,8 @@ package frc.robot.utility.encoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import frc.robot.utility.encoder.EncoderConstants.EncoderDirection;
+
+import frc.robot.DroidRageConstants.EncoderDirection;
 
 public class CANcoderEx {
     protected EncoderDirection direction;

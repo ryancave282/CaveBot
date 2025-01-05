@@ -3,6 +3,10 @@ package frc.robot;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public final class DroidRageConstants {
+    public enum EncoderDirection {
+        Forward,
+        Reversed,
+    }
     public static class Gamepad {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;

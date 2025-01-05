@@ -23,7 +23,7 @@ public class CoralPivot extends ArmAbsoluteTemplate {
         .withPositionConversionFactor(1)
         .withSubsystemName("Coral")
         .withIsEnabled(true)
-        .withSupplyCurrentLimit(50);
+        .withCurrentLimit(50);
     
     private static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0)
         .withDirection(false)

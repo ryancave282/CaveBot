@@ -21,7 +21,7 @@ public class Elevator extends ElevatorTemplate {
         .withPositionConversionFactor(1)
         .withSubsystemName("Elevator")
         .withIsEnabled(true)
-        .withSupplyCurrentLimit(50);
+        .withCurrentLimit(50);
 
     public Elevator() {
         super(

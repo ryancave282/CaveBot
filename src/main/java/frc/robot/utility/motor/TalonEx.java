@@ -21,6 +21,7 @@ public class TalonEx extends CANMotorEx {
     public static DirectionBuilder create(int deviceID) {
         CANMotorEx motor = new TalonEx(new TalonFX(deviceID));
         motor.motorID = deviceID;
+        motor.motor = Motor.TalonFX;
         return motor.new DirectionBuilder();
     }
 

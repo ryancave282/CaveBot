@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.coral.CoralArm;
+import frc.robot.subsystems.coral.CoralIntake;
+import frc.robot.subsystems.coral.CoralPivot;
+import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
@@ -25,43 +30,17 @@ import frc.robot.utility.shuffleboard.ShuffleboardValue;
 //Climb positions
 //current stuff
 public class Robot extends TimedRobot {
-    //15 missing^
-    // private AbsoluteDutyEncoderRIO enoder =  AbsoluteDutyEncoderRIO.create(3, "Test")
-    //         .withDirection(false)
-    //         .withOffset(0)
-    //         .withSubsystemBase(TestSubsystem.class.getSimpleName());
-    // private final TestSubsystem test = new TestSubsystem();
-    // private final IntakeTest test = new IntakeTest();
-    // private final OwnSixWheel drive = new OwnSixWheel();
     private final Vision vision = new Vision();
     private final SwerveDrive drive = new SwerveDrive(true);//2-10 Works
-    // private final Shooter shooter = new Shooter(false);//18,19 Works
-
-    // private final AmpMechElevator elevator = new AmpMechElevator(false);//22-DO NOT TURN THIS ON
-    // private final AmpMechIntake ampIntake = new AmpMechIntake(false);//24
-    // private final AmpMechArmAbsolute arm = new AmpMechArmAbsolute(false, ampIntake.getMotor());//23
-    // private final AmpMech ampMech = new AmpMech(elevator, arm, ampIntake);
-
-    // private final ClimbAlternate climb = new ClimbAlternate(false,false);//20,21
-    // private final IntakeWheel intakeWheel = new IntakeWheel(false);//16
-    // private final IntakeDropDownAbsolute dropDown = new IntakeDropDownAbsolute(false, climb.getMotorR());//17
-    // private final Intake intake = new Intake(dropDown, intakeWheel);
-    // private AbsoluteDutyEncoder encoder = 
-    //     new AbsoluteDutyEncoder(0,false, 1,0.38, ampIntake);
+    private final Elevator elevator = new Elevator();
+   
+    // Initialize Coral Subsystem
+    private final CoralArm coralArm = new CoralArm();
+    private final CoralPivot coralPivot = new CoralPivot();
+    private final CoralIntake coralIntake = new CoralIntake();
+    private final CoralSubsystem coralSubsystem = new CoralSubsystem(coralArm, coralPivot, coralIntake);
     
-    
-    // private AutoChooser autoChooser = new AutoChooser(
-    //     drive,vision //, intake, shooter, ampMech//, claw, climb, vision, light
-    // );
-    // private final CycleTracker cycleTracker = new CycleTracker();//Good to Use
-// private final Climb climb = new Climb(false,false);//20,21
-
-    // private final Light light = new Light();
-    // private final SysID sysID = new SysID(climb.getMotorL(), climb.getMotorR(), Measurement.ANGLE);
-    // private final SysID sysID = new SysID(claw.getClawIntake().getMotor(), Measurement.DISTANCE);
-    // Arm armr =new Arm(null, null, null, 0, 0, null, null, 0);
-    private RobotContainer robotContainer = new RobotContainer();
-    // private Test test = new Test();
+    private RobotContainer robotContainer = new RobotContainer(drive, coralSubsystem, elevator);
 
     private ShuffleboardValue<Double> matchTime = ShuffleboardValue.create
 		(0.0, "Match Time", "Misc")

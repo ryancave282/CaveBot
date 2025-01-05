@@ -33,7 +33,7 @@ public class AbsoluteDutyEncoderRIO {
     }
     public class OffsetWriter {
         public BaseWriter withOffset(double offset) {
-            encoder.setPositionOffset(offset/(2*Math.PI));
+            // encoder.setPositionOffset(offset/(2*Math.PI));
             return new BaseWriter();
         }
     }
@@ -81,19 +81,22 @@ public class AbsoluteDutyEncoderRIO {
      * @return The Absolute Position of the Encoder 
      */
     public double getPosition(){
-        double givenPos = encoder.getAbsolutePosition();
+        // double givenPos = encoder.getAbsolutePosition();
 
-        if(isInverted){ //To invert values based on direction - Works
-            givenPos = 1-givenPos;
-        }
+        // if(isInverted){ //To invert values based on direction - Works
+        //     givenPos = 1-givenPos;
+        // }
 
-        // givenPos -= encoder.getPositionOffset();
-        if(givenPos<0){ //To account for negative values/rollovers - no work
-            givenPos=1-Math.abs(givenPos); 
-            //^^ In this case the givePos will be negative; or 1-Math.abs(givenPos)
-        }
+        // // givenPos -= encoder.getPositionOffset();
+        
+        // if(givenPos<0){ //To account for negative values/rollovers - no work
+        //     givenPos=1-Math.abs(givenPos); 
+        //     //^^ In this case the givePos will be negative; or 1-Math.abs(givenPos)
+        // }
 
         
-        return givenPos-encoder.getPositionOffset();
+        // return givenPos-encoder.getPositionOffset();
+
+        return 0;
     }
 }

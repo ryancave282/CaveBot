@@ -23,6 +23,7 @@ public class SparkMaxEx extends CANMotorEx{
     public static DirectionBuilder create(int deviceID) {
         CANMotorEx motor = new SparkMaxEx(new SparkMax(deviceID, MotorType.kBrushless));
         motor.motorID = deviceID;
+        motor.motor = Motor.SparkMax;
         return motor.new DirectionBuilder();
     }
 
@@ -119,8 +120,7 @@ public class SparkMaxEx extends CANMotorEx{
         config.smartCurrentLimit((int) currentLimit);
     }
 
-    public void setStatorCurrentLimit(double currentLimit) {
-    }
+    public void setStatorCurrentLimit(double currentLimit) {}
         
     public double getVoltage(){
         // return motor.getAppliedOutput();//motor controller's applied output duty cycle.

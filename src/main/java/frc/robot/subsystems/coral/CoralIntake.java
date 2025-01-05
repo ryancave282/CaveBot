@@ -21,7 +21,7 @@ public class CoralIntake extends IntakeTemplate {
         .withPositionConversionFactor(1)
         .withSubsystemName("Coral")
         .withIsEnabled(true)
-        .withSupplyCurrentLimit(50);
+        .withCurrentLimit(50);
 
     public CoralIntake() {
         super(

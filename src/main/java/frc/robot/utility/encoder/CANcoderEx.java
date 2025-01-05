@@ -53,15 +53,9 @@ public class CANcoderEx {
     }
 
     public class OffsetBuilder {
-        public Configure withOffset(double offset) {
-            setMagnetSensorOffset(offset);
-            return new Configure();
-        }
-    }
-
-    public class Configure {
         @SuppressWarnings("unchecked")
-        public <T extends CANcoderEx> T configure() {
+        public <T extends CANcoderEx> T withOffset(double offset) {
+            setMagnetSensorOffset(offset);
             encoder.getConfigurator().apply(config);
             return (T) CANcoderEx.this;
         }

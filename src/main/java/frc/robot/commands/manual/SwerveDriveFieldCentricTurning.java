@@ -2,9 +2,9 @@ package frc.robot.commands.manual;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+// import java.util.HashMap;
+// import java.util.Map;
+// import java.util.Vector;
 import java.util.function.Supplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,13 +12,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+// import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.DroidRageConstants;
+// import edu.wpi.first.wpilibj2.command.button.Trigger;
+// import frc.robot.DroidRageConstants;
 import frc.robot.subsystems.drive.SwerveDrive;
-import frc.robot.subsystems.drive.SwerveDriveConstants;
-import frc.robot.subsystems.drive.SwerveModule;
+// import frc.robot.subsystems.drive.SwerveDriveConstants;
+// import frc.robot.subsystems.drive.SwerveModule;
 // @Deprecated
 public class SwerveDriveFieldCentricTurning extends Command {
     private final SwerveDrive drive;
@@ -26,7 +26,7 @@ public class SwerveDriveFieldCentricTurning extends Command {
     private boolean FIELD_CENTRIC_DRIVING;
     private boolean FIELD_CENTRIC_TURNING;
 
-    private volatile double xSpeed, ySpeed, turnSpeed;
+    // private volatile double xSpeed, ySpeed, turnSpeed;
     CommandXboxController driver;
     public static double STRAFE_WEIGHT = 1;//Probably 1 instead of 1.1
     public static double MIN_HEADING_P = 0.05;

@@ -57,14 +57,9 @@ public class PathPlannerPathFollow {
     }
     public Command build() throws FileVersionException, IOException, ParseException{
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-        // drive.resetOdometry(PathPlannerPath.fromPathFile(pathName).getPreviewStartingHolonomicPose());
-        //AutoBuilder.buildAuto
         return AutoBuilder.followPath(path);
 
     }
-    // public Command getAuto(String name){
-    //     return AutoBuilder.buildAuto(name);
-    // }
     //Translation PID constants - PID constants to correct for translation error (used to create the X and Y PID controllers)
     //Rotation PID constants - PID constants to correct for rotation error (used to create the rotation controller)
     

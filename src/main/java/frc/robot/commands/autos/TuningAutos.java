@@ -1,7 +1,6 @@
 package frc.robot.commands.autos;
 
 import frc.robot.subsystems.drive.SwerveDrive;
-import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -27,18 +26,6 @@ public final class TuningAutos {
                 .build()
         );
     }
-    // public static Command forwardAndBackTest(SwerveDrive drive) {//Top Red/Bottom Blue
-    //     return new SequentialCommandGroup(
-    //         PathPlannerFollow.create(drive, "ForwardTest")
-    //             .setMaxVelocity(3)
-    //             .setAcceleration(5)
-    //             .build(),
-    //         PathPlannerFollow.create(drive, "BackwardTest")
-    //             .setMaxVelocity(6)
-    //             .setAcceleration(6)
-    //             .build()
-    //     );
-    // }
     public static Command turnTest(SwerveDrive drive) {
         return new SequentialCommandGroup(
             PathPlannerFollow.create(drive, "TurnTest")
@@ -74,22 +61,5 @@ public final class TuningAutos {
         );
     }
     
-    // public static Command lineToLinearTest(SwerveDrive drive) {
-    //     return new SequentialCommandGroup(
-    //         PathPlannerFollow.create(drive, "LineToTest")
-    //             .setMaxVelocity(0.2)
-    //             .setAcceleration(0.2)
-    //             .build()
-    //     );
-    // }
-    
-    // public static Command forwardThenTurnTest(SwerveDrive drive) {
-    //     return PathPlannerFollow.create(drive, "ForwardThenTurnTest")
-    //         .setMaxVelocity(1)
-    //         .setAcceleration(1)
-    //         .addMarker("test", new InstantCommand())//ToDo:Test
-    //         .build();
-    // }
-
     private TuningAutos() {}
 }

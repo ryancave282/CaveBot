@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.utility.motor.TalonEx;
 import frc.robot.DroidRageConstants.Control;
+import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.motor.CANMotorEx.Direction;
@@ -27,7 +28,7 @@ public class ArmAlgae extends ArmAbsoluteTemplate{
     .withCurrentLimit(0);
 
     public static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0) 
-    .withDirection(true)
+    .withDirection(EncoderDirection.Forward)
     .withOffset(0)
     .withSubsystemBase("ArmAlgae");
 

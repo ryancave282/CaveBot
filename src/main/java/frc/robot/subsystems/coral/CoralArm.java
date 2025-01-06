@@ -1,6 +1,7 @@
 package frc.robot.subsystems.coral;
 
 import frc.robot.DroidRageConstants.Control;
+import frc.robot.DroidRageConstants.EncoderDirection;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
@@ -26,7 +27,7 @@ public class CoralArm extends ArmAbsoluteTemplate {
         .withCurrentLimit(50);
     
     private static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0)
-        .withDirection(false)
+        .withDirection(EncoderDirection.Forward)
         .withOffset(0)
         .withSubsystemBase("Coral");
 

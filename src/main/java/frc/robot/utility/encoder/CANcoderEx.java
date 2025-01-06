@@ -65,24 +65,18 @@ public class CANcoderEx {
     public void setDirection(EncoderDirection direction) {
         switch (direction) {
             case Reversed:
-            config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-            break;
-            default:
+                config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
             case Forward:
-            config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-            break;
+                config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
         }
     }
 
     public void setRange(EncoderRange range) {
         switch (range) {
             case PLUS_MINUS_HALF:
-            config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
-            break;
-            default:
+                config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
             case ZERO_TO_ONE:
-            config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
-            break;
+                config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
         }
     }
 

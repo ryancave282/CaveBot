@@ -3,6 +3,7 @@ package frc.robot.subsystems.coral;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.DroidRageConstants.Control;
+import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.motor.CANMotorEx.Direction;
@@ -26,7 +27,7 @@ public class CoralPivot extends ArmAbsoluteTemplate {
         .withCurrentLimit(50);
     
     private static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0)
-        .withDirection(false)
+        .withDirection(EncoderDirection.Forward)
         .withOffset(0)
         .withSubsystemBase("Coral");
 

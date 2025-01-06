@@ -1,11 +1,12 @@
 package frc.robot.utility.encoder;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public class AbsoluteDutyEncoderRIO { 
     protected final DutyCycleEncoder encoder;
-    private boolean isInverted;
+    public EncoderDirection encoderDirection;
 
     // protected double positionOffset=0;
     public ShuffleboardValue<Double> degreeWriter;
@@ -15,19 +16,19 @@ public class AbsoluteDutyEncoderRIO {
     public String name;
                 
 
-    private AbsoluteDutyEncoderRIO(){
+    private AbsoluteDutyEncoderRIO(DutyCycleEncoder encoder){
         this.encoder=encoder;
         
     }
 
-    public static InverterBuilder create(int deviceID) {
+    public static DirectionBuilder create(int deviceID) {
         AbsoluteDutyEncoderRIO encoder = new AbsoluteDutyEncoderRIO(
             new DutyCycleEncoder(deviceID));
-        return encoder.new InverterBuilder();
+        return encoder.new DirectionBuilder();
     }
-    public class InverterBuilder {
-        public OffsetWriter withDirection(boolean isInvertedBoolean) {
-            isInverted = isInvertedBoolean;
+    public class DirectionBuilder {
+        public OffsetWriter withDirection(EncoderDirection direction) {
+            encoderDirection = direction;
             return new OffsetWriter();
         }
     }

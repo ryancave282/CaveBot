@@ -23,11 +23,12 @@ public class CoralIntake extends IntakeTemplate {
         .withIsEnabled(true)
         .withCurrentLimit(50);
 
-    public CoralIntake() {
+    public CoralIntake(boolean isEnabled) {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 
         new SimpleMotorFeedforward(0, 0, 0, 0), Constants.MAX_SPEED, Constants.MIN_SPEED, 
         Control.PID, "Coral", 0);
+        //Change
     }
 }

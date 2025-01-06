@@ -36,6 +36,7 @@ public class AlgaeSubsystem {
         this.algaeShooterSpeed = algaeShooterSpeed;
     }
 
+<<<<<<< HEAD
     public double getAlgaeIntakeSpeed() {
         return algaeIntakeSpeed;
         }
@@ -55,6 +56,28 @@ public class AlgaeSubsystem {
         this.algaeShooter = algaeShooter;
         this.algaeLimitSwitch = new DigitalInput(0);
     }
+=======
+    public double getIntakeAlgaePos() {
+        return intakeAlgaePos;
+        }
+    }
+
+    private final AlgaeArm armAlgae;
+    private final AlgaeIntake intakeAlgae;
+    private final DigitalInput algaeLimitSwitch;
+
+
+    public AlgaeSubsystem (AlgaeArm armAlgae, AlgaeIntake intakeAlgae) {
+        this.armAlgae = armAlgae;
+        this.intakeAlgae = intakeAlgae;
+        this.algaeLimitSwitch = new DigitalInput(0);
+    }
+    
+    public AlgaeArm getArmAlgae() {
+        return armAlgae;
+    }
+
+>>>>>>> e82afec49527af644c8848af99ad5c4581c1221d
 
     public Command setPositionCommand(ArmValue targetPosition) {
         return switch (targetPosition) {
@@ -73,6 +96,7 @@ public class AlgaeSubsystem {
                 );
         };
     }
+<<<<<<< HEAD
     
     public Command setIntakePositionCommand(IntakeValue targetPosition) {
         return switch (targetPosition){
@@ -102,6 +126,19 @@ public class AlgaeSubsystem {
     public AlgaeShooter getAlgaeShooter() {
         return algaeShooter;
     }
+=======
+
+    public Command setIntakePositionCommand(IntakeValue targetPosition) {
+        return new SequentialCommandGroup(
+            intakeAlgae.setTargetPositionCommand(targetPosition.getIntakeAlgaePos())
+        );
+    };
+        
+
+        public AlgaeIntake getAlgaeIntake() {
+            return intakeAlgae;
+        }
+>>>>>>> e82afec49527af644c8848af99ad5c4581c1221d
     
     public boolean isAlgaeIn() {
         return algaeLimitSwitch.get();

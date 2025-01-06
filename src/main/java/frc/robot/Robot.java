@@ -35,13 +35,13 @@ import frc.robot.utility.shuffleboard.ShuffleboardValue;
 //current stuff
 public class Robot extends TimedRobot {
     private final Vision vision = new Vision();
-    private final SwerveDrive drive = new SwerveDrive(true);//2-10 Works
+    private final SwerveDrive drive = new SwerveDrive(false);//2-10 Works
     private final Elevator elevator = new Elevator();
    
     // Initialize Coral Subsystem
     private final CoralArm coralArm = new CoralArm();
     private final CoralPivot coralPivot = new CoralPivot();
-    private final CoralIntake coralIntake = new CoralIntake();
+    private final CoralIntake coralIntake = new CoralIntake(false);
     private final CoralSubsystem coralSubsystem = new CoralSubsystem(coralArm, coralPivot, coralIntake);
 
     private final AlgaeArm algaeArm = new AlgaeArm();

@@ -20,14 +20,24 @@ public class RobotContainer {
 	private final CommandXboxController operator =
 		new CommandXboxController(DroidRageConstants.Gamepad.OPERATOR_CONTROLLER_PORT);
 
-	public RobotContainer(SwerveDrive drive, CoralSubsystem coralSubsystem, AlgaeSubsystem algaeSubsystem, Elevator elevator) {
+	public RobotContainer(
+		SwerveDrive drive, 
+		CoralSubsystem coralSubsystem, 
+		AlgaeSubsystem algaeSubsystem, 
+		Elevator elevator
+		) {
+		
 		DriverStation.silenceJoystickConnectionWarning(true);
 		configureTeleOpBindings(drive, coralSubsystem, algaeSubsystem, elevator);
 	}
 
-	//Add Reset encoder buttons
-	//Add Manual Control
-	public void configureTeleOpBindings(SwerveDrive drive, CoralSubsystem coral, AlgaeSubsystem algaeSubsystem, Elevator elevator) {
+	public void configureTeleOpBindings(
+		SwerveDrive drive, 
+		CoralSubsystem coral, 
+		AlgaeSubsystem algaeSubsystem, 
+		Elevator elevator
+		) {
+		
 		// Drive Bindings
 		drive.setDefaultCommand(
 			new SwerveDriveTeleop( //Slow Mode and Gyro Reset in the Default Command

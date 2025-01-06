@@ -31,13 +31,14 @@ public class CoralArm extends ArmAbsoluteTemplate {
         .withOffset(0)
         .withSubsystemBase("Coral");
 
-    public CoralArm() {
+    public CoralArm(boolean isEnabled) {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 
         new ArmFeedforward(0, 0, 0, 0, 0), 
         Constants.MAX_POSITION, Constants.MIN_POSITION, Constants.OFFSET, 
         Control.PID, "Coral", 0, encoder);
+        motor.setIsEnabled(isEnabled);
         
     }
 }

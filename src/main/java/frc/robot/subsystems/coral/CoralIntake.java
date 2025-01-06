@@ -29,6 +29,7 @@ public class CoralIntake extends IntakeTemplate {
         new PIDController(0,0,0), 
         new SimpleMotorFeedforward(0, 0, 0, 0), Constants.MAX_SPEED, Constants.MIN_SPEED, 
         Control.PID, "Coral", 0);
+        motor.setIsEnabled(isEnabled);
         //Change
     }
 }

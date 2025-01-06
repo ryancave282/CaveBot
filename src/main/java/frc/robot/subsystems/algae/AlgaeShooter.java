@@ -40,6 +40,8 @@ public class AlgaeShooter extends IntakeTemplate {
             Constants.MIN_SPEED, 
             Control.PID, "Algae", 0
         );
+        rightMotor.setIsEnabled(isEnabled);
+        leftMotor.setIsEnabled(isEnabled);
     }
 
     

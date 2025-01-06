@@ -32,7 +32,7 @@ public class AlgaeArm extends ArmAbsoluteTemplate{
         .withOffset(0)
         .withSubsystemBase("Algae");
 
-public AlgaeArm () {
+public AlgaeArm (boolean isEnabled) {
     super(
         new CANMotorEx[] {motor}, 
         new PIDController(0, 0, 0), 
@@ -42,5 +42,6 @@ public AlgaeArm () {
         Constants.offset,
         Control.PID, "Algae",0,
         encoder);
+    motor.setIsEnabled(isEnabled);
 }
 }

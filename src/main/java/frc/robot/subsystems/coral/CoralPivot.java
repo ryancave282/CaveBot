@@ -31,13 +31,14 @@ public class CoralPivot extends ArmAbsoluteTemplate {
         .withOffset(0)
         .withSubsystemBase("Coral");
 
-    public CoralPivot() {
+    public CoralPivot(boolean isEnabled) {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 
         new ArmFeedforward(0, 0, 0, 0, 0), 
         Constants.MAX_POSITION, Constants.MIN_POSITION, Constants.OFFSET, 
         Control.PID, "Coral", 0, encoder);
+        motor.setIsEnabled(isEnabled);
         
     }
 }

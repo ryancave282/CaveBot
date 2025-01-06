@@ -58,18 +58,16 @@ public class AlgaeSubsystem {
 
     public Command setPositionCommand(ArmValue targetPosition) {
         return switch (targetPosition) {
-            case START, PROCESSOR, SHOOT -> 
-                new SequentialCommandGroup(
-                    armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-                );
-            case GROUND, HIGH, LOW ->
-            new SequentialCommandGroup(
+            case START, PROCESSOR, SHOOT -> new SequentialCommandGroup(
                 algaeArm.setTargetPositionCommand(targetPosition.getAlgaeArmPos())
-                );
+            );
+            case GROUND, HIGH, LOW -> new SequentialCommandGroup(
+                algaeArm.setTargetPositionCommand(targetPosition.getAlgaeArmPos())
+            );
 
             default -> new SequentialCommandGroup(
                 algaeArm.setTargetPositionCommand(targetPosition.getAlgaeArmPos())
-                );
+            );
         };
     }
     

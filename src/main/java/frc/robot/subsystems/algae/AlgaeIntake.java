@@ -22,7 +22,7 @@ public class AlgaeIntake extends IntakeTemplate{
         .withIsEnabled(true)
         .withCurrentLimit(0);
 
-    public AlgaeIntake () {
+    public AlgaeIntake (boolean isEnabled) {
         super(
             new CANMotorEx[] {motor}, 
             new PIDController(0, 0, 0), 
@@ -31,5 +31,6 @@ public class AlgaeIntake extends IntakeTemplate{
             Constants.MIN_POSITION, 
             Control.PID, "Algae", 0
         );
+        motor.setIsEnabled(isEnabled);
     }
 }

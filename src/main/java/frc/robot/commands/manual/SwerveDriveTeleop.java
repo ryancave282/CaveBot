@@ -20,13 +20,11 @@ public class SwerveDriveTeleop extends Command {
     private volatile double xSpeed, ySpeed, turnSpeed;
     private Rotation2d heading;
 
-    public SwerveDriveTeleop(SwerveDrive drive,
-            Supplier<Double> x, Supplier<Double> y, 
-            Supplier<Double> turn, CommandXboxController driver) {
+    public SwerveDriveTeleop(SwerveDrive drive, CommandXboxController driver) {
         this.drive = drive;
-        this.x = x;
-        this.y = y;
-        this.turn = turn;
+        this.x = driver::getLeftX;
+        this.y = driver::getLeftY;
+        this.turn = driver::getRightX;
 
         driver.rightBumper().whileTrue(drive.setSpeed(Speed.SLOW))
             .whileFalse(drive.setSpeed(Speed.NORMAL));

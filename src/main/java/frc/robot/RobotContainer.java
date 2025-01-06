@@ -31,17 +31,8 @@ public class RobotContainer {
 		Elevator elevator
 		) {
 		
-		// Drive Bindings
-		drive.setDefaultCommand(
-			new SwerveDriveTeleop( //Slow Mode and Gyro Reset in the Default Command
-				drive,
-				driver::getLeftX,
-				driver::getLeftY,
-				driver::getRightX,
-				driver,
-				false//No Work; Do no use this
-				)
-			);
+		// Slow Mode and Gyro Reset in the Default Command
+		drive.setDefaultCommand(new SwerveDriveTeleop( drive, driver));
 
 		driver.rightTrigger()
 			.onTrue(new IntakeElementInCommand(driver, null, null));
@@ -51,17 +42,18 @@ public class RobotContainer {
 		
 		// Coral Bindings	
 		operator.a()
-				.onTrue(coral.setPositionCommand(CoralValue.L1));
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
+			.onTrue(coral.setPositionCommand(CoralValue.L1));
 		operator.b()
-				.onTrue(coral.setPositionCommand(CoralValue.L2));
+			.onTrue(coral.setPositionCommand(CoralValue.L2));
 		operator.x()
-				.onTrue(coral.setPositionCommand(CoralValue.L3));
+			.onTrue(coral.setPositionCommand(CoralValue.L3));
 		operator.y()
-				.onTrue(coral.setPositionCommand(CoralValue.L4));
+			.onTrue(coral.setPositionCommand(CoralValue.L4));
 		operator.leftBumper()
-				.onTrue(coral.setPositionCommand(CoralValue.INTAKE_HPS));
+			.onTrue(coral.setPositionCommand(CoralValue.INTAKE_HPS));
 		operator.rightTrigger()
-				.onTrue(coral.setPositionCommand(CoralValue.INTAKE_GRND));
+			.onTrue(coral.setPositionCommand(CoralValue.INTAKE_GRND));
 
 		// Algae Bindings
 		operator.povDown()
@@ -81,16 +73,7 @@ public class RobotContainer {
 	public void testCommands() {}
 
 	public void testDrive(SwerveDrive drive, Vision vision){
-		drive.setDefaultCommand(
-			new SwerveDriveTeleop( //Slow Mode and Gyro Reset in the Default Command
-				drive,
-				driver::getLeftX,
-				driver::getLeftY,
-				driver::getRightX,
-				driver,
-				false//No Work; Do no use this
-				)
-			);
+		drive.setDefaultCommand(new SwerveDriveTeleop(drive, driver));
 		driver.a().onTrue(new InstantCommand(()->drive.resetOdometry(vision.getPose())));
 	}
 }

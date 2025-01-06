@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.algae.AlgaeArm;
+import frc.robot.subsystems.algae.AlgaeIntake;
+import frc.robot.subsystems.algae.AlgaeShooter;
+import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.coral.CoralArm;
 import frc.robot.subsystems.coral.CoralIntake;
 import frc.robot.subsystems.coral.CoralPivot;
@@ -34,11 +38,11 @@ public class Robot extends TimedRobot {
     private final SwerveDrive drive = new SwerveDrive(false);//2-10 Works
     private final Elevator elevator = new Elevator(false);
    
-    private final CoralSubsystem coralSubsystem = new CoralSubsystem(
-        new CoralArm(), 
-        new CoralPivot(), 
-        new CoralIntake(false)
-    );
+    // Initialize Coral Subsystem
+    private final CoralArm coralArm = new CoralArm();
+    private final CoralPivot coralPivot = new CoralPivot();
+    private final CoralIntake coralIntake = new CoralIntake(false);
+    private final CoralSubsystem coralSubsystem = new CoralSubsystem(coralArm, coralPivot, coralIntake);
     
     private RobotContainer robotContainer = new RobotContainer(drive, coralSubsystem, elevator);
 

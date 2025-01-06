@@ -20,17 +20,17 @@ public class AlgaeArm extends ArmAbsoluteTemplate{
         
     }
     public static TalonEx motor = TalonEx.create(0)
-    .withDirection(Direction.Forward)
-    .withIdleMode(ZeroPowerMode.Coast)
-    .withPositionConversionFactor(1)
-    .withSubsystemName("ArmAlgae")
-    .withIsEnabled(true)
-    .withCurrentLimit(0);
+        .withDirection(Direction.Forward)
+        .withIdleMode(ZeroPowerMode.Coast)
+        .withPositionConversionFactor(1)
+        .withSubsystemName("Algae")
+        .withIsEnabled(true)
+        .withCurrentLimit(0);
 
     public static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0) 
-    .withDirection(EncoderDirection.Forward)
-    .withOffset(0)
-    .withSubsystemBase("ArmAlgae");
+        .withDirection(EncoderDirection.Forward)
+        .withOffset(0)
+        .withSubsystemBase("Algae");
 
 public AlgaeArm () {
     super(
@@ -40,7 +40,7 @@ public AlgaeArm () {
         Constants.MAX_POSITION, 
         Constants.MIN_POSITION, 
         Constants.offset,
-        Control.PID, "ArmAlgae",0,
+        Control.PID, "Algae",0,
         encoder);
 }
 }

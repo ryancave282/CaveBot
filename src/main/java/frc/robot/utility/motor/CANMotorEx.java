@@ -103,7 +103,7 @@ public abstract class CANMotorEx {
     };
     protected abstract void setSupplyCurrentLimit(double currentLimit);
     protected abstract void setStatorCurrentLimit(double currentLimit);
-    protected void setIsEnabled(boolean isEnabled){
+    public void setIsEnabled(boolean isEnabled){
         this.isEnabledWriter.set(isEnabled);
     };
     

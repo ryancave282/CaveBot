@@ -15,6 +15,21 @@ public class Elevator extends ElevatorTemplate {
         public static final double MAX_POSITION = 10;   
     }
 
+    public enum ElevatorValue {
+        START(0),
+        ;
+
+        private final double height;
+
+        private ElevatorValue(double height) {
+            this.height = height;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+    }
+
     private static TalonEx motor = TalonEx.create(0)
         .withDirection(Direction.Forward)
         .withIdleMode(ZeroPowerMode.Coast)
@@ -23,7 +38,7 @@ public class Elevator extends ElevatorTemplate {
         .withIsEnabled(true)
         .withCurrentLimit(50);
 
-    public Elevator() {
+    public Elevator(boolean isEnabled) {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0, 0, 0), 
@@ -31,10 +46,6 @@ public class Elevator extends ElevatorTemplate {
         Constants.MAX_POSITION, 
         Constants.MIN_POSITION, 
         Control.PID, "Elevator", 0);
-
+        motor.setIsEnabled(isEnabled);
     }
-
-    
-
-
 }

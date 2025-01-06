@@ -61,7 +61,6 @@ public class AlgaeSubsystem {
             case START, PROCESSOR, SHOOT -> 
                 new SequentialCommandGroup(
                     armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-    
                 );
             case GROUND, HIGH, LOW ->
             new SequentialCommandGroup(

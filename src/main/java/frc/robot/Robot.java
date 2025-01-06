@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.algae.AlgaeArm;
+import frc.robot.subsystems.algae.AlgaeIntake;
+import frc.robot.subsystems.algae.AlgaeShooter;
+import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.coral.CoralArm;
 import frc.robot.subsystems.coral.CoralIntake;
 import frc.robot.subsystems.coral.CoralPivot;
@@ -39,8 +43,13 @@ public class Robot extends TimedRobot {
     private final CoralPivot coralPivot = new CoralPivot();
     private final CoralIntake coralIntake = new CoralIntake();
     private final CoralSubsystem coralSubsystem = new CoralSubsystem(coralArm, coralPivot, coralIntake);
+
+    private final AlgaeArm algaeArm = new AlgaeArm();
+    private final AlgaeShooter algaeShooter = new AlgaeShooter(true);
+    private final AlgaeIntake algaeIntake = new AlgaeIntake();
+    private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(algaeArm, algaeIntake, algaeShooter);
     
-    private RobotContainer robotContainer = new RobotContainer(drive, coralSubsystem, elevator);
+    private RobotContainer robotContainer = new RobotContainer(drive, coralSubsystem, algaeSubsystem, elevator);
 
     private ShuffleboardValue<Double> matchTime = ShuffleboardValue.create
 		(0.0, "Match Time", "Misc")

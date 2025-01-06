@@ -12,7 +12,7 @@ import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.template.ArmAbsoluteTemplate;
 
 
-public class ArmAlgae extends ArmAbsoluteTemplate{
+public class AlgaeArm extends ArmAbsoluteTemplate{
     public static class Constants {
         public static final double MIN_POSITION = 0;
         public static final double MAX_POSITION = 10;
@@ -20,19 +20,19 @@ public class ArmAlgae extends ArmAbsoluteTemplate{
         
     }
     public static TalonEx motor = TalonEx.create(0)
-    .withDirection(Direction.Forward)
-    .withIdleMode(ZeroPowerMode.Coast)
-    .withPositionConversionFactor(1)
-    .withSubsystemName("ArmAlgae")
-    .withIsEnabled(true)
-    .withCurrentLimit(0);
+        .withDirection(Direction.Forward)
+        .withIdleMode(ZeroPowerMode.Coast)
+        .withPositionConversionFactor(1)
+        .withSubsystemName("Algae")
+        .withIsEnabled(true)
+        .withCurrentLimit(0);
 
     public static AbsoluteDutyEncoderRIO encoder = AbsoluteDutyEncoderRIO.create(0) 
-    .withDirection(EncoderDirection.Forward)
-    .withOffset(0)
-    .withSubsystemBase("ArmAlgae");
+        .withDirection(EncoderDirection.Forward)
+        .withOffset(0)
+        .withSubsystemBase("Algae");
 
-public ArmAlgae () {
+public AlgaeArm () {
     super(
         new CANMotorEx[] {motor}, 
         new PIDController(0, 0, 0), 
@@ -40,7 +40,7 @@ public ArmAlgae () {
         Constants.MAX_POSITION, 
         Constants.MIN_POSITION, 
         Constants.offset,
-        Control.PID, "ArmAlgae",0,
+        Control.PID, "Algae",0,
         encoder);
 }
 }

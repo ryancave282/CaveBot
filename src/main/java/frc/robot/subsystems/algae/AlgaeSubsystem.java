@@ -58,29 +58,29 @@ public class AlgaeSubsystem {
 
     public Command setPositionCommand(ArmValue targetPosition) {
         return switch (targetPosition) {
-                    case START, PROCESSOR, SHOOT -> 
-                        new SequentialCommandGroup(
-                            armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-            
-                        );
-                    case GROUND, HIGH, LOW ->
-                    new SequentialCommandGroup(
-                        armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-                        );
+            case START, PROCESSOR, SHOOT -> 
+                new SequentialCommandGroup(
+                    armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
+    
+                );
+            case GROUND, HIGH, LOW ->
+            new SequentialCommandGroup(
+                armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
+                );
 
-                    default -> new SequentialCommandGroup(
-                        armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-                        );
-            };
-        }
+            default -> new SequentialCommandGroup(
+                armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
+                );
+        };
+    }
     public Command setIntakePositionCommand(IntakeValue targetPosition) {
-            return new SequentialCommandGroup(
-                intakeAlgae.setTargetPositionCommand(targetPosition.getIntakeAlgeaPos())
-            );
+        return new SequentialCommandGroup(
+            intakeAlgae.setTargetPositionCommand(targetPosition.getIntakeAlgeaPos())
+        );
     };
         
 
-        public IntakeAlgae getIntakeAlgae() {
+        public IntakeAlgae getAlgaeIntake() {
             return intakeAlgae;
         }
     

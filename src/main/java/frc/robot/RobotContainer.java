@@ -39,34 +39,24 @@ public class RobotContainer {
 
 		driver.rightTrigger()
 			.onTrue(new IntakeElementInCommand(driver, null, null));
-		);
 		
-		configureTeleOpBindings(coral);
-	}
-
-	//Add Reset encoder buttons
-	//Add Manual Control
-	public void configureTeleOpBindings(CoralSubsystem coral) {
-		
-		
-		// Coral keybinds
 		operator.a()
-			.onTrue(coral.setPositionCommand(CoralValue.L1));
+				.onTrue(coral.setPositionCommand(CoralValue.L1));
 
 		operator.b()
-			.onTrue(coral.setPositionCommand(CoralValue.L2));
+				.onTrue(coral.setPositionCommand(CoralValue.L2));
 
 		operator.x()
-			.onTrue(coral.setPositionCommand(CoralValue.L3));
+				.onTrue(coral.setPositionCommand(CoralValue.L3));
 
 		operator.y()
-			.onTrue(coral.setPositionCommand(CoralValue.L4));
+				.onTrue(coral.setPositionCommand(CoralValue.L4));
 
 		operator.leftBumper()
-			.onTrue(coral.setPositionCommand(CoralValue.INTAKE_HPS));
+				.onTrue(coral.setPositionCommand(CoralValue.INTAKE_HPS));
 
 		operator.rightTrigger()
-			.onTrue(coral.setPositionCommand(CoralValue.INTAKE_GRND));
+				.onTrue(coral.setPositionCommand(CoralValue.INTAKE_GRND));
 	}
 
 	public void teleopPeriodic(){}

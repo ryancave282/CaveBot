@@ -8,7 +8,7 @@ import frc.robot.utility.motor.CANMotorEx.Direction;
 import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.template.IntakeTemplate;
 
-public class IntakeAlgae extends IntakeTemplate{
+public class AlgaeIntake extends IntakeTemplate{
   
     public static class Constants {
         public static final double MIN_POSITION = 0;
@@ -22,7 +22,7 @@ public class IntakeAlgae extends IntakeTemplate{
     .withIsEnabled(true)
     .withCurrentLimit(0);
 
-    public IntakeAlgae () {
+    public AlgaeIntake () {
         super(
             new CANMotorEx[] {motor}, 
             new PIDController(0, 0, 0), 

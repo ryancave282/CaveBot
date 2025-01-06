@@ -12,7 +12,7 @@ import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.template.ArmAbsoluteTemplate;
 
 
-public class ArmAlgae extends ArmAbsoluteTemplate{
+public class AlgaeArm extends ArmAbsoluteTemplate{
     public static class Constants {
         public static final double MIN_POSITION = 0;
         public static final double MAX_POSITION = 10;
@@ -32,7 +32,7 @@ public class ArmAlgae extends ArmAbsoluteTemplate{
     .withOffset(0)
     .withSubsystemBase("ArmAlgae");
 
-public ArmAlgae () {
+public AlgaeArm () {
     super(
         new CANMotorEx[] {motor}, 
         new PIDController(0, 0, 0), 

@@ -35,52 +35,52 @@ public class AlgaeSubsystem {
         this.intakeAlgaePos = intakeAlgaePos;
     }
 
-    public double getIntakeAlgeaPos() {
+    public double getIntakeAlgaePos() {
         return intakeAlgaePos;
         }
     }
 
-    private final ArmAlgae armAlgae;
-    private final IntakeAlgae intakeAlgae;
+    private final AlgaeArm armAlgae;
+    private final AlgaeIntake intakeAlgae;
     private final DigitalInput algaeLimitSwitch;
 
 
-    public AlgaeSubsystem (ArmAlgae armAlgae, IntakeAlgae intakeAlgae) {
+    public AlgaeSubsystem (AlgaeArm armAlgae, AlgaeIntake intakeAlgae) {
         this.armAlgae = armAlgae;
         this.intakeAlgae = intakeAlgae;
         this.algaeLimitSwitch = new DigitalInput(0);
     }
     
-    public ArmAlgae getArmAlgae() {
+    public AlgaeArm getArmAlgae() {
         return armAlgae;
     }
 
 
     public Command setPositionCommand(ArmValue targetPosition) {
         return switch (targetPosition) {
-                    case START, PROCESSOR, SHOOT -> 
-                        new SequentialCommandGroup(
-                            armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-            
-                        );
-                    case GROUND, HIGH, LOW ->
-                    new SequentialCommandGroup(
-                        armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-                        );
+            case START, PROCESSOR, SHOOT -> 
+                new SequentialCommandGroup(
+                    armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
+    
+                );
+            case GROUND, HIGH, LOW ->
+            new SequentialCommandGroup(
+                armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
+                );
 
-                    default -> new SequentialCommandGroup(
-                        armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
-                        );
-            };
-        }
+            default -> new SequentialCommandGroup(
+                armAlgae.setTargetPositionCommand(targetPosition.getArmAlgaePos())
+                );
+        };
+    }
     public Command setIntakePositionCommand(IntakeValue targetPosition) {
-            return new SequentialCommandGroup(
-                intakeAlgae.setTargetPositionCommand(targetPosition.getIntakeAlgeaPos())
-            );
+        return new SequentialCommandGroup(
+            intakeAlgae.setTargetPositionCommand(targetPosition.getIntakeAlgaePos())
+        );
     };
         
 
-        public IntakeAlgae getIntakeAlgae() {
+        public AlgaeIntake getAlgaeIntake() {
             return intakeAlgae;
         }
     

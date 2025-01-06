@@ -1,5 +1,6 @@
 package frc.robot.utility.motor;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
@@ -7,7 +8,6 @@ public abstract class CANMotorEx {
     // protected int deviceID; // specific and should not be in the abstract class
     protected Direction direction;
     protected ZeroPowerMode idleMode;
-    protected Motor motor;
     protected double positionConversionFactor;
     protected double velocityConversionFactor;
     protected ShuffleboardValue<Boolean> isEnabledWriter;
@@ -23,11 +23,6 @@ public abstract class CANMotorEx {
     public enum ZeroPowerMode {
         Brake,
         Coast,
-    }
-
-    public enum Motor {
-        TalonFX,
-        SparkMax,
     }
 
     public class DirectionBuilder {
@@ -109,9 +104,13 @@ public abstract class CANMotorEx {
     
     public abstract void setPower(double power);
     public abstract void setVoltage(double outputVolts);
+    
+    public abstract void setVoltage(Voltage voltage);
     public abstract double getVelocity();
     public abstract double getPosition();
     public abstract int getDeviceID();
+    public abstract double getVoltage();
+    public abstract double getSpeed();
     public abstract void resetEncoder(int num);
 
     public void stop() {

@@ -1,11 +1,14 @@
 package frc.robot.utility.motor;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.DroidRageConstants;
 
 public class TalonEx extends CANMotorEx {
@@ -21,8 +24,42 @@ public class TalonEx extends CANMotorEx {
     public static DirectionBuilder create(int deviceID) {
         CANMotorEx motor = new TalonEx(new TalonFX(deviceID));
         motor.motorID = deviceID;
-        motor.motor = Motor.TalonFX;
         return motor.new DirectionBuilder();
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        motorOutputConfigs.Inverted = switch (direction) {
+            case Forward -> InvertedValue.Clockwise_Positive;
+            case Reversed -> InvertedValue.CounterClockwise_Positive;
+        };
+        motor.getConfigurator().apply(motorOutputConfigs);
+        
+    }
+
+    @Override
+    public void setIdleMode(ZeroPowerMode mode) {
+        motor.setNeutralMode(switch (mode) {
+            case Brake -> NeutralModeValue.Brake;
+            case Coast -> NeutralModeValue.Coast;
+        });
+    }
+
+    @Override
+    public void setSupplyCurrentLimit(double currentLimit) {
+        configuration.CurrentLimits.SupplyCurrentLimit = currentLimit;
+        configuration.CurrentLimits.SupplyCurrentLimitEnable = true;
+        motor.getConfigurator().apply(configuration);
+    }
+
+    @Override
+    public void setStatorCurrentLimit(double statorCurrent){
+        // CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
+        // configs.StatorCurrentLimit = 50;
+        // motor.getConfigurator().apply(configs);
+        configuration.CurrentLimits.StatorCurrentLimit = statorCurrent;
+        configuration.CurrentLimits.StatorCurrentLimitEnable = true;
+        motor.getConfigurator().apply(configuration);
     }
 
     @Override
@@ -46,20 +83,12 @@ public class TalonEx extends CANMotorEx {
     }
 
     @Override
-    public void setDirection(Direction direction) {
-        motorOutputConfigs.Inverted = switch (direction) {
-            case Forward -> InvertedValue.Clockwise_Positive;
-            case Reversed -> InvertedValue.CounterClockwise_Positive;
-        };
-        motor.getConfigurator().apply(motorOutputConfigs);
+    public void setVoltage(Voltage voltage) {
+        motor.setVoltage(voltage.in(Volts)/RobotController.getBatteryVoltage());
     }
-
-    @Override
-    public void setIdleMode(ZeroPowerMode mode) {
-        motor.setNeutralMode(switch (mode) {
-            case Brake -> NeutralModeValue.Brake;
-            case Coast -> NeutralModeValue.Coast;
-        });
+    
+    public void setPosition(double position) {
+        motor.setPosition(position);
     }
 
     //Already in rotations per sec so, just covert to
@@ -68,6 +97,7 @@ public class TalonEx extends CANMotorEx {
         return motor.getVelocity().getValueAsDouble()*positionConversionFactor;
     }
 
+    @Override
     public double getSpeed() {
         return motor.get();
     }
@@ -77,46 +107,18 @@ public class TalonEx extends CANMotorEx {
         return motor.getPosition().getValueAsDouble()*positionConversionFactor;
     }
 
-    public void setPosition(double position) {
-        motor.setPosition(position);
-    }
-
     @Override
     public int getDeviceID() {
         return motor.getDeviceID();
     }
 
-    public double getVoltage(){
-        return motor.getMotorVoltage().getValueAsDouble();//The applied (output) motor voltage//1.58 Most Consistent
-        // return motor.getSupplyCurrent().getValueAsDouble();//Measured supply side current
-        // return motor.getSupplyVoltage().getValueAsDouble();//Measured supply voltage to the TalonFX//no
-        // return motor.getTorqueCurrent().getValueAsDouble();//Stator current where positive current means 
-            //torque is applied in the forward direction as determined by the Inverted setting; 
-            //Doesn't seem like this ^^
-    }
-
     @Override
-    public void setSupplyCurrentLimit(double currentLimit) {
-        configuration.CurrentLimits.SupplyCurrentLimit = currentLimit;
-        configuration.CurrentLimits.SupplyCurrentLimitEnable = true;
-        motor.getConfigurator().apply(configuration);
+    public double getVoltage(){
+        return motor.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
     public void resetEncoder(int num) {
         motor.setPosition(num);
-    }
-
-    public TalonEx withStatorCurrentLimit(double statorCurrent){
-        setStatorCurrentLimit(statorCurrent);
-        return this;
-    }
-    public void setStatorCurrentLimit(double statorCurrent){
-        // CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
-        // configs.StatorCurrentLimit = 50;
-        // motor.getConfigurator().apply(configs);
-        configuration.CurrentLimits.StatorCurrentLimit = statorCurrent;
-        configuration.CurrentLimits.StatorCurrentLimitEnable = true;
-        motor.getConfigurator().apply(configuration);
     }
 }

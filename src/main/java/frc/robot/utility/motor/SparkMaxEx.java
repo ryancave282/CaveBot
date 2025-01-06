@@ -3,7 +3,7 @@ package frc.robot.utility.motor;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
+import edu.wpi.first.units.measure.Voltage;
 import frc.robot.DroidRageConstants;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -12,7 +12,6 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
 public class SparkMaxEx extends CANMotorEx{
-
     private final SparkMax motor;
     private final SparkMaxConfig config = new SparkMaxConfig();
     
@@ -23,7 +22,6 @@ public class SparkMaxEx extends CANMotorEx{
     public static DirectionBuilder create(int deviceID) {
         CANMotorEx motor = new SparkMaxEx(new SparkMax(deviceID, MotorType.kBrushless));
         motor.motorID = deviceID;
-        motor.motor = Motor.SparkMax;
         return motor.new DirectionBuilder();
     }
 
@@ -45,6 +43,11 @@ public class SparkMaxEx extends CANMotorEx{
         if(DroidRageConstants.removeWriterWriter.get()){
             outputWriter.set(outputVolts);
         }
+    }
+
+    @Override
+    public void setVoltage(Voltage voltage) {
+        motor.setVoltage(voltage);
     }
 
     @Override
@@ -70,10 +73,6 @@ public class SparkMaxEx extends CANMotorEx{
     public RelativeEncoder getEncoder() {
         return motor.getEncoder();
     }
-
-    // public RelativeEncoder getAlternateEncoder(int countsPerRev) {
-    //     return motor.getAlternateEncoder(countsPerRev);
-    // }
 
     public RelativeEncoder getAlternateEncoder() {
         return motor.getAlternateEncoder();
@@ -110,6 +109,7 @@ public class SparkMaxEx extends CANMotorEx{
         return motor.getDeviceId();
     }
 
+    @Override
     public double getSpeed(){
         return motor.get();
     }
@@ -120,8 +120,11 @@ public class SparkMaxEx extends CANMotorEx{
         config.smartCurrentLimit((int) currentLimit);
     }
 
-    public void setStatorCurrentLimit(double currentLimit) {}
+    public void setStatorCurrentLimit(double currentLimit) {
+        //DOES NOTHING, but it is here for compatibility with the TalonEx class
+    }
         
+    @Override
     public double getVoltage(){
         // return motor.getAppliedOutput();//motor controller's applied output duty cycle.
         // return motor.getBusVoltage();//voltage fed into the motor controller.
@@ -132,4 +135,5 @@ public class SparkMaxEx extends CANMotorEx{
     public void resetEncoder(int num) {
         motor.getEncoder().setPosition(num);
     }
+
 }

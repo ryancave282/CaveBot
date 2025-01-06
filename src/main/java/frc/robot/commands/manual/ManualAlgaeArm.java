@@ -4,17 +4,17 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DroidRageConstants;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.algae.AlgaeArm;
 
-public class ManualElevator extends Command {
-    private final Elevator elevator;
-    private final Supplier<Double> elevatorMove;
+public class ManualAlgaeArm extends Command {
+    private final AlgaeArm arm;
+    private final Supplier<Double> armMove;
     
-    public ManualElevator(Elevator elevator, Supplier<Double> elevatorMove) {
-        this.elevator = elevator;
-        this.elevatorMove = elevatorMove;
+    public ManualAlgaeArm(AlgaeArm arm, Supplier<Double> armMove) {
+        this.arm = arm;
+        this.armMove= armMove;
         
-        addRequirements(elevator);
+        addRequirements(arm);
     }
 
     @Override
@@ -22,10 +22,10 @@ public class ManualElevator extends Command {
 
     @Override
     public void execute() {
-        double move = -elevatorMove.get();
+        double move = -armMove.get();
         move = DroidRageConstants.squareInput(move);
         move = DroidRageConstants.applyDeadBand(move);
-        elevator.setTargetPosition(elevator.getTargetPosition() + move * 0.05);
+        arm.setTargetPosition(arm.getTargetPosition() + move * 0.05);//For Encoder
     }
 
     @Override

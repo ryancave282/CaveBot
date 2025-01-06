@@ -73,6 +73,7 @@ public class AlgaeSubsystem {
                 );
         };
     }
+
     public Command setIntakePositionCommand(IntakeValue targetPosition) {
         return new SequentialCommandGroup(
             intakeAlgae.setTargetPositionCommand(targetPosition.getIntakeAlgaePos())

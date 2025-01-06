@@ -20,15 +20,8 @@ public class RobotContainer {
 	private final CommandXboxController operator =
 		new CommandXboxController(DroidRageConstants.Gamepad.OPERATOR_CONTROLLER_PORT);
 
-	public RobotContainer(
-		SwerveDrive drive, 
-		CoralSubsystem coralSubsystem, 
-		AlgaeSubsystem algaeSubsystem, 
-		Elevator elevator
-		) {
-		
+	public RobotContainer(){
 		DriverStation.silenceJoystickConnectionWarning(true);
-		configureTeleOpBindings(drive, coralSubsystem, algaeSubsystem, elevator);
 	}
 
 	public void configureTeleOpBindings(
@@ -98,7 +91,6 @@ public class RobotContainer {
 				false//No Work; Do no use this
 				)
 			);
-
 		driver.a().onTrue(new InstantCommand(()->drive.resetOdometry(vision.getPose())));
 	}
 }

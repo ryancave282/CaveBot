@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
         new AlgaeShooter(false)
     );
     
-    private RobotContainer robotContainer = new RobotContainer(drive, coralSubsystem, algaeSubsystem, elevator);
+    private RobotContainer robotContainer = new RobotContainer();
 
     private ShuffleboardValue<Double> matchTime = ShuffleboardValue.create
 		(0.0, "Match Time", "Misc")
@@ -46,8 +46,7 @@ public class Robot extends TimedRobot {
   
     @Override
     public void robotInit() {
-        // RobotController.setBrownoutVoltage(kDefaultPeriod);
-        // 6.3V for Roborio1- Roborio2 is 6.75V
+        robotContainer.configureTeleOpBindings(drive, coralSubsystem, algaeSubsystem, elevator);
     }
     
     @Override

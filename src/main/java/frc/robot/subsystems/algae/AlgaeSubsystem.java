@@ -7,6 +7,7 @@ public class AlgaeSubsystem {
     public enum ArmValue {
         START(0),
         GROUND(0),
+        AUTO_GROUND(0),
         HIGH(0),
         LOW(0),
         PROCESSOR(0),
@@ -27,7 +28,9 @@ public class AlgaeSubsystem {
         START(0,0),
         INTAKE(0,0),
         OUTTAKE(0,0),
-        STOP(0,0);
+        STOP(0,0),
+        SHOOT(0,0),
+        AUTO_SHOOT(0,0);
     
         private final double algaeIntakeSpeed;
         private final double algaeShooterSpeed;

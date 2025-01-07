@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public class Light extends SubsystemBase {
-  //You can only make one addressable led
+    //You can only make one addressable led
     private final AddressableLED ledOne;
     private final AddressableLEDBuffer bufferOne;
-
+    // private final AddressableLED ledTwo;
+    // private final AddressableLEDBuffer bufferTwo;
     private final ShuffleboardValue<String> lightWriter = ShuffleboardValue.create
         ("Color", "Light Color", Light.class.getSimpleName())
         .build();
@@ -27,9 +28,6 @@ public class Light extends SubsystemBase {
                       green = Color.kGreen, //Ready to Shoot?
                       white = Color.kWhite; //Aligned?
     
-    // class Rainbow{
-    //   private int rainbowFirstPixelHue = 0;
-    // }
     class SwitchLED{
       private boolean on = true;
       private double lastChange;
@@ -91,32 +89,6 @@ public class Light extends SubsystemBase {
     //     // rainbow.rainbowFirstPixelHue %= 180;
     // }
 
-    // private void rainbow2() {
-    //   List<Color> colors = List.of(
-    //                               Color.kBlack,
-    //                               Color.kRed,
-    //                               Color.kOrangeRed,
-    //                               Color.kYellow,
-    //                               Color.kGreen,
-    //                               Color.kBlue,
-    //                               Color.kPurple,
-    //                               Color.kBlack,
-    //                               new Color(0.15, 0.3, 1.0),
-    //                               Color.kDeepPink,
-    //                               Color.kWhite,
-    //                               Color.kDeepPink,
-    //                               new Color(0.15, 0.3, 1.0));
-    //   int length = 3;
-    //   double duration = 5.0;
-      
-    //   int offset = (int) (Timer.getFPGATimestamp() % duration / duration * length * colors.size());
-    //   for (int i = 0; i < LED_COUNT; i++) {
-    //     int colorIndex =
-    //         (int) (Math.floor((double) (i - offset) / length) + colors.size()) % colors.size();
-    //     colorIndex = colors.size() - 1 - colorIndex;
-    //     buffer.setLED(i, colors.get(colorIndex));
-    //   }
-    // }
 
 
   public void setAlternatingColor(Color colorOne, Color colorTwo) {

@@ -26,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Autos",
+  "folder": "TuningAutos",
   "choreoAuto": false
 }

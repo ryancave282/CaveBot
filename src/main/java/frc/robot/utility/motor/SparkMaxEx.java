@@ -25,6 +25,13 @@ public class SparkMaxEx extends CANMotorEx{
         return motor.new DirectionBuilder();
     }
 
+    public static DirectionBuilder create(int deviceID, MotorType motorType) { 
+        // Unlikely to be used, but it is here for compatibility with the AdvancedSixWheel project
+        CANMotorEx motor = new SparkMaxEx(new SparkMax(deviceID, motorType));
+        motor.motorID = deviceID;
+        return motor.new DirectionBuilder();
+    }
+
     @Override
     public void setPower(double power) {
         if(isEnabledWriter.get()){
@@ -53,9 +60,9 @@ public class SparkMaxEx extends CANMotorEx{
     @Override
     public void setDirection(Direction direction) {
         config.inverted(switch (direction) {
-                case Forward -> false;
-                case Reversed -> true;
-            });
+            case Forward -> false;
+            case Reversed -> true;
+        });
     }
 
     @Override
@@ -87,10 +94,6 @@ public class SparkMaxEx extends CANMotorEx{
     public double getPosition() {
         return motor.getEncoder().getPosition();
     }
-
-    // public SparkAbsoluteEncoder getAbsoluteEncoder(SparkAbsoluteEncoder.Type encoderType) {
-    //     return motor.getAbsoluteEncoder(encoderType);
-    // }
 
     public SparkAbsoluteEncoder getAbsoluteEncoder() {
         return motor.getAbsoluteEncoder();
@@ -135,5 +138,4 @@ public class SparkMaxEx extends CANMotorEx{
     public void resetEncoder(int num) {
         motor.getEncoder().setPosition(num);
     }
-
 }

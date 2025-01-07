@@ -3,10 +3,13 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "New Folder",
+    "algaeA",
+    "center",
     "tests"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "TuningAutos"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

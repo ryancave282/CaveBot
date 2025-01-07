@@ -1,8 +1,23 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public final class DroidRageConstants {
+    public enum Element{
+            ALGAE,
+            CORAL
+    }
+    public static Element element = Element.ALGAE;
+    public static InstantCommand flipElement(){
+        return new InstantCommand(
+            ()->{
+                    if (element == Element.ALGAE) element = Element.CORAL;
+                    else if (element == Element.CORAL) element = Element.ALGAE;
+            }
+        );
+    }
+
     public enum EncoderDirection {
         Forward,
         Reversed,

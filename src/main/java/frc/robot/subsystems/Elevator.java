@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.DroidRageConstants.Control;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.motor.CANMotorEx.Direction;
@@ -17,6 +19,16 @@ public class Elevator extends ElevatorTemplate {
 
     public enum ElevatorValue {
         START(0),
+        GROUND(0),
+        INTAKE_HPS(0),
+        CLIMB(1),
+        
+        L1(2),
+        L2(3),
+        L3(4),
+        L4(0),
+        LOW(0),
+        HIGH(0)
         ;
 
         private final double height;
@@ -47,5 +59,9 @@ public class Elevator extends ElevatorTemplate {
         Constants.MIN_POSITION, 
         Control.PID, "Elevator", 0);
         motor.setIsEnabled(isEnabled);
+    }
+
+    public Command setPositionCommand(ElevatorValue target) {
+        return new InstantCommand(()->setTargetPosition(target.getHeight()));
     }
 }

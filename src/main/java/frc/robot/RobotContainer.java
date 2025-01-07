@@ -26,7 +26,7 @@ public class RobotContainer {
 
 	public void configureTeleOpBindings(
 		SwerveDrive drive, 
-		CoralSubsystem coral, 
+		CoralSubsystem coralSubsystem, 
 		AlgaeSubsystem algaeSubsystem, 
 		Elevator elevator
 		) {
@@ -35,42 +35,67 @@ public class RobotContainer {
 		drive.setDefaultCommand(new SwerveDriveTeleop( drive, driver));
 
 		driver.rightTrigger()
-			.onTrue(new IntakeElementInCommand(driver, null, null));
+			.onTrue(new IntakeElementInCommand(driver, algaeSubsystem, coralSubsystem));
 		
-		// Elevator Bindings
-		elevator.setDefaultCommand(new ManualElevator(elevator, null));
+			
+		elevator.setDefaultCommand(new ManualElevator(elevator, operator::getRightY));
+
+		operator.leftBumper()
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
+			.onTrue(coralSubsystem.setPositionCommand(CoralValue.INTAKE_HPS));
+		operator.rightTrigger()
+			.onTrue(coralSubsystem.setPositionCommand(CoralValue.INTAKE_GRND));
 		
+
+		driver.b()
+			.onTrue(DroidRageConstants.flipElement());
+
+		//coral algae
+		//ground ground pickup povDown 
+
+		//hms coral povLeft
+		//    
+
+		// l1 processor  a
+		//l2  x
+		//l3 low  b
+		//l4 high y
+
+		
+
+		//Button Toggle Positions
 		// Coral Bindings	
 		operator.a()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
-			.onTrue(coral.setPositionCommand(CoralValue.L1));
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L1))
+			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L1));
 		operator.b()
-			.onTrue(coral.setPositionCommand(CoralValue.L2));
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L2))
+			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L2));
 		operator.x()
-			.onTrue(coral.setPositionCommand(CoralValue.L3));
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L3))
+			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L3));
 		operator.y()
-			.onTrue(coral.setPositionCommand(CoralValue.L4));
-		operator.leftBumper()
-			.onTrue(coral.setPositionCommand(CoralValue.INTAKE_HPS));
-		operator.rightTrigger()
-			.onTrue(coral.setPositionCommand(CoralValue.INTAKE_GRND));
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
+			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L4));
+		
 
 		// Algae Bindings
 		operator.povDown()
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
 			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.GROUND));	
 		operator.povRight()
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
 			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.LOW));
 		operator.povUp()
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.HIGH))
 			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.HIGH));
 		operator.povLeft()
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.GROUND))
 			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.PROCESSOR));	
 		operator.leftTrigger()
+			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.GROUND))
 			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.SHOOT));	
 	}
-
-	public void teleopPeriodic(){}
-
-	public void testCommands() {}
 
 	public void testDrive(SwerveDrive drive, Vision vision){
 		drive.setDefaultCommand(new SwerveDriveTeleop(drive, driver));

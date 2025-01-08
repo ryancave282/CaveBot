@@ -22,19 +22,19 @@ import frc.robot.utility.shuffleboard.ShuffleboardValue;
 public class Robot extends TimedRobot {
     private final Vision vision = new Vision();
     private final SwerveDrive drive = new SwerveDrive(false);//2-10 Works
-    private final Elevator elevator = new Elevator(false);
+    // private final Elevator elevator = new Elevator(false);
    
-    private final CoralSubsystem coralSubsystem = new CoralSubsystem(
-        new CoralArm(false),
-        new CoralPivot(false), 
-        new CoralIntake(false)
-    );
+    // private final CoralSubsystem coralSubsystem = new CoralSubsystem(
+    //     new CoralArm(false),
+    //     new CoralPivot(false), 
+    //     new CoralIntake(false)
+    // );
 
-    private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(
-        new AlgaeArm(false), 
-        new AlgaeIntake(false), 
-        new AlgaeShooter(false)
-    );
+    // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(
+    //     new AlgaeArm(false), 
+    //     new AlgaeIntake(false), 
+    //     new AlgaeShooter(false)
+    // );
     
     private RobotContainer robotContainer = new RobotContainer();
 
@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   
     @Override
     public void robotInit() {
-        robotContainer.configureTeleOpBindings(drive, coralSubsystem, algaeSubsystem, elevator);
+
     }
     
     @Override
@@ -107,6 +107,7 @@ public class Robot extends TimedRobot {
 
         // robotContainer.testCommands(vision, drive);
         robotContainer.testDrive(drive,vision);
+        // robotContainer.configureTeleOpBindings(drive, coralSubsystem, algaeSubsystem, elevator);
     }
 
     @Override

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.utility.encoder.CANcoderEx;
-import frc.robot.utility.encoder.CANcoderEx.EncoderRange;
+import frc.robot.utility.encoder.EncoderEx.EncoderRange;
 import frc.robot.utility.motor.SparkMaxEx;
 import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.motor.CANMotorEx.Direction;
@@ -41,8 +41,8 @@ public class SwerveModule {
         public static final double TURN_ENCODER_ROT_2_RAD = 2 * Math.PI / READINGS_PER_REVOLUTION;
         public static final double TURN_ENCODER_ROT_2_RAD_SEC = TURN_ENCODER_ROT_2_RAD/60;
 
-        //0.5 Change this tomake the robot turn the turn motor as fast aspossible
-        //If strafimg, therobot drifts to he frot/back, then increase
+        //0.5 Change this to make the robot turn the turn motor as fast as possible
+        //If strafing, the robot drifts to he front/back, then increase
                 //.115
 
         public static final double PHYSICAL_MAX_SPEED_METERS_PER_SECOND = 4.47;
@@ -86,6 +86,7 @@ public class SwerveModule {
 
         turnEncoder = CANcoderEx.create(absoluteEncoderId)
             .withDirection(absoluteEncoderReversed)
+            .withSubsystemBase("drive")
             .withRange(EncoderRange.ZERO_TO_ONE)
             .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
 

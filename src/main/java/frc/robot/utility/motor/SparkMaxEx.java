@@ -123,6 +123,7 @@ public class SparkMaxEx extends CANMotorEx{
         config.smartCurrentLimit((int) currentLimit);
     }
 
+    @Override
     public void setStatorCurrentLimit(double currentLimit) {
         //DOES NOTHING, but it is here for compatibility with the TalonEx class
     }

@@ -6,17 +6,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import frc.robot.DroidRageConstants.EncoderDirection;
 
-public class CANcoderEx {
-    protected EncoderDirection direction;
-    public int deviceID;
-
-    public enum EncoderRange {
-        ZERO_TO_ONE,
-        PLUS_MINUS_HALF
-    }
-    
-    
-    
+public class CANcoderEx extends EncoderEx{
     private final CANcoder encoder;
     private CANcoderConfiguration config;
     private double positionConversionFactor, velocityConversionFactor;
@@ -39,29 +29,7 @@ public class CANcoderEx {
         return encoder.new DirectionBuilder();
     }
 
-    public class DirectionBuilder {
-        public RangeBuilder withDirection(EncoderDirection direction) {
-            setDirection(direction);
-            return new RangeBuilder();
-        }
-    }
-
-    public class RangeBuilder {
-        public OffsetBuilder withRange(EncoderRange range) {
-            setRange(range);
-            return new OffsetBuilder();
-        }
-    }
-
-    public class OffsetBuilder {
-        @SuppressWarnings("unchecked")
-        public <T extends CANcoderEx> T withOffset(double offset) {
-            setMagnetSensorOffset(offset);
-            encoder.getConfigurator().apply(config);
-            return (T) CANcoderEx.this;
-        }
-    }
-
+    @Override
     public void setDirection(EncoderDirection direction) {
         switch (direction) {
             case Reversed:
@@ -88,8 +56,14 @@ public class CANcoderEx {
         return encoder.getAbsolutePosition().getValueAsDouble();
     }
 
+    @Override
     public int getDeviceID() {
         return encoder.getDeviceID();
+    }
+
+    @Override
+    public void setOffset(double offset) {
+        config.MagnetSensor.MagnetOffset = offset;
     }
 }
 

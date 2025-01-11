@@ -29,7 +29,17 @@ public class Robot extends TimedRobot {
     //     new CoralPivot(false), 
     //     new CoralIntake(false)
     // );
+    // private final CoralSubsystem coralSubsystem = new CoralSubsystem(
+    //     new CoralArm(false),
+    //     new CoralPivot(false), 
+    //     new CoralIntake(false)
+    // );
 
+    // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(
+    //     new AlgaeArm(false), 
+    //     new AlgaeIntake(false), 
+    //     new AlgaeShooter(false)
+    // );
     // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(
     //     new AlgaeArm(false), 
     //     new AlgaeIntake(false), 

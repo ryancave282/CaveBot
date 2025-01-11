@@ -29,6 +29,7 @@ public class AlgaeSubsystem {
         INTAKE(0,0),
         OUTTAKE(0,0),
         STOP(0,0),
+        READY_SHOOT(0,0),
         SHOOT(0,0),
         AUTO_SHOOT(0,0);
     

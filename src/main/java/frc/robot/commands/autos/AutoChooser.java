@@ -8,9 +8,12 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ResetPoseVision;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
@@ -26,37 +29,49 @@ import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
 
 public class AutoChooser {
     public static final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-
+    private final SwerveDrive drive;
+    private final CoralSubsystem coralSubsystem;
+    private final AlgaeSubsystem algaeSubsystem;
+    private final Elevator elevator;
+    private final Vision vision;
     public AutoChooser(
-        SwerveDrive drive, CoralSubsystem coralSubsystem, AlgaeSubsystem algaeSubSystem, Elevator elevator, Vision vision)
+        SwerveDrive drive, CoralSubsystem coralSubsystem, 
+        AlgaeSubsystem algaeSubSystem, Elevator elevator, Vision vision)
      {
+        this.drive = drive;
+        this.coralSubsystem = coralSubsystem;
+        this.algaeSubsystem = algaeSubSystem;
+        this.elevator = elevator;
+        this.vision = vision;
+
         NamedCommands.registerCommand("resetPose",
         new ResetPoseVision(drive, vision)
             
         );
          //Put Named Commands HERE
-        NamedCommands.registerCommand("shootAlgae",
-            new ParallelCommandGroup(
-                algaeSubSystem.setIntakePositionCommand(IntakeValue.AUTO_SHOOT),
-                algaeSubSystem.setPositionCommand(ArmValue.SHOOT)
-            )
+        // NamedCommands.registerCommand("readyShoot",
+        //     new ParallelCommandGroup(
+        //         algaeSubSystem.setIntakePositionCommand(IntakeValue.READY_SHOOT),
+        //         algaeSubSystem.setPositionCommand(ArmValue.SHOOT)
+        //     )
+        // TODO: Does this work?^^^^^^^
+        // );
+        NamedCommands.registerCommand("shoot",
+            algaeSubSystem.setIntakePositionCommand(IntakeValue.AUTO_SHOOT)
         );
 
-         NamedCommands.registerCommand("pickGAlgae",
-            new SequentialCommandGroup(
-                algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
-                algaeSubSystem.setPositionCommand(ArmValue.AUTO_GROUND)
-            )
+         NamedCommands.registerCommand("pickGroundAlgae",
+            new InstantCommand()
         );
 
-         NamedCommands.registerCommand("pickLAlgae",
+         NamedCommands.registerCommand("pickLowAlgae",
             new SequentialCommandGroup(
                 algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
                 algaeSubSystem.setPositionCommand(ArmValue.LOW)
             )
         );
 
-         NamedCommands.registerCommand("pickHAlgae",
+         NamedCommands.registerCommand("pickHighAlgae",
             new SequentialCommandGroup(
                 algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
                 algaeSubSystem.setPositionCommand(ArmValue.HIGH)
@@ -131,5 +146,17 @@ public class AutoChooser {
         } catch (Exception e) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
         }
+    }
+
+    public Command autoAlgaePickCommand(ArmValue armValue){
+        return new SequentialCommandGroup(
+            algaeSubsystem.setIntakePositionCommand(IntakeValue.INTAKE),
+            algaeSubsystem.setPositionCommand(ArmValue.AUTO_GROUND),
+            new WaitUntilCommand(()-> algaeSubsystem.isAlgaeIn()).withTimeout(2),
+            new ParallelCommandGroup(
+                algaeSubsystem.setIntakePositionCommand(IntakeValue.READY_SHOOT),
+                algaeSubsystem.setPositionCommand(ArmValue.SHOOT)
+            )
+        );
     }
 }

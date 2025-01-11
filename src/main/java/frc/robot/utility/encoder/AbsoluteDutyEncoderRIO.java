@@ -18,7 +18,6 @@ public class AbsoluteDutyEncoderRIO {
 
     private AbsoluteDutyEncoderRIO(DutyCycleEncoder encoder){
         this.encoder=encoder;
-        
     }
 
     public static DirectionBuilder create(int deviceID) {
@@ -35,6 +34,7 @@ public class AbsoluteDutyEncoderRIO {
     public class OffsetWriter {
         public BaseWriter withOffset(double offset) {
             // encoder.setPositionOffset(offset/(2*Math.PI));
+            // encoder.set
             return new BaseWriter();
         }
     }
@@ -82,6 +82,7 @@ public class AbsoluteDutyEncoderRIO {
      * @return The Absolute Position of the Encoder 
      */
     public double getPosition(){
+        encoder.get();
         // double givenPos = encoder.getAbsolutePosition();
 
         // if(isInverted){ //To invert values based on direction - Works

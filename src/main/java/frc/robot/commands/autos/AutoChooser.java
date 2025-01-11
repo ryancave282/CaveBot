@@ -16,9 +16,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ResetPoseVision;
 import frc.robot.subsystems.drive.SwerveDrive;
-import frc.robot.subsystems.algae.AlgaeSubsystem;
-import frc.robot.subsystems.algae.AlgaeSubsystem.ArmValue;
-import frc.robot.subsystems.algae.AlgaeSubsystem.IntakeValue;
 import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.coral.CoralSubsystem.CoralIntakeValue;
 import frc.robot.subsystems.coral.CoralSubsystem.CoralValue;
@@ -31,16 +28,14 @@ public class AutoChooser {
     public static final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
     private final SwerveDrive drive;
     private final CoralSubsystem coralSubsystem;
-    private final AlgaeSubsystem algaeSubsystem;
     private final Elevator elevator;
     private final Vision vision;
     public AutoChooser(
         SwerveDrive drive, CoralSubsystem coralSubsystem, 
-        AlgaeSubsystem algaeSubSystem, Elevator elevator, Vision vision)
+        Elevator elevator, Vision vision)
      {
         this.drive = drive;
         this.coralSubsystem = coralSubsystem;
-        this.algaeSubsystem = algaeSubSystem;
         this.elevator = elevator;
         this.vision = vision;
 
@@ -57,7 +52,8 @@ public class AutoChooser {
         // TODO: Does this work?^^^^^^^
         // );
         NamedCommands.registerCommand("shoot",
-            algaeSubSystem.setIntakePositionCommand(IntakeValue.AUTO_SHOOT)
+            new InstantCommand()
+            // algaeSubSystem.setIntakePositionCommand(IntakeValue.AUTO_SHOOT)
         );
 
          NamedCommands.registerCommand("pickGroundAlgae",
@@ -66,15 +62,15 @@ public class AutoChooser {
 
          NamedCommands.registerCommand("pickLowAlgae",
             new SequentialCommandGroup(
-                algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
-                algaeSubSystem.setPositionCommand(ArmValue.LOW)
+                // algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
+                // algaeSubSystem.setPositionCommand(ArmValue.LOW)
             )
         );
 
          NamedCommands.registerCommand("pickHighAlgae",
             new SequentialCommandGroup(
-                algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
-                algaeSubSystem.setPositionCommand(ArmValue.HIGH)
+                // algaeSubSystem.setIntakePositionCommand(IntakeValue.INTAKE),
+                // algaeSubSystem.setPositionCommand(ArmValue.HIGH)
             )
         );
 
@@ -148,15 +144,15 @@ public class AutoChooser {
         }
     }
 
-    public Command autoAlgaePickCommand(ArmValue armValue){
+    public Command autoAlgaePickCommand(){
         return new SequentialCommandGroup(
-            algaeSubsystem.setIntakePositionCommand(IntakeValue.INTAKE),
-            algaeSubsystem.setPositionCommand(ArmValue.AUTO_GROUND),
-            new WaitUntilCommand(()-> algaeSubsystem.isAlgaeIn()).withTimeout(2),
-            new ParallelCommandGroup(
-                algaeSubsystem.setIntakePositionCommand(IntakeValue.READY_SHOOT),
-                algaeSubsystem.setPositionCommand(ArmValue.SHOOT)
-            )
+            // algaeSubsystem.setIntakePositionCommand(IntakeValue.INTAKE),
+            // algaeSubsystem.setPositionCommand(ArmValue.AUTO_GROUND),
+            // new WaitUntilCommand(()-> algaeSubsystem.isAlgaeIn()).withTimeout(2),
+            // new ParallelCommandGroup(
+            //     algaeSubsystem.setIntakePositionCommand(IntakeValue.READY_SHOOT),
+            //     algaeSubsystem.setPositionCommand(ArmValue.SHOOT)
+            // )
         );
     }
 }

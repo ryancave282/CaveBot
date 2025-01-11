@@ -7,7 +7,6 @@ import frc.robot.commands.IntakeElementInCommand;
 import frc.robot.commands.manual.ManualElevator;
 import frc.robot.commands.manual.SwerveDriveTeleop;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.coral.CoralSubsystem.CoralValue;
 import frc.robot.subsystems.drive.SwerveDrive;
@@ -27,7 +26,6 @@ public class RobotContainer {
 	public void configureTeleOpBindings(
 		SwerveDrive drive, 
 		CoralSubsystem coralSubsystem, 
-		AlgaeSubsystem algaeSubsystem, 
 		Elevator elevator
 		) {
 		
@@ -35,7 +33,7 @@ public class RobotContainer {
 		drive.setDefaultCommand(new SwerveDriveTeleop( drive, driver));
 
 		driver.rightTrigger()
-			.onTrue(new IntakeElementInCommand(driver, algaeSubsystem, coralSubsystem));
+			.onTrue(new IntakeElementInCommand(driver, coralSubsystem));
 		
 			
 		elevator.setDefaultCommand(new ManualElevator(elevator, operator::getRightY));
@@ -80,21 +78,21 @@ public class RobotContainer {
 		
 
 		// Algae Bindings
-		operator.povDown()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
-			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.GROUND));	
-		operator.povRight()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
-			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.LOW));
-		operator.povUp()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.HIGH))
-			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.HIGH));
-		operator.povLeft()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.GROUND))
-			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.PROCESSOR));	
-		operator.leftTrigger()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.GROUND))
-			.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.SHOOT));	
+		// operator.povDown()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
+		// 	.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.GROUND));	
+		// operator.povRight()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
+		// 	.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.LOW));
+		// operator.povUp()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.HIGH))
+		// 	.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.HIGH));
+		// operator.povLeft()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.GROUND))
+		// 	.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.PROCESSOR));	
+		// operator.leftTrigger()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.GROUND))
+		// 	.onTrue(algaeSubsystem.setPositionCommand(AlgaeSubsystem.ArmValue.SHOOT));	
 	}
 
 	public void testDrive(SwerveDrive drive, Vision vision){

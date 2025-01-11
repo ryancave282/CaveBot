@@ -7,10 +7,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.algae.AlgaeArm;
-import frc.robot.subsystems.algae.AlgaeIntake;
-import frc.robot.subsystems.algae.AlgaeShooter;
-import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.coral.CoralArm;
 import frc.robot.subsystems.coral.CoralIntake;
 import frc.robot.subsystems.coral.CoralPivot;
@@ -29,22 +25,7 @@ public class Robot extends TimedRobot {
     //     new CoralPivot(false), 
     //     new CoralIntake(false)
     // );
-    // private final CoralSubsystem coralSubsystem = new CoralSubsystem(
-    //     new CoralArm(false),
-    //     new CoralPivot(false), 
-    //     new CoralIntake(false)
-    // );
 
-    // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(
-    //     new AlgaeArm(false), 
-    //     new AlgaeIntake(false), 
-    //     new AlgaeShooter(false)
-    // );
-    // private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem(
-    //     new AlgaeArm(false), 
-    //     new AlgaeIntake(false), 
-    //     new AlgaeShooter(false)
-    // );
     
     private RobotContainer robotContainer = new RobotContainer();
 

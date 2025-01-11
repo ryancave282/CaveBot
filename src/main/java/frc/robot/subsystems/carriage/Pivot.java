@@ -1,9 +1,9 @@
-package frc.robot.subsystems.coral;
+package frc.robot.subsystems.carriage;
 
-import frc.robot.DroidRageConstants.Control;
-import frc.robot.DroidRageConstants.EncoderDirection;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import frc.robot.DroidRageConstants.Control;
+import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.utility.encoder.AbsoluteDutyEncoderRIO;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.motor.CANMotorEx.Direction;
@@ -11,7 +11,7 @@ import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.template.ArmAbsoluteTemplate;
 
-public class CoralArm extends ArmAbsoluteTemplate {
+public class Pivot extends ArmAbsoluteTemplate {
     public static class Constants {
         public static final double MAX_POSITION = 0;
         public static final double MIN_POSITION = 0;
@@ -31,7 +31,7 @@ public class CoralArm extends ArmAbsoluteTemplate {
         .withOffset(0)
         .withSubsystemBase("Coral");
 
-    public CoralArm(boolean isEnabled) {
+    public Pivot(boolean isEnabled) {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 

@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.coral.CoralSubsystem;
+import frc.robot.subsystems.carriage.Carriage;
 
 public class IntakeElementInCommand extends ParallelCommandGroup {
-    public IntakeElementInCommand(CommandXboxController driver, CoralSubsystem coralSubsystem) {
+    public IntakeElementInCommand(CommandXboxController driver, Carriage coralSubsystem) {
         addRequirements(coralSubsystem.getCoralIntake());
         addCommands(
             // new ConditionalCommand(

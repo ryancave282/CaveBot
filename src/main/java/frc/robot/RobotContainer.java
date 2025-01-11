@@ -7,8 +7,8 @@ import frc.robot.commands.IntakeElementInCommand;
 import frc.robot.commands.manual.ManualElevator;
 import frc.robot.commands.manual.SwerveDriveTeleop;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.coral.CoralSubsystem;
-import frc.robot.subsystems.coral.CoralSubsystem.CoralValue;
+import frc.robot.subsystems.carriage.Carriage;
+import frc.robot.subsystems.carriage.Carriage.CoralValue;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.vision.Vision;
 
@@ -25,7 +25,7 @@ public class RobotContainer {
 
 	public void configureTeleOpBindings(
 		SwerveDrive drive, 
-		CoralSubsystem coralSubsystem, 
+		Carriage coralSubsystem, 
 		Elevator elevator
 		) {
 		

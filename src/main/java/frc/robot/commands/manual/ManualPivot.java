@@ -4,13 +4,13 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DroidRageConstants;
-import frc.robot.subsystems.coral.CoralPivot;
+import frc.robot.subsystems.carriage.Pivot;
 
-public class ManualCoralPivot extends Command {
-    private final CoralPivot pivot;
+public class ManualPivot extends Command {
+    private final Pivot pivot;
     private final Supplier<Double> pivotMove;
 
-    public ManualCoralPivot(CoralPivot pivot, Supplier<Double> pivotMove) {
+    public ManualPivot(Pivot pivot, Supplier<Double> pivotMove) {
         this.pivot = pivot;
         this.pivotMove = pivotMove;
         

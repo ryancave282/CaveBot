@@ -1,4 +1,4 @@
-package frc.robot.subsystems.coral;
+package frc.robot.subsystems.carriage;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class CoralSubsystem {
+public class Carriage {
     public enum CoralValue{
         START(0, 0),
         INTAKE_HPS(0, 0),
@@ -50,14 +50,14 @@ public class CoralSubsystem {
         }
     }
 
-    private final CoralArm arm;
-    private final CoralPivot pivot;
-    private final CoralIntake intake;
+    private final Arm arm;
+    private final Pivot pivot;
+    private final Intake intake;
     private final DigitalInput coralLimitSwith;
 
     private CoralValue position = CoralValue.START;
 
-    public CoralSubsystem(CoralArm arm, CoralPivot pivot, CoralIntake intake){
+    public Carriage(Arm arm, Pivot pivot, Intake intake){
         this.arm = arm;
         this.pivot = pivot;
         this.intake = intake;
@@ -107,15 +107,15 @@ public class CoralSubsystem {
         );
     }
 
-    public CoralArm getCoralArm(){
+    public Arm getCoralArm(){
         return arm;
     }
 
-    public CoralPivot getCoralPivot(){
+    public Pivot getCoralPivot(){
         return pivot;
     }
 
-    public CoralIntake getCoralIntake(){
+    public Intake getCoralIntake(){
         return intake;
     }
 

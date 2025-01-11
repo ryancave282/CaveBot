@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.ResetPoseVision;
 import frc.robot.subsystems.drive.SwerveDrive;
-import frc.robot.subsystems.coral.CoralSubsystem;
-import frc.robot.subsystems.coral.CoralSubsystem.CoralIntakeValue;
-import frc.robot.subsystems.coral.CoralSubsystem.CoralValue;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.carriage.Carriage;
+import frc.robot.subsystems.carriage.Carriage.CoralIntakeValue;
+import frc.robot.subsystems.carriage.Carriage.CoralValue;
 import frc.robot.subsystems.drive.SwerveDriveConstants;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
@@ -27,11 +27,11 @@ import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
 public class AutoChooser {
     public static final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
     private final SwerveDrive drive;
-    private final CoralSubsystem coralSubsystem;
+    private final Carriage coralSubsystem;
     private final Elevator elevator;
     private final Vision vision;
     public AutoChooser(
-        SwerveDrive drive, CoralSubsystem coralSubsystem, 
+        SwerveDrive drive, Carriage coralSubsystem, 
         Elevator elevator, Vision vision)
      {
         this.drive = drive;

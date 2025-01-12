@@ -1,7 +1,6 @@
 TO DO:
 - Make and extended Subsystems to have protected instead of private
 - Make where the absolute encoders discconnect then the mechanism should just turn off
-- When transfertoampmech, make it where the ampmach transfers when shooter stalls out: figure Out how to indicate stall; Shooter Stall
 - Limelight Tracking, Aligning, etc
 - Implement Safe Hardware Encoders
 - Add IsEnabled Button to all!!!!!
@@ -11,7 +10,14 @@ TO DO:
 - Test Lights
 - MAKE ROBOT CONTAINER TRACK CYCLES
 
+
+- Make the DT all Talons
+- Make the DT be a part of CANivore
+
 Test:
+- Make Batteries
+- Test CANivore
+- Limelight Autos
 
 Extra Ideas:
 - Lights: Add lights to have the robot tell us any errors with can, etc; Make LEDs show Errors

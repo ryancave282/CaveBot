@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -13,6 +14,7 @@ import frc.robot.DroidRageConstants;
 
 public class TalonEx extends CANMotorEx {
     private final TalonFX motor;
+    private CANBus canbus;
     private TalonFXConfiguration configuration = new TalonFXConfiguration();
     private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
     
@@ -21,12 +23,19 @@ public class TalonEx extends CANMotorEx {
         // motor.getConfigurator().apply(configuration);
     }
 
+    public static DirectionBuilder create(int deviceID, CANBus canbus) {
+        TalonEx motor = new TalonEx(new TalonFX(deviceID, canbus));
+        motor.motorID = deviceID;
+        motor.canbus = canbus;
+        return motor.new DirectionBuilder();
+    }
+    
     public static DirectionBuilder create(int deviceID) {
-        CANMotorEx motor = new TalonEx(new TalonFX(deviceID));
+        TalonEx motor = new TalonEx(new TalonFX(deviceID));
         motor.motorID = deviceID;
         return motor.new DirectionBuilder();
     }
-
+   
     @Override
     public void setDirection(Direction direction) {
         motorOutputConfigs.Inverted = switch (direction) {
@@ -63,14 +72,14 @@ public class TalonEx extends CANMotorEx {
     }
 
     @Override
-    public void setPower(double power) {
-        if(isEnabledWriter.get()){
-            motor.set(power);
-        }
-        if(DroidRageConstants.removeWriterWriter.get()){//if(!DriverStation.isFMSAttached())
-            outputWriter.set(power);
-        }
+public void setPower(double power) {
+    if (isEnabledWriter.get()) {
+        motor.set(power);
     }
+    if (DroidRageConstants.removeWriterWriter.get()) {
+        outputWriter.set(power);
+    }
+}
 
     @Override
     public void setVoltage(double outputVolts) {
@@ -110,6 +119,10 @@ public class TalonEx extends CANMotorEx {
     @Override
     public int getDeviceID() {
         return motor.getDeviceID();
+    }
+     
+    public CANBus getCANBus() {
+        return canbus;
     }
 
     @Override

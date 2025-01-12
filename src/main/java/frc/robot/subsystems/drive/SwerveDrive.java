@@ -2,6 +2,8 @@ package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.subsystems.drive.SwerveDriveConstants.Speed;
+import frc.robot.DroidRageConstants;
 import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.subsystems.drive.SwerveDriveConstants.DriveOptions;
 import frc.robot.utility.motor.SparkMaxEx;
@@ -25,7 +28,8 @@ import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 //Set Voltage instead of set Power
 //Set them to 90 to 100%
-public class SwerveDrive extends SubsystemBase  {
+//extends SwerveDrivetrain implements DRSubsystem
+public class SwerveDrive extends SubsystemBase {
     public enum TippingState {
         NO_TIP_CORRECTION,
         ANTI_TIP,
@@ -42,25 +46,25 @@ public class SwerveDrive extends SubsystemBase  {
     );
 
     private final SwerveModule frontRight = new SwerveModule(
-        3, 2, Direction.Forward, Direction.Reversed, 10, 
+        3,DroidRageConstants.canBus, 2, Direction.Forward, Direction.Reversed, 10, 
         SwerveDriveConfig.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get,
         EncoderDirection.Reversed,
         DriveOptions.IS_ENABLED.get(),SwerveModule.POD.FR
     );
     private final SwerveModule backRight = new SwerveModule(
-        5, 4, Direction.Forward, Direction.Reversed, 11, 
+        5, DroidRageConstants.canBus, 4, Direction.Forward, Direction.Reversed, 11, 
         SwerveDriveConfig.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get,
         EncoderDirection.Reversed,
         DriveOptions.IS_ENABLED.get(),SwerveModule.POD.BR
     );
     private final SwerveModule backLeft = new SwerveModule(
-        7, 6, Direction.Forward, Direction.Reversed, 12, 
+        7, DroidRageConstants.canBus, 6, Direction.Forward, Direction.Reversed, 12, 
         SwerveDriveConfig.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get,
         EncoderDirection.Reversed,
         DriveOptions.IS_ENABLED.get(),SwerveModule.POD.BL
     );
     private final SwerveModule frontLeft = new SwerveModule(
-        9, 8, Direction.Forward, Direction.Reversed, 13, 
+        9, DroidRageConstants.canBus, 8, Direction.Forward, Direction.Reversed, 13, 
         SwerveDriveConfig.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get,
         EncoderDirection.Reversed,
         DriveOptions.IS_ENABLED.get(),SwerveModule.POD.FL
@@ -68,7 +72,7 @@ public class SwerveDrive extends SubsystemBase  {
     
     private final SwerveModule[] swerveModules = { frontLeft, frontRight, backLeft, backRight };
 
-    private final Pigeon2 pigeon2 = new Pigeon2(14);
+    private final static Pigeon2 pigeon2 = new Pigeon2(14, DroidRageConstants.canBus);
     private final MountPoseConfigs poseConfigs  = new MountPoseConfigs();
 
     private final SwerveDriveOdometry odometry = new SwerveDriveOdometry (
@@ -95,7 +99,7 @@ public class SwerveDrive extends SubsystemBase  {
         ShuffleboardValue.create(0.0, "Current/Gyro/Pitch (Degrees)", SwerveDrive.class.getSimpleName()).build();
     private final ShuffleboardValue<String> locationWriter = 
         ShuffleboardValue.create("", "Current/Robot Location", SwerveDrive.class.getSimpleName()).build();
-    private final ShuffleboardValue<Boolean> isEnabled = 
+    private final ShuffleboardValue<Boolean> isEnabledWriter = 
         ShuffleboardValue.create(true, "Is Drive Enabled", SwerveDrive.class.getSimpleName())
         .withWidget(BuiltInWidgets.kToggleSwitch)
         .build();
@@ -104,23 +108,20 @@ public class SwerveDrive extends SubsystemBase  {
     private final ShuffleboardValue<Double> forwardVelocityWriter = 
         ShuffleboardValue.create(0.0, "Forward Velocity Writer", SwerveDrive.class.getSimpleName()).build();
 
-    // private boolean isBreakMode = false;
-    
-    // ComplexWidgetBuilder.create(field2d);
-
     public SwerveDrive(Boolean isEnabled) {
-        // field2d.se();
-        for (SwerveModule swerveModule: swerveModules) {
-            swerveModule.brakeMode();
-            // swerveModule.coastMode();
-            // swerveModule.brakeAndCoast^Mode();
-        }
-
-        poseConfigs.MountPosePitch = 0;//Up-Down//0
-        poseConfigs.MountPoseRoll = 90;//Side-Side//90
-        poseConfigs.MountPoseYaw = 180;//Heading//180;
-        pigeon2.getConfigurator().apply(poseConfigs);        
+        // super(null, null, pigeon2, null, null);
+    for (SwerveModule swerveModule: swerveModules) {
+        swerveModule.brakeMode();
+        // swerveModule.coastMode();
+        // swerveModule.brakeAndCoast^Mode();
     }
+
+    poseConfigs.MountPosePitch = 0;//Up-Down//0
+    poseConfigs.MountPoseRoll = 90;//Side-Side//90
+    poseConfigs.MountPoseYaw = 180;//Heading//180;
+    pigeon2.getConfigurator().apply(poseConfigs);   
+    isEnabledWriter.set(isEnabled);     
+}
 
     
     @Override
@@ -215,7 +216,7 @@ public class SwerveDrive extends SubsystemBase  {
     }
 
     public void setModuleStates(SwerveModuleState[] states) {
-        if (!isEnabled.get()) return;
+        if (!isEnabledWriter.get()) return;
         SwerveDriveKinematics.desaturateWheelSpeeds(
             states, 
             SwerveModule.Constants.PHYSICAL_MAX_SPEED_METERS_PER_SECOND
@@ -232,7 +233,7 @@ public class SwerveDrive extends SubsystemBase  {
         setFeedforwardModuleStates(states);
     }
     public void setFeedforwardModuleStates(SwerveModuleState[] states) {
-        if (!isEnabled.get()) return;
+        if (!isEnabledWriter.get()) return;
         SwerveDriveKinematics.desaturateWheelSpeeds(
             states, 
             SwerveModule.Constants.PHYSICAL_MAX_SPEED_METERS_PER_SECOND
@@ -384,4 +385,6 @@ public class SwerveDrive extends SubsystemBase  {
             }
         );
     }
+
+    
 }

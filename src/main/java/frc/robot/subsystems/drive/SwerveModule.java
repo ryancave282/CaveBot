@@ -2,6 +2,7 @@ package frc.robot.subsystems.drive;
 
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -64,7 +65,7 @@ public class SwerveModule {
     MagnetSensorConfigs magnetSensorConfigs = new MagnetSensorConfigs();
     // SwerveModuleState desiredState = new SwerveModuleState();
 
-    public SwerveModule(int driveMotorId, 
+    public SwerveModule(int driveMotorId, CANBus canBus, 
         int turnMotorId, Direction driveMotorReversed, 
         Direction turningMotorReversed, int absoluteEncoderId, 
         Supplier<Double> absoluteEncoderOffsetRad, 
@@ -84,13 +85,13 @@ public class SwerveModule {
         // config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
         // turnEncoder.getConfigurator().apply(config);
 
-        turnEncoder = CANcoderEx.create(absoluteEncoderId)
+        turnEncoder = CANcoderEx.create(absoluteEncoderId, canBus)
             .withDirection(absoluteEncoderReversed)
             .withSubsystemBase("drive")
             .withRange(EncoderRange.ZERO_TO_ONE)
             .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
 
-        driveMotor = TalonEx.create(driveMotorId)
+        driveMotor = TalonEx.create(driveMotorId, canBus)
             .withDirection(driveMotorReversed)
             .withIdleMode(ZeroPowerMode.Brake)
             .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)

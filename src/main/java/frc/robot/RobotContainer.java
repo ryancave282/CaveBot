@@ -8,7 +8,7 @@ import frc.robot.commands.manual.ManualElevator;
 import frc.robot.commands.manual.SwerveDriveTeleop;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.carriage.Carriage;
-import frc.robot.subsystems.carriage.Carriage.CoralValue;
+import frc.robot.subsystems.carriage.Carriage.CarriageValue;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.vision.Vision;
 
@@ -40,9 +40,9 @@ public class RobotContainer {
 
 		operator.leftBumper()
 			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
-			.onTrue(coralSubsystem.setPositionCommand(CoralValue.INTAKE_HPS));
+			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.INTAKE_HPS));
 		operator.rightTrigger()
-			.onTrue(coralSubsystem.setPositionCommand(CoralValue.INTAKE_GRND));
+			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.INTAKE_GROUND));
 		
 
 		driver.b()
@@ -65,16 +65,16 @@ public class RobotContainer {
 		// Coral Bindings	
 		operator.a()
 			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L1))
-			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L1));
+			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L1));
 		operator.b()
 			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L2))
-			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L2));
+			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L2));
 		operator.x()
 			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L3))
-			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L3));
+			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L3));
 		operator.y()
 			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
-			.onTrue(coralSubsystem.setPositionCommand(CoralValue.L4));
+			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L4));
 		
 
 		// Algae Bindings

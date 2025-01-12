@@ -18,8 +18,8 @@ import frc.robot.commands.ResetPoseVision;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.carriage.Carriage;
-import frc.robot.subsystems.carriage.Carriage.CoralIntakeValue;
-import frc.robot.subsystems.carriage.Carriage.CoralValue;
+import frc.robot.subsystems.carriage.Carriage.CarriageIntakeValue;
+import frc.robot.subsystems.carriage.Carriage.CarriageValue;
 import frc.robot.subsystems.drive.SwerveDriveConstants;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
@@ -76,8 +76,8 @@ public class AutoChooser {
 
         NamedCommands.registerCommand("scoreL4",
             new SequentialCommandGroup(
-                coralSubsystem.setPositionCommand(CoralValue.L4),
-                coralSubsystem.setIntakeCommand(CoralIntakeValue.OUTTAKE)
+                coralSubsystem.setPositionCommand(CarriageValue.L4),
+                coralSubsystem.setIntakeCommand(CarriageIntakeValue.OUTTAKE)
             )
         );
 

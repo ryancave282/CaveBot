@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.subsystems.drive.SwerveDriveConstants.Speed;
 import frc.robot.DroidRageConstants;
-import frc.robot.DroidRageConstants.EncoderDirection;
 import frc.robot.subsystems.drive.SwerveDriveConstants.DriveOptions;
 import frc.robot.utility.motor.SparkMaxEx;
+import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
 import frc.robot.utility.motor.CANMotorEx.Direction;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 

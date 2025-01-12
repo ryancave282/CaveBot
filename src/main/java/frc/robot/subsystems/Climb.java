@@ -1,8 +1,8 @@
-package frc.robot.subsystems.carriage;
+package frc.robot.subsystems;
 
-import frc.robot.DroidRageConstants.Control;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import frc.robot.DroidRageConstants.Control;
 import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
 import frc.robot.utility.encoder.SparkAbsoluteEncoderEx;
 import frc.robot.utility.motor.CANMotorEx;
@@ -11,7 +11,7 @@ import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.motor.SparkMaxEx;
 import frc.robot.utility.template.ArmAbsoluteTemplate;
 
-public class Arm extends ArmAbsoluteTemplate {
+public class Climb extends ArmAbsoluteTemplate {
     public static class Constants {
         public static final double MAX_POSITION = 0;
         public static final double MIN_POSITION = 0;
@@ -22,20 +22,21 @@ public class Arm extends ArmAbsoluteTemplate {
         .withDirection(Direction.Forward)
         .withIdleMode(ZeroPowerMode.Coast)
         .withPositionConversionFactor(1)
-        .withSubsystemName("carriage")
+        .withSubsystemName("Climb")
         .withIsEnabled(true)
         .withCurrentLimit(50);
+    
     private static SparkAbsoluteEncoderEx encoder = SparkAbsoluteEncoderEx.create(motor)
         .withDirection(EncoderDirection.Forward)
-        .withSubsystemBase("carriage");
+        .withSubsystemBase("Climb");
         
-    public Arm(boolean isEnabled) {
+    public Climb(boolean isEnabled) {
         super(
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 
         new ArmFeedforward(0, 0, 0, 0, 0), 
         Constants.MAX_POSITION, Constants.MIN_POSITION, Constants.OFFSET, 
-        Control.PID, "carriage", 0, encoder);
+        Control.PID, "Climb", 0, encoder);
         motor.setIsEnabled(isEnabled);
     }
 }

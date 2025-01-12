@@ -5,6 +5,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -109,6 +111,7 @@ public class AutoChooser {
 
     public static void createAutoBuilder(SwerveDrive drive){
         try {
+            // RobotConfig config = new RobotConfig(Units.lbsToKilograms(120), 1, null, Units.inchesToMeters(29));
             RobotConfig config = RobotConfig.fromGUISettings();
 
             // Configure AutoBuilder

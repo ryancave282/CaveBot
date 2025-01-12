@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -29,7 +31,7 @@ public class Robot extends TimedRobot {
     private final Light light = new Light();
     
     private RobotContainer robotContainer = new RobotContainer();
-
+    // private static final Alert rioIdAlert = new Alert("RIO: ", AlertType.kInfo);
     private ShuffleboardValue<Double> matchTime = ShuffleboardValue.create
 		(0.0, "Match Time", "Misc")
 		.withWidget(BuiltInWidgets.kTextView)
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
 
         if(RobotController.getBatteryVoltage()<11.5){
             light.setAllColor(light.batteryBlue);
+            
             // drive.playMusic(2);
         } else{
             light.flashingColors(light.yellow, light.blue);

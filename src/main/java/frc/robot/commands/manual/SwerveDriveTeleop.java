@@ -2,6 +2,7 @@ package frc.robot.commands.manual;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -13,18 +14,23 @@ import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.drive.SwerveDriveConstants;
 import frc.robot.subsystems.drive.SwerveDriveConstants.Speed;
 import frc.robot.subsystems.drive.SwerveModule;
+import frc.robot.subsystems.drive.SwerveDrive.TippingState;
 
 public class SwerveDriveTeleop extends Command {
     private final SwerveDrive drive;
     private final Supplier<Double> x, y, turn;
     private volatile double xSpeed, ySpeed, turnSpeed;
     private Rotation2d heading;
+    private static final PIDController antiTipY = new PIDController(0.006, 0, 0.0005);
+    private static final PIDController antiTipX = new PIDController(0.006, 0, 0.0005);
 
     public SwerveDriveTeleop(SwerveDrive drive, CommandXboxController driver) {
         this.drive = drive;
         this.x = driver::getLeftX;
         this.y = driver::getLeftY;
         this.turn = driver::getRightX;
+        antiTipX.setTolerance(25);
+        antiTipY.setTolerance(25);
 
         driver.rightBumper().whileTrue(drive.setSpeed(Speed.SLOW))
             .whileFalse(drive.setSpeed(Speed.NORMAL));
@@ -37,6 +43,7 @@ public class SwerveDriveTeleop extends Command {
     @Override
     public void initialize() {
         //Todo Test
+        // drive.changeAllianceRotation();
         switch (DriverStation.getAlliance().get()) {
             case Red:
                 drive.setYawCommand(drive.getHeading() + 180);
@@ -76,7 +83,17 @@ public class SwerveDriveTeleop extends Command {
             ySpeed = modifiedYSpeed;
         }
 
-        // Apply deadband
+        double xTilt = drive.getRoll(); //Is this Roll or pitch
+        double yTilt = drive.getPitch();// Is this Roll or pitch
+
+        if(drive.getTippingState()==TippingState.ANTI_TIP) {//Need to take into account on the direction of the tip
+            if (Math.abs(xTilt) > antiTipX.getPositionTolerance())
+                xSpeed = antiTipX.calculate(drive.getRoll(), 0);
+            if (Math.abs(yTilt) > antiTipY.getPositionTolerance())
+                ySpeed = antiTipY.calculate(drive.getPitch(), 0);
+        }
+
+        // Apply deadzone
         if (Math.abs(xSpeed) < DroidRageConstants.Gamepad.DRIVER_STICK_DEADZONE) xSpeed = 0;
         if (Math.abs(ySpeed) < DroidRageConstants.Gamepad.DRIVER_STICK_DEADZONE) ySpeed = 0;
         if (Math.abs(turnSpeed) < DroidRageConstants.Gamepad.DRIVER_STICK_DEADZONE) turnSpeed = 0;

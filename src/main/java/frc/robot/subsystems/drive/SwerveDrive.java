@@ -2,8 +2,6 @@ package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.ctre.phoenix6.swerve.SwerveDrivetrain;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -28,13 +26,10 @@ import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 //Set Voltage instead of set Power
 //Set them to 90 to 100%
-//extends SwerveDrivetrain implements DRSubsystem
 public class SwerveDrive extends SubsystemBase {
     public enum TippingState {
         NO_TIP_CORRECTION,
         ANTI_TIP,
-        AUTO_BALANCE,
-        AUTO_BALANCE_ANTI_TIP,
         ;
     }
 
@@ -71,8 +66,9 @@ public class SwerveDrive extends SubsystemBase {
     );
     
     private final SwerveModule[] swerveModules = { frontLeft, frontRight, backLeft, backRight };
+    
 
-    private final static Pigeon2 pigeon2 = new Pigeon2(14, DroidRageConstants.canBus);
+    private final Pigeon2 pigeon2 = new Pigeon2(14);
     private final MountPoseConfigs poseConfigs  = new MountPoseConfigs();
 
     private final SwerveDriveOdometry odometry = new SwerveDriveOdometry (
@@ -109,19 +105,19 @@ public class SwerveDrive extends SubsystemBase {
         ShuffleboardValue.create(0.0, "Forward Velocity Writer", SwerveDrive.class.getSimpleName()).build();
 
     public SwerveDrive(Boolean isEnabled) {
-        // super(null, null, pigeon2, null, null);
-    for (SwerveModule swerveModule: swerveModules) {
-        swerveModule.brakeMode();
-        // swerveModule.coastMode();
-        // swerveModule.brakeAndCoast^Mode();
-    }
+        // field2d.se();
+        for (SwerveModule swerveModule: swerveModules) {
+            swerveModule.brakeMode();
+            // swerveModule.coastMode();
+            // swerveModule.brakeAndCoast^Mode();
+        }
 
-    poseConfigs.MountPosePitch = 0;//Up-Down//0
-    poseConfigs.MountPoseRoll = 90;//Side-Side//90
-    poseConfigs.MountPoseYaw = 180;//Heading//180;
-    pigeon2.getConfigurator().apply(poseConfigs);   
-    isEnabledWriter.set(isEnabled);     
-}
+        poseConfigs.MountPosePitch = 0;//Up-Down//0
+        poseConfigs.MountPoseRoll = 90;//Side-Side//90
+        poseConfigs.MountPoseYaw = 180;//Heading//180;
+        pigeon2.getConfigurator().apply(poseConfigs);   
+        isEnabledWriter.set(isEnabled);     
+    }
 
     
     @Override

@@ -63,26 +63,6 @@ public class SysID {
     }
   }
 
-  // public SysID(CANMotorEx motorOne, CANMotorEx motorTwo, Subsystem subsystem, Measurement unit) {
-  //   switch (unit) {
-  //     case ANGLE:
-  //       routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(motor::setVoltage, log -> {
-  //         log.motor("shooter-wheel")
-  //             .voltage(appliedVoltage.mut_replace(motor.getVoltage() * RobotController.getBatteryVoltage(), Volts))
-  //             .angularPosition(angle.mut_replace(motor.getPosition(), Rotations))
-  //             .angularVelocity(angularVelocity.mut_replace(motor.getVelocity(), RotationsPerSecond));
-  //       }, subsystem));
-  //     case DISTANCE:
-  //       routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(motor::setVoltage, log -> {
-  //         log.motor("shooter-wheel")
-  //             .voltage(appliedVoltage.mut_replace(motor.getVoltage() * RobotController.getBatteryVoltage(), Volts))
-  //             .linearPosition(distance.mut_replace(motor.getPosition(), Inches))
-  //             .linearVelocity(linearVelocity.mut_replace(motor.getVelocity(), InchesPerSecond));
-  //       }, subsystem));
-  //   }
-  // }
-
-
   /**
    * Returns a command that will execute a quasistatic test in the given
    * direction.

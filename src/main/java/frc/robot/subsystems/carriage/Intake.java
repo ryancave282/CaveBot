@@ -28,7 +28,7 @@ public class Intake extends IntakeTemplate {
         new CANMotorEx[]{motor}, 
         new PIDController(0,0,0), 
         new SimpleMotorFeedforward(0, 0, 0, 0), Constants.MAX_SPEED, Constants.MIN_SPEED, 
-        Control.PID, "Coral", 0);
+        Control.PID, "carriage", 0);
         motor.setIsEnabled(isEnabled);
         //Change
     }

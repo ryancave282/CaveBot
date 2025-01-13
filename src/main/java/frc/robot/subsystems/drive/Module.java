@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.utility.encoder.CANcoderEx;
 import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
-import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
 import frc.robot.utility.encoder.EncoderEx.EncoderRange;
 import frc.robot.utility.motor.SparkMaxEx;
 import frc.robot.utility.motor.TalonEx;
@@ -24,7 +23,7 @@ import frc.robot.utility.motor.CANMotorEx.Direction;
 import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
-public class SwerveModule {
+public class Module {
     public enum POD{
         FL,
         BL,
@@ -71,7 +70,7 @@ public class SwerveModule {
     
         MagnetSensorConfigs magnetSensorConfigs = new MagnetSensorConfigs();
     
-        public SwerveModule(){
+        public Module(){
             turningPidController = new PIDController(SwerveDriveConfig.TURN_KP.getValue(), 0.0, 0.0);
             turningPidController.enableContinuousInput(0, 2*Math.PI);//Was  -Math.PI, Math.PI but changed to 0 and 2PI
     
@@ -80,12 +79,12 @@ public class SwerveModule {
             
             resetDriveEncoder();
         }
-        public static SwerveModule.SubsystemNameBuilder create() {
-            SwerveModule module = new SwerveModule();
+        public static Module.SubsystemNameBuilder create() {
+            Module module = new Module();
         return module.new SubsystemNameBuilder();
     }
         public class SubsystemNameBuilder {
-            public DriveIDBuilder withSubsystemName(SubsystemBase base, SwerveModule.POD podName) {
+            public DriveIDBuilder withSubsystemName(SubsystemBase base, Module.POD podName) {
                 subsystemName = base.getClass().getSimpleName();
                 turnPositionWriter = ShuffleboardValue.create(0.0, 
                 "Module/Module " + podName.toString() + "/Turn Position (Radians)", 
@@ -132,13 +131,13 @@ public class SwerveModule {
         }
     }
     public class EncoderBuilder{
-        public SwerveModule withEncoder(int absoluteEncoderId, Supplier<Double> absoluteEncoderOffsetRad, EncoderDirection absoluteEncoderReversed){
+        public Module withEncoder(int absoluteEncoderId, Supplier<Double> absoluteEncoderOffsetRad, EncoderDirection absoluteEncoderReversed){
             turnEncoder = CANcoderEx.create(absoluteEncoderId)
                 .withDirection(absoluteEncoderReversed)
                 .withSubsystemBase(subsystemName)
                 .withRange(EncoderRange.ZERO_TO_ONE)
                 .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
-            return new SwerveModule();
+            return new Module();
         }
     }
 

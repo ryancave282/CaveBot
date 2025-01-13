@@ -13,6 +13,7 @@ TO DO:
 - Make the DT all Talons
 - Make the DT be a part of CANivore
 - Add Anti-Tip Code
+- Test Drivetrain
 
 Test:
 - Make Batteries

@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.DroidRageConstants;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.drive.SwerveDriveConstants;
-import frc.robot.subsystems.drive.SwerveDriveConstants.Speed;
 import frc.robot.subsystems.drive.SwerveModule;
+import frc.robot.subsystems.drive.SwerveDriveConstants.Speed;
 import frc.robot.subsystems.drive.SwerveDrive.TippingState;
 
 public class SwerveDriveTeleop extends Command {

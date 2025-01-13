@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,9 +12,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.DroidRageConstants.EncoderDirection;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.utility.encoder.CANcoderEx;
+import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
 import frc.robot.utility.encoder.EncoderEx.EncoderRange;
 import frc.robot.utility.motor.SparkMaxEx;
 import frc.robot.utility.motor.TalonEx;
@@ -47,80 +49,127 @@ public class SwerveModule {
                 //.115
 
         public static final double PHYSICAL_MAX_SPEED_METERS_PER_SECOND = 4.47;
+
+        public static final double DRIVE_SUPPLY_CURRENT_LIMIT = 50;
+        public static final double DRIVE_STATOR_CURRENT_LIMIT = 90;   
+        public static final double TURN_SUPPLY_CURRENT_LIMIT = 80;
     }
 
-    private final TalonEx driveMotor;
+        private TalonEx driveMotor;
+        
+        // Turn motor and encoder
+        private SparkMaxEx turnMotor;
+        private CANcoderEx turnEncoder;
     
-    // Turn motor and encoder
-    private final SparkMaxEx turnMotor;
-    private final CANcoderEx turnEncoder;
-
-    private final PIDController turningPidController;
-    private final SimpleMotorFeedforward feedforward;
-
-    private ShuffleboardValue<Double> turnPositionWriter;
-    private ShuffleboardValue<Double> drivePositionWriter;
-
-
-    MagnetSensorConfigs magnetSensorConfigs = new MagnetSensorConfigs();
-    // SwerveModuleState desiredState = new SwerveModuleState();
-
-    public SwerveModule(int driveMotorId, CANBus canBus, 
-        int turnMotorId, Direction driveMotorReversed, 
-        Direction turningMotorReversed, int absoluteEncoderId, 
-        Supplier<Double> absoluteEncoderOffsetRad, 
-        EncoderDirection absoluteEncoderReversed, boolean isEnabled, POD podName) {
-        
-        // turnEncoder = new CANcoder(absoluteEncoderId);
-        // CANcoderConfiguration config = new CANcoderConfiguration();
-        // if(absoluteEncoderReversed){
-        //     config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        // } else{
-        //     config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-        // }
-        // config.MagnetSensor.MagnetOffset = absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD;
-        // // config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-
-        // //magnetSensorConfigs.AbsoluteSensorDiscontinuityPoint; Explains what 1 will do to the sensor
-        // config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
-        // turnEncoder.getConfigurator().apply(config);
-
-        turnEncoder = CANcoderEx.create(absoluteEncoderId, canBus)
-            .withDirection(absoluteEncoderReversed)
-            .withSubsystemBase("drive")
-            .withRange(EncoderRange.ZERO_TO_ONE)
-            .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
-
-        driveMotor = TalonEx.create(driveMotorId, canBus)
-            .withDirection(driveMotorReversed)
-            .withIdleMode(ZeroPowerMode.Brake)
-            .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)
-            .withSubsystemName("Swerve")
-            .withIsEnabled(isEnabled)
-            .withCurrentLimit(50, 90);
-
-        turnMotor = SparkMaxEx.create(turnMotorId)
-            .withDirection(turningMotorReversed)
-            .withIdleMode(ZeroPowerMode.Coast)
-            .withPositionConversionFactor(Constants.TURN_ENCODER_ROT_2_RAD)
-            .withSubsystemName("Swerve")
-            .withIsEnabled(isEnabled)
-            .withCurrentLimit(80);
-        
-        turningPidController = new PIDController(SwerveDriveConfig.TURN_KP.getValue(), 0.0, 0.0);
-        turningPidController.enableContinuousInput(0, 2*Math.PI);//Was  -Math.PI, Math.PI but changed to 0 and 2PI
-
-        feedforward = new SimpleMotorFeedforward(SwerveDriveConfig.DRIVE_KS.getValue(), SwerveDriveConfig.DRIVE_KV.getValue());
-
-        turnPositionWriter = ShuffleboardValue.create(0.0, 
-        "Module/Module " + podName.toString() + "/Turn Position (Radians)", 
-            SwerveDrive.class.getSimpleName()).build();
-        drivePositionWriter = ShuffleboardValue.create(0.0, 
-            "Module/Module " + podName.toString() + "/Drive Position (Radians)", 
-            SwerveDrive.class.getSimpleName()).build();
-        resetDriveEncoder();
-
+        private PIDController turningPidController;
+        private SimpleMotorFeedforward feedforward;
+    
+        private ShuffleboardValue<Double> turnPositionWriter;
+        private ShuffleboardValue<Double> drivePositionWriter;
+        private String subsystemName;
+    
+        MagnetSensorConfigs magnetSensorConfigs = new MagnetSensorConfigs();
+    
+        public SwerveModule(){
+            turningPidController = new PIDController(SwerveDriveConfig.TURN_KP.getValue(), 0.0, 0.0);
+            turningPidController.enableContinuousInput(0, 2*Math.PI);//Was  -Math.PI, Math.PI but changed to 0 and 2PI
+    
+            feedforward = new SimpleMotorFeedforward(SwerveDriveConfig.DRIVE_KS.getValue(), SwerveDriveConfig.DRIVE_KV.getValue());
+    
+            
+            resetDriveEncoder();
+        }
+        public static SwerveModule.SubsystemNameBuilder create() {
+            SwerveModule module = new SwerveModule();
+        return module.new SubsystemNameBuilder();
     }
+        public class SubsystemNameBuilder {
+            public DriveIDBuilder withSubsystemName(SubsystemBase base, SwerveModule.POD podName) {
+                subsystemName = base.getClass().getSimpleName();
+                turnPositionWriter = ShuffleboardValue.create(0.0, 
+                "Module/Module " + podName.toString() + "/Turn Position (Radians)", 
+                    base.getClass().getSimpleName()).build();
+                drivePositionWriter = ShuffleboardValue.create(0.0, 
+                    "Module/Module " + podName.toString() + "/Drive Position (Radians)", 
+                    base.getClass().getSimpleName()).build();
+                    return new DriveIDBuilder();
+            }
+        }
+        public class DriveIDBuilder {
+            public TurnIDBuilder withDriveMotor(int driveMotorId, Direction driveMotorReversed, boolean isEnabled){ 
+                driveMotor = TalonEx.create(driveMotorId)
+                .withDirection(driveMotorReversed)
+                .withIdleMode(ZeroPowerMode.Brake)
+                .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)
+                .withSubsystemName(subsystemName)
+                .withIsEnabled(isEnabled)
+                .withCurrentLimit(Constants.DRIVE_SUPPLY_CURRENT_LIMIT, Constants.DRIVE_STATOR_CURRENT_LIMIT);
+            return new TurnIDBuilder();
+        }
+        public TurnIDBuilder withDriveMotor(int driveMotorId, CANBus canBus, Direction driveMotorReversed, boolean isEnabled){
+            driveMotor = TalonEx.create(driveMotorId, canBus)
+                .withDirection(driveMotorReversed)
+                .withIdleMode(ZeroPowerMode.Brake)
+                .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)
+                .withSubsystemName(subsystemName)
+                .withIsEnabled(isEnabled)
+                .withCurrentLimit(Constants.DRIVE_SUPPLY_CURRENT_LIMIT, Constants.DRIVE_STATOR_CURRENT_LIMIT);
+            return new TurnIDBuilder();
+        }
+    }
+    public class TurnIDBuilder{
+        //Todo: Fix this to be a Kraken instead of Spark Max
+        public EncoderBuilder withTurnMotor(int turnMotorId, Direction turningMotorReversed, boolean isEnabled){
+            turnMotor = SparkMaxEx.create(turnMotorId)
+                .withDirection(turningMotorReversed)
+                .withIdleMode(ZeroPowerMode.Coast)
+                .withPositionConversionFactor(Constants.TURN_ENCODER_ROT_2_RAD)
+                .withSubsystemName(subsystemName)
+                .withIsEnabled(isEnabled)
+                .withCurrentLimit(Constants.TURN_SUPPLY_CURRENT_LIMIT);
+            return new EncoderBuilder();
+        }
+    }
+    public class EncoderBuilder{
+        public SwerveModule withEncoder(int absoluteEncoderId, Supplier<Double> absoluteEncoderOffsetRad, EncoderDirection absoluteEncoderReversed){
+            turnEncoder = CANcoderEx.create(absoluteEncoderId)
+                .withDirection(absoluteEncoderReversed)
+                .withSubsystemBase(subsystemName)
+                .withRange(EncoderRange.ZERO_TO_ONE)
+                .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
+            return new SwerveModule();
+        }
+    }
+
+    // public Module(int driveMotorId, CANBus canBus, 
+    //     int turnMotorId, Direction driveMotorReversed, 
+    //     Direction turningMotorReversed, int absoluteEncoderId, 
+    //     Supplier<Double> absoluteEncoderOffsetRad, 
+    //     EncoderDirection absoluteEncoderReversed, boolean isEnabled, POD podName) {
+        
+    //     turnEncoder = CANcoderEx.create(absoluteEncoderId, canBus)
+    //         .withDirection(absoluteEncoderReversed)
+    //         .withSubsystemBase("drive")
+    //         .withRange(EncoderRange.ZERO_TO_ONE)
+    //         .withOffset(absoluteEncoderOffsetRad.get()/Constants.TURN_ENCODER_ROT_2_RAD);
+
+    //     driveMotor = TalonEx.create(driveMotorId, canBus)
+    //         .withDirection(driveMotorReversed)
+    //         .withIdleMode(ZeroPowerMode.Brake)
+    //         .withPositionConversionFactor(Constants.DRIVE_ENCODER_ROT_2_METER)
+    //         .withSubsystemName("drive")
+    //         .withIsEnabled(isEnabled)
+    //         .withCurrentLimit(50, 90);
+
+    //     turnMotor = SparkMaxEx.create(turnMotorId)
+    //         .withDirection(turningMotorReversed)
+    //         .withIdleMode(ZeroPowerMode.Coast)
+    //         .withPositionConversionFactor(Constants.TURN_ENCODER_ROT_2_RAD)
+    //         .withSubsystemName(SwerveDrive.class
+    //                     .getSimpleName())
+    //         .withIsEnabled(isEnabled)
+    //         .withCurrentLimit(80);
+    // }
 
     public double getDrivePos() {
             drivePositionWriter.write(driveMotor.getPosition());

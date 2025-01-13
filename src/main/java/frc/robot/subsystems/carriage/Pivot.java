@@ -3,7 +3,7 @@ package frc.robot.subsystems.carriage;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.DroidRageConstants.Control;
-import frc.robot.DroidRageConstants.EncoderDirection;
+import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
 import frc.robot.utility.encoder.SparkAbsoluteEncoderEx;
 import frc.robot.utility.motor.CANMotorEx;
 import frc.robot.utility.motor.CANMotorEx.Direction;

@@ -12,6 +12,7 @@ import java.util.Objects;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class ShuffleboardValue<T> {
     protected final GenericEntry entry;
@@ -203,6 +204,21 @@ public abstract class ShuffleboardValue<T> {
 
     public static ShuffleboardValueBuilder<String> create(String defaultValue, String title, String tab) {
         return new ShuffleboardValueBuilder<String>(defaultValue, title, tab) {
+            @Override
+            public ShuffleboardValue<String> build() {
+                return ShuffleboardValue.create(simpleWidget.getEntry(), defaultValue);
+            }
+
+            @Override
+            protected ShuffleboardValueBuilder<String> add(SimpleWidget simpleWidget) {
+                this.simpleWidget = simpleWidget;
+                return this;
+            }
+        };
+    }
+    
+    public static ShuffleboardValueBuilder<String> create(String defaultValue, String title, SubsystemBase subsystem) {
+        return new ShuffleboardValueBuilder<String>(defaultValue, title, subsystem.getClass().getSimpleName()) {
             @Override
             public ShuffleboardValue<String> build() {
                 return ShuffleboardValue.create(simpleWidget.getEntry(), defaultValue);

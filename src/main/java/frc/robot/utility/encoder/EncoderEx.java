@@ -1,14 +1,16 @@
 package frc.robot.utility.encoder;
 
-import edu.wpi.first.wpilibj.Encoder;
-import frc.robot.DroidRageConstants.EncoderDirection;
-import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public abstract class EncoderEx {
     public enum EncoderRange {
         ZERO_TO_ONE,    //Typically ALWAYS uses 0 to 1
         PLUS_MINUS_HALF
+    }
+    
+    public enum EncoderDirection {
+        Forward,
+        Reversed,
     }
 
     protected EncoderDirection direction;

@@ -64,8 +64,7 @@ public class SwerveDriveConstants {
 
     public enum DriveOptions implements ShuffleboardValueEnum<Boolean> { 
         IS_FIELD_ORIENTED(true),
-        IS_SQUARED_INPUTS(true),
-        IS_ENABLED(true)
+        IS_SQUARED_INPUTS(true)
         ;
         private final ShuffleboardValue<Boolean> shuffleboardValue;
         private DriveOptions(boolean value) {

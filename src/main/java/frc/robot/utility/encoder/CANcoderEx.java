@@ -1,14 +1,15 @@
 package frc.robot.utility.encoder;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
-import frc.robot.DroidRageConstants.EncoderDirection;
 
 public class CANcoderEx extends EncoderEx{
     private final CANcoder encoder;
     private CANcoderConfiguration config;
+    private CANBus canbus;
     private double positionConversionFactor, velocityConversionFactor;
 
     public CANcoderEx(CANcoder encoder) {
@@ -23,7 +24,13 @@ public class CANcoderEx extends EncoderEx{
         return encoder.getPosition().getValueAsDouble()*positionConversionFactor;
     }
 
-    public static DirectionBuilder create(int deviceID) {
+    public static DirectionBuilder create(int deviceID, CANBus canbus) {
+        CANcoderEx encoder = new CANcoderEx(new CANcoder(deviceID));
+        encoder.deviceID = deviceID;
+        encoder.canbus = canbus;
+        return encoder.new DirectionBuilder();
+    }
+      public static DirectionBuilder create(int deviceID) {
         CANcoderEx encoder = new CANcoderEx(new CANcoder(deviceID));
         encoder.deviceID = deviceID;
         return encoder.new DirectionBuilder();
@@ -60,10 +67,17 @@ public class CANcoderEx extends EncoderEx{
     public int getDeviceID() {
         return encoder.getDeviceID();
     }
+     public CANBus getCANBus() {
+        return canbus;
+    }
 
     @Override
     public void setOffset(double offset) {
         config.MagnetSensor.MagnetOffset = offset;
+    }
+
+    public boolean isConnected(){
+        return encoder.isConnected();
     }
 }
 

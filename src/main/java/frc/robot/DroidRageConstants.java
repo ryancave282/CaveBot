@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
@@ -18,10 +20,7 @@ public final class DroidRageConstants {
         );
     }
 
-    public enum EncoderDirection {
-        Forward,
-        Reversed,
-    } 
+     
     public static class Gamepad {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;
@@ -44,7 +43,8 @@ public final class DroidRageConstants {
         return Math.abs(stick) < DroidRageConstants.Gamepad.OPERATOR_STICK_DEADZONE;
     }
 
-    public static String canName = "structure"; //Rev stuff does not work on CANivore
+    // public static String canName = "drive"; //Rev stuff does not work on CANivore
+    public static CANBus canBus = new CANBus("drive");
     // public static boolean removeWriter = true; //Can be used to turn off certain writers, hopefulyl preventing loop overruns
     public static ShuffleboardValue<Boolean> removeWriterWriter = 
         ShuffleboardValue.create(true, "RemoveWritersWriter", Robot.class.getSimpleName())

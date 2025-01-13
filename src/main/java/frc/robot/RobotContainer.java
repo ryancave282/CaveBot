@@ -8,6 +8,7 @@ import frc.robot.SysID.SysID;
 import frc.robot.commands.IntakeElementInCommand;
 import frc.robot.commands.manual.ManualElevator;
 import frc.robot.commands.manual.SwerveDriveTeleop;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.carriage.Carriage.CarriageValue;
@@ -26,9 +27,8 @@ public class RobotContainer {
 	}
 
 	public void configureTeleOpBindings(
-		SwerveDrive drive, 
-		Carriage coralSubsystem, 
-		Elevator elevator
+		SwerveDrive drive, Elevator elevator,
+		Carriage coralSubsystem, Climb climb
 		) {
 		
 		// Slow Mode and Gyro Reset in the Default Command

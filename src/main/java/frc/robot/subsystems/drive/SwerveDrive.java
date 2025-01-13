@@ -67,7 +67,7 @@ public class SwerveDrive extends SubsystemBase {
         .withTurnMotor(8, Direction.Reversed, true)
         .withEncoder(13, SwerveDriveConfig.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get, EncoderDirection.Reversed);
     
-    private final Module[] swerveModules = { frontLeft, frontRight, backLeft, backRight };
+    private final SwerveModule[] swerveModules = { frontLeft, frontRight, backLeft, backRight };
     
 
     private final Pigeon2 pigeon2 = new Pigeon2(14);
@@ -108,7 +108,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public SwerveDrive(Boolean isEnabled) {
         // field2d.se();
-        for (Module swerveModule: swerveModules) {
+        for (SwerveModule swerveModule: swerveModules) {
             swerveModule.brakeMode();
             // swerveModule.coastMode();
             // swerveModule.brakeAndCoast^Mode();
@@ -243,7 +243,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void stop() {
-        for (Module swerveModule: swerveModules) {
+        for (SwerveModule swerveModule: swerveModules) {
             swerveModule.stop();
         }
     }
@@ -263,7 +263,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public Command resetEncoders() {
         return runOnce(() -> {
-            for (Module swerveModule: swerveModules) {
+            for (SwerveModule swerveModule: swerveModules) {
                 swerveModule.resetDriveEncoder();
                 // pigeon2.setYaw(getAngularSpeed())
             }

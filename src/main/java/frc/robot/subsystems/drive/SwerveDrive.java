@@ -44,26 +44,26 @@ public class SwerveDrive extends SubsystemBase {
     
     private final SwerveModule frontRight = SwerveModule.create()
         .withSubsystemName(this, POD.FR)
-        .withDriveMotor(3, DroidRageConstants.canBus, Direction.Forward, true)
+        .withDriveMotor(3,Direction.Forward, true)
         .withTurnMotor(2, Direction.Reversed, true)
         .withEncoder(10, SwerveDriveConfig.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get, EncoderDirection.Reversed);
         
-    
     private final SwerveModule backRight = SwerveModule.create()
         .withSubsystemName(this, POD.BR)
-        .withDriveMotor(5, DroidRageConstants.canBus, Direction.Forward, true)
+        .withDriveMotor(5, Direction.Forward, true)
         .withTurnMotor(4, Direction.Reversed, true)
-        .withEncoder(11, SwerveDriveConfig.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get, EncoderDirection.Reversed);
-    
+        .withEncoder(11, SwerveDriveConfig.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get,
+                EncoderDirection.Reversed);
+
     private final SwerveModule backLeft = SwerveModule.create()
         .withSubsystemName(this, POD.BL)
-        .withDriveMotor(7, DroidRageConstants.canBus, Direction.Forward, true)
+        .withDriveMotor(7, Direction.Forward, true)
         .withTurnMotor(6, Direction.Reversed, true)
         .withEncoder(12, SwerveDriveConfig.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get, EncoderDirection.Reversed);
     
     private final SwerveModule frontLeft = SwerveModule.create()
         .withSubsystemName(this, POD.FL)
-        .withDriveMotor(9, DroidRageConstants.canBus, Direction.Forward, true)
+        .withDriveMotor(9, Direction.Forward, true)
         .withTurnMotor(8, Direction.Reversed, true)
         .withEncoder(13, SwerveDriveConfig.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RADIANS::get, EncoderDirection.Reversed);
     
@@ -260,7 +260,6 @@ public class SwerveDrive extends SubsystemBase {
         });
     }
 
-
     public Command resetEncoders() {
         return runOnce(() -> {
             for (SwerveModule swerveModule: swerveModules) {
@@ -270,40 +269,11 @@ public class SwerveDrive extends SubsystemBase {
         });
     }
 
-
     public Command setYawCommand(double degrees) {
         return runOnce(
             () -> pigeon2.setYaw(degrees, 5)
         );
     }
-    // public Command resetHeadingDriving() {
-    //     return setYawCommand(-90);
-    // }
-
-    // DO NOT DELETE
-    // private void coastMode() {
-    //     for (SwerveModuleKraken swerveModule: swerveModules) {
-    //         swerveModule.coastMode();
-    //     }
-    // }
-    // private void breakMode() {
-    //     for (SwerveModuleKraken swerveModule: swerveModules) {
-    //         swerveModule.brakeMode();
-    //     }
-    // }
-
-    // public Command toggleBreakMode() {
-    //     return runOnce(() -> {
-    //         if (isBreakMode) {
-    //             coastMode();
-    //             isBreakMode = false;
-    //         } else {
-    //             breakMode();
-    //             isBreakMode = true;
-    //         }
-    //     });
-    // }
-
 
     public Command toggleFieldOriented() {
         return runOnce(() -> DriveOptions.IS_FIELD_ORIENTED.set(
@@ -317,30 +287,6 @@ public class SwerveDrive extends SubsystemBase {
                 !isSquaredInputs()
             )
         );
-    }
-
-    public Command toggleAntiTipping() {
-        return runOnce(() -> setTippingState(
-            TippingState.NO_TIP_CORRECTION
-            // switch (tippingState) {
-            //     case ANTI_TIP -> TippingState.NO_TIP_CORRECTION;
-            //     case AUTO_BALANCE -> TippingState.AUTO_BALANCE_ANTI_TIP;
-            //     case AUTO_BALANCE_ANTI_TIP -> TippingState.AUTO_BALANCE;
-            //     case NO_TIP_CORRECTION ->TippingState.ANTI_TIP;
-            // }
-        ));
-    }
-
-    public Command toggleAutoBalance() {
-        return runOnce(() -> setTippingState(
-            TippingState.NO_TIP_CORRECTION
-            // switch (tipp ingState) {
-            //     case ANTI_TIP -> TippingState.AUTO_BALANCE_ANTI_TIP;
-            //     case AUTO_BALANCE -> TippingState.NO_TIP_CORRECTION;
-            //     case AUTO_BALANCE_ANTI_TIP -> TippingState.ANTI_TIP;
-            //     case NO_TIP_CORRECTION ->TippingState.AUTO_BALANCE;
-            // }
-        ));
     }
 
     public Command runStop() {

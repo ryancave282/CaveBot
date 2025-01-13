@@ -17,18 +17,23 @@ import frc.robot.subsystems.carriage.Intake;
 import frc.robot.subsystems.carriage.Pivot;
 import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.drive.SwerveDrive;
+import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
+import frc.robot.subsystems.drive.SwerveModule;
+import frc.robot.subsystems.drive.SwerveModule.POD;
 import frc.robot.subsystems.vision.Vision;
+import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
+import frc.robot.utility.motor.CANMotorEx.Direction;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public class Robot extends TimedRobot {
     private final Vision vision = new Vision();
-    private final SwerveDrive drive = new SwerveDrive(false);//2-10 Works
-    private final Elevator elevator = new Elevator(false);
-    private final Carriage carriage = new Carriage(
-        new Arm(false), 
-        new Pivot(false), 
-        new Intake(false));
-    private final Climb climb = new Climb(false);
+    private final SwerveDrive drive = new SwerveDrive(true);//2-10 Works
+    // private final Elevator elevator = new Elevator(false);
+    // private final Carriage carriage = new Carriage(
+    //     new Arm(false), 
+    //     new Pivot(false), 
+    //     new Intake(false));
+    // private final Climb climb = new Climb(false);
     private final Light light = new Light();
     
     private RobotContainer robotContainer = new RobotContainer();
@@ -92,8 +97,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
 		DriverStation.silenceJoystickConnectionWarning(true);
-        robotContainer.configureTeleOpBindings(drive, elevator, carriage, climb);
-        // robotContainer.testDrive(drive, vision);
+        // robotContainer.configureTeleOpBindings(drive, elevator, carriage, climb);
+        robotContainer.testDrive(drive, vision);
     }
 
     @Override

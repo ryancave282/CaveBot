@@ -8,7 +8,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class CANcoderEx extends EncoderEx{
     private final CANcoder encoder;
-    private CANcoderConfiguration config;
+    private CANcoderConfiguration config = new CANcoderConfiguration();
     private CANBus canbus;
     private double positionConversionFactor, velocityConversionFactor;
 

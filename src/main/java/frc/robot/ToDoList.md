@@ -1,5 +1,4 @@
 TO DO:
-- Make and extended Subsystems to have protected instead of private
 - Make where the absolute encoders discconnect then the mechanism should just turn off
 - Limelight Tracking, Aligning, etc
 - Add IsEnabled Button to all!!!!!
@@ -11,13 +10,11 @@ TO DO:
 
 
 - Make the DT all Talons
-- Make the DT be a part of CANivore
-- Add Anti-Tip Code
-- Test Drivetrain
+- Make the new DT be a part of CANivore 
+- Test Anti-Tip Code on the Ground
 
 Test:
 - Make Batteries
-- Test CANivore
 - Limelight Autos
 - Field Centric Rest on Blue and Red
 
@@ -29,4 +26,4 @@ Extra Ideas:
 - Make a DroidRagelib - search how to do it
 
 Done:
--
+- Canivore Works

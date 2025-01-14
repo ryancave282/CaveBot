@@ -80,7 +80,8 @@ public class SwerveDrive extends SubsystemBase {
     );
 
     private volatile Speed speed = Speed.NORMAL;
-    private volatile TippingState tippingState = TippingState.NO_TIP_CORRECTION;
+    private volatile TippingState tippingState = TippingState.ANTI_TIP;
+    ///////
 
     
     // Shuffleboard values
@@ -115,7 +116,7 @@ public class SwerveDrive extends SubsystemBase {
         }
 
         poseConfigs.MountPosePitch = 0;//Up-Down//0
-        poseConfigs.MountPoseRoll = 90;//Side-Side//90
+        poseConfigs.MountPoseRoll = 0;//Side-Side//90
         poseConfigs.MountPoseYaw = 180;//Heading//180;
         pigeon2.getConfigurator().apply(poseConfigs);   
         isEnabledWriter.set(isEnabled);     

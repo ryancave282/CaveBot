@@ -40,4 +40,4 @@ Wiring
 - ethernet switch is powered by a 10A mini fuse
 - Radio power modual is powered by a 10A mini fuse
 - RoboRio has a 10A mini fuse
- 
+- CANivore has a 10A mini fuse

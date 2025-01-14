@@ -14,6 +14,7 @@ import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.carriage.Carriage.CarriageValue;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.vision.Vision;
+import frc.robot.utility.motor.TalonEx;
 
 public class RobotContainer {
 	private final CommandXboxController driver =
@@ -27,24 +28,26 @@ public class RobotContainer {
 	}
 
 	public void configureTeleOpBindings(
-		SwerveDrive drive, Elevator elevator,
-		Carriage coralSubsystem, Climb climb
+		SwerveDrive drive
+		// Elevator elevator,
+		// Carriage coralSubsystem, 
+		// Climb climb
 		) {
 		
 		// Slow Mode and Gyro Reset in the Default Command
-		drive.setDefaultCommand(new SwerveDriveTeleop( drive, driver));
+		drive.setDefaultCommand(new SwerveDriveTeleop(drive, driver));
 
-		driver.rightTrigger()
-			.onTrue(new IntakeElementInCommand(driver, coralSubsystem));
+		// driver.rightTrigger()
+		// 	.onTrue(new IntakeElementInCommand(driver, coralSubsystem));
 		
 			
-		elevator.setDefaultCommand(new ManualElevator(elevator, operator::getRightY));
+		// elevator.setDefaultCommand(new ManualElevator(elevator, operator::getRightY));
 
-		operator.leftBumper()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
-			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.INTAKE_HPS));
-		operator.rightTrigger()
-			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.INTAKE_GROUND));
+		// operator.leftBumper()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.LOW))
+		// 	.onTrue(coralSubsystem.setPositionCommand(CarriageValue.INTAKE_HPS));
+		// operator.rightTrigger()
+		// 	.onTrue(coralSubsystem.setPositionCommand(CarriageValue.INTAKE_GROUND));
 		
 
 		driver.b()
@@ -65,18 +68,18 @@ public class RobotContainer {
 
 		//Button Toggle Positions
 		// Coral Bindings	
-		operator.a()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L1))
-			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L1));
-		operator.b()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L2))
-			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L2));
-		operator.x()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L3))
-			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L3));
-		operator.y()
-			.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
-			.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L4));
+		// operator.a()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L1))
+		// 	.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L1));
+		// operator.b()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L2))
+		// 	.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L2));
+		// operator.x()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L3))
+		// 	.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L3));
+		// operator.y()
+		// 	.onTrue(elevator.setPositionCommand(Elevator.ElevatorValue.L4))
+		// 	.onTrue(coralSubsystem.setPositionCommand(CarriageValue.L4));
 		
 
 		// Algae Bindings
@@ -109,4 +112,13 @@ public class RobotContainer {
 		driver.povRight().whileTrue(sysID.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
 	}
+
+// 	public void testCANivore(TalonEx motor, TalonEx motor2){
+// 		driver.rightTrigger().whileTrue(new InstantCommand(()->motor.setPower(.4)))
+// 			.onFalse(new InstantCommand(()->motor.setPower(0)));
+// 			driver.leftTrigger().whileTrue(new InstantCommand(() -> motor2.setPower(.4)))
+// 				.onFalse(new InstantCommand(() -> motor2.setPower(0)));
+// 	}
+
+
 }

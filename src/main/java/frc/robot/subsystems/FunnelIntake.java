@@ -5,12 +5,12 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.DroidRageConstants.Control;
-import frc.robot.utility.motor.CANMotorEx;
-import frc.robot.utility.motor.CANMotorEx.Direction;
-import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
-import frc.robot.utility.motor.TalonEx;
-import frc.robot.utility.template.IntakeTemplate;
+import net.droidrage.lib.DroidRageConstants.Control;
+import net.droidrage.lib.motor.CANMotorEx;
+import net.droidrage.lib.motor.CANMotorEx.Direction;
+import net.droidrage.lib.motor.CANMotorEx.ZeroPowerMode;
+import net.droidrage.lib.motor.TalonEx;
+import net.droidrage.lib.template.IntakeTemplate;
 
 public class FunnelIntake extends SubsystemBase {
     public enum FunnelValue{

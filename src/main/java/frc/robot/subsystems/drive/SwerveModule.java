@@ -14,15 +14,14 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
-import frc.robot.utility.encoder.CANcoderEx;
-import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
-import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
-import frc.robot.utility.encoder.EncoderEx.EncoderRange;
-import frc.robot.utility.motor.SparkMaxEx;
-import frc.robot.utility.motor.TalonEx;
-import frc.robot.utility.motor.CANMotorEx.Direction;
-import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
-import frc.robot.utility.shuffleboard.ShuffleboardValue;
+import net.droidrage.lib.encoder.CANcoderEx;
+import net.droidrage.lib.encoder.EncoderEx.EncoderDirection;
+import net.droidrage.lib.encoder.EncoderEx.EncoderRange;
+import net.droidrage.lib.motor.CANMotorEx.Direction;
+import net.droidrage.lib.motor.CANMotorEx.ZeroPowerMode;
+import net.droidrage.lib.motor.SparkMaxEx;
+import net.droidrage.lib.motor.TalonEx;
+import net.droidrage.lib.shuffleboard.ShuffleboardValue;
 
 public class SwerveModule {
     public enum POD{

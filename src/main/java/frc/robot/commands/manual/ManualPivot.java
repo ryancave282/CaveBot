@@ -1,10 +1,9 @@
 package frc.robot.commands.manual;
 
 import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.DroidRageConstants;
 import frc.robot.subsystems.carriage.Pivot;
+import net.droidrage.lib.DroidRageConstants;
 
 public class ManualPivot extends Command {
     private final Pivot pivot;

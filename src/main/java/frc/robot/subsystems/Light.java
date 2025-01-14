@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utility.shuffleboard.ShuffleboardValue;
+import net.droidrage.lib.shuffleboard.ShuffleboardValue;
 
 public class Light extends SubsystemBase {
     //You can only make one addressable led

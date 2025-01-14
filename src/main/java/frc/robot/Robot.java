@@ -18,7 +18,7 @@ import frc.robot.subsystems.carriage.Pivot;
 import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.vision.Vision;
-import frc.robot.utility.shuffleboard.ShuffleboardValue;
+import net.droidrage.lib.shuffleboard.ShuffleboardValue;
 
 public class Robot extends TimedRobot {
     private final Vision vision = new Vision();

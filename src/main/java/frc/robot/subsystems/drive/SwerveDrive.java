@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
 import frc.robot.subsystems.drive.SwerveDriveConstants.Speed;
-import frc.robot.DroidRageConstants;
 import frc.robot.subsystems.drive.SwerveModule.POD;
+import net.droidrage.lib.DroidRageConstants;
+import net.droidrage.lib.encoder.EncoderEx.EncoderDirection;
+import net.droidrage.lib.motor.CANMotorEx.Direction;
+import net.droidrage.lib.motor.SparkMaxEx;
+import net.droidrage.lib.shuffleboard.ShuffleboardValue;
 import frc.robot.subsystems.drive.SwerveDriveConstants.DriveOptions;
-import frc.robot.utility.motor.SparkMaxEx;
-import frc.robot.utility.encoder.EncoderEx.EncoderDirection;
-import frc.robot.utility.motor.CANMotorEx.Direction;
-import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 //Set Voltage instead of set Power
 //Set them to 90 to 100%
@@ -85,9 +85,9 @@ public class SwerveDrive extends SubsystemBase {
     
     // Shuffleboard values
     private final ShuffleboardValue<String> tippingStateWriter = 
-        ShuffleboardValue.create(tippingState.name(), "Current/State/Tipping State", this).build();
+        ShuffleboardValue.create(tippingState.name(), "Current/State/Tipping State", this.getSubsystem()).build();
     private final ShuffleboardValue<String> speedStateWriter = 
-        ShuffleboardValue.create(speed.name(), "Current/State/Speed", this).build();
+        ShuffleboardValue.create(speed.name(), "Current/State/Speed", this.getSubsystem()).build();
     
     private final ShuffleboardValue<Double> headingWriter = 
         ShuffleboardValue.create(0.0, "Current/Gyro/Heading-Yaw (Degrees)", this.getSubsystem()).build();
@@ -368,7 +368,7 @@ public class SwerveDrive extends SubsystemBase {
         return states;
     }
 
-    public SparkMaxEx getFRTurnCanSparkMax(){
+    public SparkMaxEx getTurnSparkMax(){
         return frontLeft.getTurnMotor();
     }
 

@@ -24,7 +24,7 @@ import frc.robot.subsystems.carriage.Carriage.CarriageIntakeValue;
 import frc.robot.subsystems.carriage.Carriage.CarriageValue;
 import frc.robot.subsystems.drive.SwerveDriveConstants;
 import frc.robot.subsystems.vision.Vision;
-import frc.robot.utility.shuffleboard.ComplexWidgetBuilder;
+import net.droidrage.lib.shuffleboard.ComplexWidgetBuilder;
 
 public class AutoChooser {
     public static final SendableChooser<Command> autoChooser = new SendableChooser<Command>();

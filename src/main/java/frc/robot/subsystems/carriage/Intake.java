@@ -2,12 +2,12 @@ package frc.robot.subsystems.carriage;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import frc.robot.DroidRageConstants.Control;
-import frc.robot.utility.motor.CANMotorEx;
-import frc.robot.utility.motor.CANMotorEx.Direction;
-import frc.robot.utility.motor.CANMotorEx.ZeroPowerMode;
-import frc.robot.utility.motor.TalonEx;
-import frc.robot.utility.template.IntakeTemplate;
+import net.droidrage.lib.DroidRageConstants.Control;
+import net.droidrage.lib.motor.CANMotorEx;
+import net.droidrage.lib.motor.CANMotorEx.Direction;
+import net.droidrage.lib.motor.CANMotorEx.ZeroPowerMode;
+import net.droidrage.lib.motor.TalonEx;
+import net.droidrage.lib.template.IntakeTemplate;
 
 public class Intake extends IntakeTemplate {
     private static class Constants {

@@ -1,8 +1,8 @@
 package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.util.Units;
-import frc.robot.utility.shuffleboard.ShuffleboardValue;
-import frc.robot.utility.shuffleboard.ShuffleboardValueEnum;
+import net.droidrage.lib.shuffleboard.ShuffleboardValueEnum;
+import net.droidrage.lib.shuffleboard.ShuffleboardValue;
 
 public class SwerveDriveConstants {
     public enum SwerveDriveConfig implements ShuffleboardValueEnum<Double> {

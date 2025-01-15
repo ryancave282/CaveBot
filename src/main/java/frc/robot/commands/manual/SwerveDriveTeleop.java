@@ -86,10 +86,10 @@ public class SwerveDriveTeleop extends Command {
         double yTilt = drive.getPitch();// Is this Roll or pitch
 
         if(drive.getTippingState()==TippingState.ANTI_TIP) {//Need to take into account on the direction of the tip
-            if (Math.abs(xTilt) > antiTipX.getPositionTolerance())
-                xSpeed = antiTipX.calculate(drive.getRoll(), 0);
-            if (Math.abs(yTilt) > antiTipY.getPositionTolerance())
-                ySpeed = antiTipY.calculate(drive.getPitch(), 0);
+            if (Math.abs(xTilt) > 10)
+                xSpeed = -antiTipX.calculate(xTilt, 0);
+            if (Math.abs(yTilt) >10)
+                ySpeed = -antiTipY.calculate(yTilt, 0);
         }
 
         // Apply deadzone

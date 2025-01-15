@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.autos.AutoChooser;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Light;
@@ -17,21 +18,25 @@ import frc.robot.subsystems.carriage.Intake;
 import frc.robot.subsystems.carriage.Pivot;
 import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.drive.SwerveDrive;
+import frc.robot.subsystems.drive.SwerveDriveConstants.SwerveDriveConfig;
+import frc.robot.subsystems.drive.SwerveModule;
+import frc.robot.subsystems.drive.SwerveModule.POD;
 import frc.robot.subsystems.vision.Vision;
 import net.droidrage.lib.shuffleboard.ShuffleboardValue;
 
 public class Robot extends TimedRobot {
-    private final Vision vision = new Vision();
-    private final SwerveDrive drive = new SwerveDrive(false);//2-10 Works
-    private final Elevator elevator = new Elevator(false);
-    private final Carriage carriage = new Carriage(
-        new Arm(false), 
-        new Pivot(false), 
-        new Intake(false));
+    // private final Vision vision = new Vision();
+    // private final SwerveDrive drive = new SwerveDrive(true);//2-10 Works
+    // private final Elevator elevator = new Elevator(false);
+    // private final Carriage carriage = new Carriage(
+    //     new Arm(false), 
+    //     new Pivot(false), 
+    //     new Intake(false));
     private final Climb climb = new Climb(false);
     private final Light light = new Light();
-    
+
     private RobotContainer robotContainer = new RobotContainer();
+    // private AutoChooser autoChooser = new AutoChooser(drive, carriage, elevator, vision);
     // private static final Alert rioIdAlert = new Alert("RIO: ", AlertType.kInfo);
     private ShuffleboardValue<Double> matchTime = ShuffleboardValue.create
 		(0.0, "Match Time", "Misc")
@@ -92,8 +97,9 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
 		DriverStation.silenceJoystickConnectionWarning(true);
-        robotContainer.configureTeleOpBindings(drive, elevator, carriage, climb);
+        // robotContainer.configureTeleOpBindings(drive, elevator, carriage, climb);
         // robotContainer.testDrive(drive, vision);
+        // robotContainer.testCANivore(driveMotor, motor);
     }
 
     @Override

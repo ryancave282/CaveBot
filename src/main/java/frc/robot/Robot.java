@@ -29,18 +29,18 @@ import frc.robot.utility.motor.TalonEx;
 import frc.robot.utility.shuffleboard.ShuffleboardValue;
 
 public class Robot extends TimedRobot {
-    private final Vision vision = new Vision();
-    private final SwerveDrive drive = new SwerveDrive(true);//2-10 Works
-    private final Elevator elevator = new Elevator(false);
-    private final Carriage carriage = new Carriage(
-        new Arm(false), 
-        new Pivot(false), 
-        new Intake(false));
+    // private final Vision vision = new Vision();
+    // private final SwerveDrive drive = new SwerveDrive(true);//2-10 Works
+    // private final Elevator elevator = new Elevator(false);
+    // private final Carriage carriage = new Carriage(
+    //     new Arm(false), 
+    //     new Pivot(false), 
+    //     new Intake(false));
     private final Climb climb = new Climb(false);
     private final Light light = new Light();
 
     private RobotContainer robotContainer = new RobotContainer();
-    private AutoChooser autoChooser = new AutoChooser(drive, carriage, elevator, vision);
+    // private AutoChooser autoChooser = new AutoChooser(drive, carriage, elevator, vision);
     // private static final Alert rioIdAlert = new Alert("RIO: ", AlertType.kInfo);
     private ShuffleboardValue<Double> matchTime = ShuffleboardValue.create
 		(0.0, "Match Time", "Misc")
@@ -50,7 +50,6 @@ public class Robot extends TimedRobot {
   
     @Override
     public void robotInit() {
-    robotContainer.configureTeleOpBindings(drive);
     }
     
     @Override
@@ -83,8 +82,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         CommandScheduler.getInstance().cancelAll();
-        autonomousCommand = autoChooser.getAutonomousCommand();
-        // autonomousCommand = new InstantCommand();
+        // autonomousCommand = autoChooser.getAutonomousCommand();
+        autonomousCommand = new InstantCommand();
 
         if (autonomousCommand != null) {
             autonomousCommand.schedule();

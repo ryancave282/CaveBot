@@ -20,6 +20,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "algaeA",
+  "folder": null,
   "choreoAuto": false
 }

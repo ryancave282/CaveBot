@@ -26,5 +26,8 @@ pluginManagement {
     }
 }
 
+include ':DroidRageLib'
+project(':DroidRageLib').projectDir = file('DroidRageLib')
+
 Properties props = System.getProperties();
 props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");

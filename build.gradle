@@ -95,6 +95,19 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
+tasks.register('updateGitSubmodules') {
+    doLast {
+        exec {
+            commandLine 'git', 'submodule', 'update', '--init', '--recursive'
+        }
+    }
+}
+
+// Ensure submodules are updated before compilation
+tasks.named('compileJava').configure {
+    dependsOn 'updateGitSubmodules'
+}
+
 // Configure jar and deploy tasks
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
